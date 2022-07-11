@@ -38,6 +38,6 @@ class Registrasi extends Model
      */
     public function retribusi()
     {
-        return $this->hasMany(retribusi::class, 'registrasi_id', 'id');
+        return $this->hasMany(Retribusi::class, 'registrasi_id', 'id');
     }
 }
