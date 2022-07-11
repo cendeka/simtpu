@@ -1,0 +1,45 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+
+//Update User Details
+Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
+Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
+
+// Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+// Route::resource('registrasi', App\Http\Controllers\RegistrasiController::class);
+
+Route::get('registrasi', [App\Http\Controllers\RegistrasiController::class, 'index'])->name('registrasi');
+Route::get('registrasi/formulir', [App\Http\Controllers\RegistrasiController::class, 'formulir'])->name('registrasi.formulir');
+Route::get('registrasi/tambah', [App\Http\Controllers\RegistrasiController::class, 'create'])->name('registrasi.tambah');
+Route::post('registrasi', [App\Http\Controllers\RegistrasiController::class, 'store'])->name('registrasi.store');
+Route::get('registrasi/update', [App\Http\Controllers\RegistrasiController::class, 'update'])->name('registrasi.update');
+Route::get('registrasi/ubah', [App\Http\Controllers\RegistrasiController::class, 'edit'])->name('registrasi.ubah');
+Route::post('/registrasi/hapus', [App\Http\Controllers\RegistrasiController::class, 'destroy'])->name('registrasi.hapus');
+
+Route::get('skrd/registrasi', [App\Http\Controllers\SkrdController::class, 'registrasi'])->name('skrd.registrasi');
+Route::get('skrd/print', [App\Http\Controllers\SkrdController::class, 'skrd'])->name('skrd.print');
+
+Route::get('makam', [App\Http\Controllers\MakamController::class, 'index'])->name('makam');
+Route::get('makam/detail', [App\Http\Controllers\MakamController::class, 'show'])->name('makam.show');
+
+
+
+//Language Translation
+Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
