@@ -1,27 +1,27 @@
-@extends('layouts.master')
 
-@section('title')
+
+<?php $__env->startSection('title'); ?>
     Form Data Registrasi
-@endsection
-@section('css')
-    <link href="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+    <link href="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Form
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Data Registrasi
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('registrasi.store') }}" method="POST">
-                        @csrf
+                    <form action="<?php echo e(route('registrasi.store')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
                         <input type="hidden" id="regId" name="regId">
                         <input type="hidden" id="awID" name="awID">
                         <input type="hidden" id="makamID" name="makamID">
@@ -36,9 +36,16 @@
                                     <div class="mb-3">
                                         <label for="verticalnav-firstname-input">Nama</label>
                                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
-                                        @error('nama')
-                                        <div class="error">{{ $message }}</div>
-                                        @enderror
+                                        <?php $__errorArgs = ['nama'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="error"><?php echo e($message); ?></div>
+                                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                     </div>
                                     </div>
                                 <div class="col-lg-6">
@@ -261,27 +268,27 @@
                                         <th>Nominal</th>
                                         <th>Opsi</th>
                                     </tr>
-                                    @if (isset($data->retribusi))
-                                        @php
+                                    <?php if(isset($data->retribusi)): ?>
+                                        <?php
                                             $i = 1;
-                                        @endphp
-                                        @foreach ($data->retribusi as $item)
-                                            <input type="hidden" name="retriID" value="{{ $item->id }}">
+                                        ?>
+                                        <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <input type="hidden" name="retriID" value="<?php echo e($item->id); ?>">
                                             <tr>
-                                                <td><input value="{{ $item->korek }}" type="text"
+                                                <td><input value="<?php echo e($item->korek); ?>" type="text"
                                                         name="retribusi[0][korek]" placeholder="Kode Rekening"
                                                         class="form-control" /></td>
-                                                <td><input value="{{ $item->uraian }}" type="text"
+                                                <td><input value="<?php echo e($item->uraian); ?>" type="text"
                                                         name="retribusi[0][uraian]" placeholder="Uraian"
                                                         class="form-control" /></td>
-                                                <td><input value="{{ $item->nominal }}" type="text"
+                                                <td><input value="<?php echo e($item->nominal); ?>" type="text"
                                                         name="retribusi[0][nominal]" placeholder="Nominal"
                                                         class="form-control" /></td>
                                                 <td><button type="button" name="add" id="dynamic-ar"
                                                         class="btn btn-outline-primary">Tambah</button></td>
                                             </tr>
-                                        @endforeach
-                                    @else
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
                                         <tr>
                                             <td><input type="text" name="retribusi[0][korek]"
                                                     placeholder="Kode Rekening" class="form-control" /></td>
@@ -292,7 +299,7 @@
                                             <td><button type="button" name="add" id="dynamic-ar"
                                                     class="btn btn-outline-primary">Tambah</button></td>
                                         </tr>
-                                    @endif
+                                    <?php endif; ?>
                                 </table>
                             </div>
                         </div>
@@ -307,9 +314,9 @@
             <!-- end col -->
         </div>
         <!-- end row -->
-    @endsection
-    @section('script')
-        <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <?php $__env->stopSection(); ?>
+    <?php $__env->startSection('script'); ?>
+        <script src="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
         <script>
              var dengan_rupiah = document.getElementById('rp');
     dengan_rupiah.addEventListener('keyup', function(e)
@@ -336,22 +343,22 @@
     }
         </script>
         <script>
-            @if ($errors->any())
+            <?php if($errors->any()): ?>
                 Swal.fire({
                     title: 'Error!',
-                    text: '{{ implode('', $errors->all(':message')) }}',
+                    text: '<?php echo e(implode('', $errors->all(':message'))); ?>',
                     icon: 'error',
                     confirmButtonText: 'Ok'
                 })
-            @endif
-            @if (session()->has('message'))
+            <?php endif; ?>
+            <?php if(session()->has('message')): ?>
                 swal.fire({
                     title: 'Simpan Data',
-                    text: '{{ session('message') }}',
+                    text: '<?php echo e(session('message')); ?>',
                     icon: 'success',
                     timer: 3000,
                 });
-            @endif
+            <?php endif; ?>
         </script>
         <script type="text/javascript">
             var i = 0;
@@ -408,9 +415,25 @@
                         $('#blok_tpu').val(res.makam.blok_tpu);
                         $('#nomor_tpu').val(res.makam.nomor_tpu);
                         $('#nama_ditumpang').val(res.makam.nama_ditumpang);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     }
                 });
 
             });
         </script>
-    @endsection
+    <?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Repo\simtpu-v2\resources\views/pages/registrasi/form.blade.php ENDPATH**/ ?>

@@ -21,8 +21,8 @@
                         <span key="t-starter-page">Registrasi</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('registrasi')}}">Data Registrasi</a></li>
                         <li><a href="{{route('registrasi.tambah')}}">Form Registrasi</a></li>
+                        <li><a href="{{route('registrasi')}}">Data Registrasi</a></li>
                     </ul>
                 </li>
                 <li>

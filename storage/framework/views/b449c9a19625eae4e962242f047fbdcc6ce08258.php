@@ -1,15 +1,15 @@
-@extends('layouts.master')
 
-@section('title')
+
+<?php $__env->startSection('title'); ?>
 Detail Makam
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
-@component('components.breadcrumb')
-@slot('li_1') Data Makam @endslot
-@slot('title') Detail Makam @endslot
-@endcomponent
+<?php $__env->startComponent('components.breadcrumb'); ?>
+<?php $__env->slot('li_1'); ?> Data Makam <?php $__env->endSlot(); ?>
+<?php $__env->slot('title'); ?> Detail Makam <?php $__env->endSlot(); ?>
+<?php echo $__env->renderComponent(); ?>
 
 <div class="row">
     <div class="col-lg-12">
@@ -71,28 +71,28 @@ Detail Makam
 
                     <div class="col-xl-6">
                         <div class="mt-4 mt-xl-3">
-                            {{-- <a href="javascript: void(0);" class="text-primary">{{$data->registrasi->nama_meninggal}}</a> --}}
-                            <h4 class="mt-1 mb-3">{{$data->registrasi->nama_meninggal}}</h4>
-                            <h4 class="mt-1 mb-3">{{$data->registrasi->ahliwaris->nama}} (Ahli Waris)</h4>
+                            
+                            <h4 class="mt-1 mb-3"><?php echo e($data->registrasi->nama_meninggal); ?></h4>
+                            <h4 class="mt-1 mb-3"><?php echo e($data->registrasi->ahliwaris->nama); ?> (Ahli Waris)</h4>
                             <p class="text-muted mb-4">To achieve this, it would be necessary to have uniform grammar pronunciation and more common words If several languages coalesce</p>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div>
-                                        <p class="text-muted"><i class="bx bx-unlink font-size-16 align-middle text-primary me-1"></i>Tempat Lahir {{$data->registrasi->tempat_lahir2}}</p>
-                                        <p class="text-muted"><i class="bx bx-shape-triangle font-size-16 align-middle text-primary me-1"></i> Tanggal Lahir {{$data->registrasi->tanggal_lahir2}}</p>
-                                        <p class="text-muted"><i class="bx bx-battery font-size-16 align-middle text-primary me-1"></i>NIK {{$data->registrasi->nik2}}</p>
+                                        <p class="text-muted"><i class="bx bx-unlink font-size-16 align-middle text-primary me-1"></i>Tempat Lahir <?php echo e($data->registrasi->tempat_lahir2); ?></p>
+                                        <p class="text-muted"><i class="bx bx-shape-triangle font-size-16 align-middle text-primary me-1"></i> Tanggal Lahir <?php echo e($data->registrasi->tanggal_lahir2); ?></p>
+                                        <p class="text-muted"><i class="bx bx-battery font-size-16 align-middle text-primary me-1"></i>NIK <?php echo e($data->registrasi->nik2); ?></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <p class="text-muted"><i class="bx bx-user-voice font-size-16 align-middle text-primary me-1"></i>Agama {{$data->registrasi->agama2}}</p>
-                                        <p class="text-muted"><i class="bx bx-cog font-size-16 align-middle text-primary me-1"></i> Alamat {{$data->registrasi->alamat2}}</p>
+                                        <p class="text-muted"><i class="bx bx-user-voice font-size-16 align-middle text-primary me-1"></i>Agama <?php echo e($data->registrasi->agama2); ?></p>
+                                        <p class="text-muted"><i class="bx bx-cog font-size-16 align-middle text-primary me-1"></i> Alamat <?php echo e($data->registrasi->alamat2); ?></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->color(255, 0, 0)->merge('/public/assets/images/pemda.png')->size(200)->generate("".env('APP_URL')."/makam/detail?registrasi_id=".$data->registrasi->id."")) !!} ">
+                                    <img src="data:image/png;base64, <?php echo base64_encode(QrCode::format('png')->color(255, 0, 0)->merge('/public/assets/images/pemda.png')->size(200)->generate("".env('APP_URL')."/makam/detail?registrasi_id=".$data->registrasi->id."")); ?> ">
                                 </div>
                             </div>
                         </div>
@@ -108,23 +108,23 @@ Detail Makam
                             <tbody>
                                 <tr>
                                     <th scope="row" style="width: 400px;">Kode Registrasi</th>
-                                    <td>{{$data->registrasi->kode_registrasi}}</td>
+                                    <td><?php echo e($data->registrasi->kode_registrasi); ?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">TPU</th>
-                                    <td>{{$data->nama_tpu}}</td>
+                                    <td><?php echo e($data->nama_tpu); ?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Blok</th>
-                                    <td>{{$data->blok_tpu}}</td>
+                                    <td><?php echo e($data->blok_tpu); ?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Nomor</th>
-                                    <td>{{$data->nomor_tpu}}</td>
+                                    <td><?php echo e($data->nomor_tpu); ?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Luas Lahan</th>
-                                    <td>{{$data->luas_lahan}} m2</td>
+                                    <td><?php echo e($data->luas_lahan); ?> m2</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -138,4 +138,5 @@ Detail Makam
     </div>
 </div>
 <!-- end row -->
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Repo\simtpu-v2\resources\views/pages/makam/detail.blade.php ENDPATH**/ ?>
