@@ -253,7 +253,7 @@
                             <!-- retribusi -->
                             <h3>Retribusi</h3>
 
-                            <div>
+                            <div class="retribusi">
                                 <table class="table table-bordered" id="dynamicAddRemove">
                                     <tr>
                                         <th>Kode Rekening</th>
@@ -310,12 +310,29 @@
     @endsection
     @section('script')
         <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+        <script type="text/javascript">
+            var i = 0;
+            $("#dynamic-ar").click(function() {
+                ++i;
+                $("#dynamicAddRemove").append('<tr><td><input type="text" name="retribusi[' + i +
+                    '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input type="text" name="retribusi[' +
+                    i +
+                    '][uraian]" placeholder="Uraian" class="form-control" /></td><td><input name="retribusi[' +
+                    i +
+                    '][nominal]" id="rp" placeholder="Nominal" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                );
+            });
+            $(document).on('click', '.remove-input-field', function() {
+                $(this).parents('tr').remove();
+            });
+        </script>
         <script>
+            
              var dengan_rupiah = document.getElementById('rp');
-    dengan_rupiah.addEventListener('keyup', function(e)
-    {
-        dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
-    });
+            dengan_rupiah.addEventListener('keyup', function(e)
+            {
+                dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+            });
     
     /* Fungsi */
     function formatRupiah(angka, prefix)
@@ -353,22 +370,7 @@
                 });
             @endif
         </script>
-        <script type="text/javascript">
-            var i = 0;
-            $("#dynamic-ar").click(function() {
-                ++i;
-                $("#dynamicAddRemove").append('<tr><td><input type="text" name="retribusi[' + i +
-                    '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input type="text" name="retribusi[' +
-                    i +
-                    '][uraian]" placeholder="Uraian" class="form-control" /></td><td><input name="retribusi[' +
-                    i +
-                    '][nominal]" placeholder="Nominal" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
-                );
-            });
-            $(document).on('click', '.remove-input-field', function() {
-                $(this).parents('tr').remove();
-            });
-        </script>
+      x
         <script>
             $(document).ready(function() {
                 $.ajax({

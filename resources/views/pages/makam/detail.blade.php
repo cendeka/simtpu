@@ -21,30 +21,19 @@ Detail Makam
                             <div class="row">
                                 <div class="col-md-2 col-sm-3 col-4">
                                     <div class="nav flex-column nav-pills " id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                        <a class="nav-link active" id="product-1-tab" data-bs-toggle="pill" href="#product-1" role="tab" aria-controls="product-1" aria-selected="true">
-                                            <img src="assets/images/product/img-7.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
-                                        <a class="nav-link" id="product-2-tab" data-bs-toggle="pill" href="#product-2" role="tab" aria-controls="product-2" aria-selected="false">
-                                            <img src="assets/images/product/img-8.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
-                                        <a class="nav-link" id="product-3-tab" data-bs-toggle="pill" href="#product-3" role="tab" aria-controls="product-3" aria-selected="false">
-                                            <img src="assets/images/product/img-7.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
-                                        <a class="nav-link" id="product-4-tab" data-bs-toggle="pill" href="#product-4" role="tab" aria-controls="product-4" aria-selected="false">
-                                            <img src="assets/images/product/img-8.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
+                                 
                                     </div>
                                 </div>
                                 <div class="col-md-7 offset-md-1 col-sm-9 col-8">
                                     <div class="tab-content" id="v-pills-tabContent">
                                         <div class="tab-pane fade show active" id="product-1" role="tabpanel" aria-labelledby="product-1-tab">
                                             <div>
-                                                <img src="assets/images/product/img-7.png" alt="" class="img-fluid mx-auto d-block">
+                                                <img src="{{$data->foto_path}}" alt="" class="img-fluid mx-auto d-block">
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="product-2" role="tabpanel" aria-labelledby="product-2-tab">
                                             <div>
-                                                <img src="assets/images/product/img-8.png" alt="" class="img-fluid mx-auto d-block">
+                                                <img src="{{$data->foto_path}}" alt="" class="img-fluid mx-auto d-block">
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="product-3" role="tabpanel" aria-labelledby="product-3-tab">
@@ -59,7 +48,7 @@ Detail Makam
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-primary waves-effect waves-light mt-2 me-1">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light mt-2 me-1" data-bs-toggle="modal" data-bs-target=".modal-upload">
                                             <i class="bx bx-user me-2"></i> Tambah Foto
                                         </button>
                                     </div>
@@ -137,5 +126,44 @@ Detail Makam
         <!-- end card -->
     </div>
 </div>
+<!--  Large modal example -->
+<div class="modal fade modal-upload" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Foto Makam</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('makam.upload')}}" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center mb-5">Upload Foto</h3>
+                      @csrf
+                      @if ($message = Session::get('success'))
+                      <div class="alert alert-success">
+                          <strong>{{ $message }}</strong>
+                      </div>
+                    @endif
+                    @if (count($errors) > 0)
+                      <div class="alert alert-danger">
+                          <ul>
+                              @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                              @endforeach
+                          </ul>
+                      </div>
+                    @endif
+                      <div class="custom-file">
+                            <input type="text" value="{{$data->registrasi->id}}" name="registrasi_id">
+                          <input type="file" name="file" class="custom-file-input" id="chooseFile">
+                          <label class="custom-file-label" for="chooseFile">Select file</label>
+                      </div>
+                      <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                          Upload
+                      </button>
+                  </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- end row -->
 @endsection

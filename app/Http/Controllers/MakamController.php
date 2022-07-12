@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Makam;
+use File;
 class MakamController extends Controller
 {
     /**
@@ -83,4 +84,32 @@ class MakamController extends Controller
     {
         //
     }
+
+    public function fotoUpload(Request $req){
+        $req->validate([
+        'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048'
+        ]);
+        $RegID = $req->registrasi_id;
+        if($req->file()) {
+            $fileName = $RegID.'.'.$req->file->getClientOriginalExtension();
+            $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
+            $foto = $RegID.'.'.$req->file->getClientOriginalExtension();
+            $foto_path = '/storage/' . $filePath;
+        }
+        $makam = Makam::updateOrCreate(
+            [
+                'registrasi_id' => $RegID,
+            ],
+            [
+                'foto' => $foto,
+                'foto_path' => $foto_path,
+            ]
+        ); 
+        // $imagePath = public_path('/storage/uploads/'.$foto);
+        // if(File::exists($imagePath)) {
+        //     unlink($imagePath);
+        // }
+        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+
+   }
 }
