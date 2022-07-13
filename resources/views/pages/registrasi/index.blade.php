@@ -17,6 +17,7 @@
             Registrasi
         @endslot
     @endcomponent
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".modal-upload">Import data</button>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -64,6 +65,28 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
+    <div class="modal fade modal-upload" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myLargeModalLabel">Foto Makam</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('registrasi.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group mb-4" style="max-width: 500px; margin: 0 auto;">
+                            <div class="custom-file text-left">
+                                <input type="file" name="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Import data</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>

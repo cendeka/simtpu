@@ -7,6 +7,9 @@ use App\Models\AhliWaris;
 use App\Models\Makam;
 use App\Models\Retribusi;
 
+use App\Imports\RegisImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use Illuminate\Http\Request;
 
 class RegistrasiController extends Controller
@@ -260,5 +263,11 @@ class RegistrasiController extends Controller
         $data = Registrasi::where('id',$request->id)->delete();
         // return redirect()->back()->with('message', 'Data Berhasil Dihapus');
         return response()->json($data, 200);
+    }
+
+    public function fileImport(Request $request) 
+    {
+        Excel::import(new RegisImport, $request->file('file')->store('temp'));
+        return back();
     }
 }

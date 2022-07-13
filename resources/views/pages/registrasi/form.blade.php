@@ -196,14 +196,14 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="verticalnav-namecard-input">Tanggal Meninggal</label>
-                                            <input type="datetime-local" class="form-control" id="tanggal_meninggal"
+                                            <input type="date" class="form-control" id="tanggal_meninggal"
                                                 name="tanggal_meninggal" placeholder="Tanggal Meninggal">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="verticalnav-namecard-input">Tanggal Dimakamkan</label>
-                                            <input type="datetime-local" class="form-control" id="tanggal_dimakamkan"
+                                            <input type="date" class="form-control" id="tanggal_dimakamkan"
                                                 name="tanggal_dimakamkan" placeholder="Tanggal Dimakamkan">
                                         </div>
                                     </div>
