@@ -90,12 +90,18 @@ class MakamController extends Controller
         'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048'
         ]);
         $RegID = $req->registrasi_id;
+        $old = Makam::where('registrasi_id', $RegID)->first();
+        $imagePath = public_path('/storage/uploads/'.$old->foto);
+        if($old->foto <> "") {
+            unlink($imagePath);
+        }
         if($req->file()) {
             $fileName = $RegID.'.'.$req->file->getClientOriginalExtension();
             $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
             $foto = $RegID.'.'.$req->file->getClientOriginalExtension();
             $foto_path = '/storage/' . $filePath;
         }
+    
         $makam = Makam::updateOrCreate(
             [
                 'registrasi_id' => $RegID,
@@ -105,11 +111,6 @@ class MakamController extends Controller
                 'foto_path' => $foto_path,
             ]
         ); 
-        // $imagePath = public_path('/storage/uploads/'.$foto);
-        // if(File::exists($imagePath)) {
-        //     unlink($imagePath);
-        // }
         return redirect()->back()->with('message', 'Data Berhasil Disimpan');
-
    }
 }
