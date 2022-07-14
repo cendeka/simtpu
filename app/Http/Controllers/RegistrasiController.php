@@ -45,7 +45,9 @@ class RegistrasiController extends Controller
      */
     public function create()
     {
-        return view('pages.registrasi.form');
+        
+        $data = json_decode('{"verifikasi": "FALSE"}');
+        return view('pages.registrasi.form', compact('data'));
     }
 
     /**

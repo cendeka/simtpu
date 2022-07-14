@@ -25,8 +25,10 @@
                         <input type="hidden" id="retriID" name="retriID">
                         <div>
                             <!-- data ahli waris -->
-                            <h3>Ahli Waris<i
-                                    class="<?php echo e($data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger'); ?> bx bx-badge-check "></i>
+                            <?php
+                                echo $data->verifikasi;
+                            ?>
+                            <h3>Ahli Waris<i class="<?php echo e($data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger'); ?> bx bx-badge-check "></i>
                             </h3>
                             <div class="row">
                                 <div class="col-lg-6">
