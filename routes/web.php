@@ -29,6 +29,7 @@ Route::get('registrasi', [App\Http\Controllers\RegistrasiController::class, 'ind
 Route::get('registrasi/formulir', [App\Http\Controllers\RegistrasiController::class, 'formulir'])->name('registrasi.formulir');
 Route::get('registrasi/tambah', [App\Http\Controllers\RegistrasiController::class, 'create'])->name('registrasi.tambah');
 Route::post('registrasi', [App\Http\Controllers\RegistrasiController::class, 'store'])->name('registrasi.store');
+Route::post('registrasi/verif', [App\Http\Controllers\RegistrasiController::class, 'verif'])->name('registrasi.verif');
 Route::get('registrasi/update', [App\Http\Controllers\RegistrasiController::class, 'update'])->name('registrasi.update');
 Route::get('registrasi/ubah', [App\Http\Controllers\RegistrasiController::class, 'edit'])->name('registrasi.ubah');
 Route::post('/registrasi/hapus', [App\Http\Controllers\RegistrasiController::class, 'destroy'])->name('registrasi.hapus');
@@ -40,6 +41,7 @@ Route::get('herregistrasi', [App\Http\Controllers\HerregistrasiController::class
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 
 Route::get('skrd/registrasi', [App\Http\Controllers\SkrdController::class, 'registrasi'])->name('skrd.registrasi');
+Route::get('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'herregistrasi'])->name('skrd.herregistrasi');
 Route::get('skrd/print', [App\Http\Controllers\SkrdController::class, 'skrd'])->name('skrd.print');
 
 Route::get('makam', [App\Http\Controllers\MakamController::class, 'index'])->name('makam');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Retribusi;
+use App\Models\Registrasi;
+
 
 class SkrdController extends Controller
 {
@@ -16,6 +18,15 @@ class SkrdController extends Controller
     {
         $data = Retribusi::with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->groupBy('registrasi_id')->get('registrasi_id','uraian','nominal');
         return view('pages.skrd.registrasi', compact('data'));
+    }
+
+    public function herregistrasi(Request $request)
+    {
+        $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        if ($request->ajax()) {
+            return response()->json($data);
+        }
+        return view('pages.skrd.herregistrasi',compact('data'));
     }
 
     public function skrd(Request $request)

@@ -97,9 +97,9 @@ class RegistrasiController extends Controller
             // 'nomor_tpu' => 'required',
             // 'nama_ditumpang' => 'required',
             // 'registrasi_id' => 'required',
-            // 'kode_rekening' => 'required',
-            // 'uraian' => 'required',
-            // 'nominal' => 'required'
+            'korek' => 'required',
+            'uraian' => 'required',
+            'nominal' => 'required'
         ];
         $customMessages = [
             'required' => ':attribute tidak boleh kosong ',
@@ -134,7 +134,7 @@ class RegistrasiController extends Controller
             'nomor_tpu' => 'No TPU',
             'nama_ditumpang' => 'Nama Ditumpang',
             'registrasi_id' => 'Registrasi ID',
-            'kode_rekening' => 'Kode Rekening',
+            'korek' => 'Kode Rekening',
             'uraian' => 'Uraian',
             'nominal' => 'Nominal' 
         );
@@ -170,6 +170,8 @@ class RegistrasiController extends Controller
                 'agama2' => $request->agama2,
                 'pekerjaan2' => $request->pekerjaan2,
                 'alamat2' => $request->alamat2,
+                'verifikasi' => $request->verifikasi,
+                'verif_oleh' => $request->verif_oleh, 
         ]);  
         $makam = Makam::updateOrCreate(
             [
@@ -201,7 +203,8 @@ class RegistrasiController extends Controller
         foreach ($request->retribusi as $key => $value) {
             Retribusi::updateOrCreate(
                 [
-                    'id' => $retriID
+                    'id' => $value["id"],
+
                 ],[
                 'registrasi_id' => $registrasi->id,
                 'korek' => $value["korek"],
@@ -223,7 +226,35 @@ class RegistrasiController extends Controller
     {
         //
     }
+    public function verif(Request $request)
+    {
+        $rules = [
+            'verif_oleh' => 'required',
+            'verifikasi' => 'required',
+           
+        ];
+        $customMessages = [
+            'required' => ':attribute tidak boleh kosong ',
 
+        ];
+        $attributeNames = array(
+            'verif_oleh' => 'Nama Verifikator Wajib Diisi!',
+            'verifikasi' => 'Verifikasi Wajib Dicentang',
+             
+        );
+    
+        $valid = $this->validate($request, $rules, $customMessages, $attributeNames);
+        $registrasi = Registrasi::updateOrCreate(
+            [
+                'id' => $request->regID,
+            ],
+            [
+                'verifikasi' => $request->verifikasi,
+                'verif_oleh' => $request->verif_oleh, 
+        ]); 
+        return redirect()->back()->with('message', 'Data Berhasil Diverifikasi');
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -41,11 +41,13 @@ class HomeController extends Controller
     public function root()
     {
         $now = Carbon::now();
-        $subTahun = Makam::season(Carbon::now()->subYear(1))->count();
+        $subTahun3 = Makam::season(Carbon::now()->subYear(3))->count();
+        $subTahun2 = Makam::season(Carbon::now()->subYear(2))->count();
+        $subTahun1 = Makam::season(Carbon::now()->subYear(1))->count();
         $registrasi = Registrasi::with('ahliwaris','makam','retribusi')->get();
         $retribusi = Retribusi::sum('nominal');
         $makam = Makam::get();
-        return view('index', compact('registrasi','retribusi', 'makam', 'subTahun'));
+        return view('index', compact('registrasi','retribusi', 'makam', 'subTahun1','subTahun2','subTahun3'));
     }
 
     /*Language Translation*/

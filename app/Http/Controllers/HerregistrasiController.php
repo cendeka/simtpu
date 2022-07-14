@@ -16,9 +16,8 @@ class HerregistrasiController extends Controller
      */
     public function index()
     {
-        //
-        $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
-        return view('pages.herregistrasi.index',compact('data'));
+        // $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        return view('pages.herregistrasi.index');
     }
 
     /**
@@ -39,7 +38,20 @@ class HerregistrasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $herrID = $request->herrID;
+
+        $herregistrasi = Herregistrasi::updateOrCreate(
+            [
+                'id' => $herrID,
+            ],
+            [
+                'registrasi_id' => $request->registrasi_id,
+                'masa' => $request->masa,
+                'tahun' => $request->tahun,
+                'nominal' => $request->nominal,
+                'keterangan' => $request->keterangan,
+            ]
+        );
     }
 
     /**

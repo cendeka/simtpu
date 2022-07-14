@@ -21,8 +21,17 @@
                         <span key="t-starter-page">Registrasi</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="<?php echo e(route('registrasi')); ?>">Data Registrasi</a></li>
                         <li><a href="<?php echo e(route('registrasi.tambah')); ?>">Form Registrasi</a></li>
+                        <li><a href="<?php echo e(route('registrasi')); ?>">Data Registrasi</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="bx bx-home-circle"></i>
+                        <span key="t-starter-page">Herregistrasi</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?php echo e(route('herregistrasi')); ?>">Data Herregistrasi</a></li>
                     </ul>
                 </li>
                 <li>
@@ -32,7 +41,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo e(route('skrd.registrasi')); ?>">SKRD Registrasi</a></li>
-                        <li><a href="#">SKRD Herregistrasi</a></li>
+                        <li><a href="<?php echo e(route('skrd.herregistrasi')); ?>">SKRD Herregistrasi</a></li>
                     </ul>
                 </li>
                  <li>

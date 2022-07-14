@@ -41,7 +41,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('skrd.registrasi')}}">SKRD Registrasi</a></li>
-                        <li><a href="#">SKRD Herregistrasi</a></li>
+                        <li><a href="{{route('skrd.herregistrasi')}}">SKRD Herregistrasi</a></li>
                     </ul>
                 </li>
                  <li>
