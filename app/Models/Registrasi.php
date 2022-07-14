@@ -40,4 +40,14 @@ class Registrasi extends Model
     {
         return $this->hasMany(Retribusi::class, 'registrasi_id', 'id');
     }
+    
+    /**
+     * Get all of the comments for the Registrasi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function herregistrasi()
+    {
+        return $this->hasMany(Herregistrasi::class, 'registrasi_id', 'id');
+    }
 }

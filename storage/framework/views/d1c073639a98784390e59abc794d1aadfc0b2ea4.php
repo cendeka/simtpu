@@ -28,6 +28,15 @@
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="bx bx-home-circle"></i>
+                        <span key="t-starter-page">Herregistrasi</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?php echo e(route('herregistrasi')); ?>">Data Herregistrasi</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="bx bx-home-circle"></i>
                         <span key="t-starter-page">SKRD</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
