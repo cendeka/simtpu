@@ -46,7 +46,7 @@ class RegisImport implements ToCollection,WithHeadingRow
                     'nik2' => $row['nik2'],
                     'agama2' => $row['agama2'],
                     'pekerjaan2' => $row['pekerjaan2'],
-                    'alamat2' => $row['nama_jalan'].$row['rt'].$row['rw'].$row['desa']
+                    'alamat2' => $row['nama_jalan']." ".$row['rt']." ".$row['rw']." ".$row['desa']
             ]);  
             $makam = Makam::create(
                 [

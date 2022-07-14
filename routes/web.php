@@ -32,6 +32,8 @@ Route::post('registrasi', [App\Http\Controllers\RegistrasiController::class, 'st
 Route::get('registrasi/update', [App\Http\Controllers\RegistrasiController::class, 'update'])->name('registrasi.update');
 Route::get('registrasi/ubah', [App\Http\Controllers\RegistrasiController::class, 'edit'])->name('registrasi.ubah');
 Route::post('/registrasi/hapus', [App\Http\Controllers\RegistrasiController::class, 'destroy'])->name('registrasi.hapus');
+Route::post('/registrasi/retribusi/hapus', [App\Http\Controllers\RegistrasiController::class, 'destroyRetri'])->name('retribusi.hapus');
+
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 
 Route::get('skrd/registrasi', [App\Http\Controllers\SkrdController::class, 'registrasi'])->name('skrd.registrasi');

@@ -256,42 +256,22 @@
                             <div class="retribusi">
                                 <table class="table table-bordered" id="dynamicAddRemove">
                                     <tr>
-                                        <th>Kode Rekening</th>
-                                        <th>Uraian</th>
-                                        <th>Nominal</th>
-                                        <th>Opsi</th>
+                                        <td><button type="button" name="add" id="dynamic-ar"
+                                            class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
                                     @if (isset($data->retribusi))
-                                        @php
-                                            $i = 1;
-                                        @endphp
-                                        @foreach ($data->retribusi as $item)
-                                            <input type="hidden" name="retriID" value="{{ $item->id }}">
-                                            <tr>
-                                                <td><input value="{{ $item->korek }}" type="text"
-                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
-                                                        class="form-control" /></td>
-                                                <td><input value="{{ $item->uraian }}" type="text"
-                                                        name="retribusi[0][uraian]" placeholder="Uraian"
-                                                        class="form-control" /></td>
-                                                <td><input value="{{ $item->nominal }}" type="text"
-                                                        name="retribusi[0][nominal]" placeholder="Nominal"
-                                                        class="form-control" /></td>
-                                                <td><button type="button" name="add" id="dynamic-ar"
-                                                        class="btn btn-outline-primary">Tambah</button></td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td><input type="text" name="retribusi[0][korek]"
-                                                    placeholder="Kode Rekening" class="form-control" /></td>
-                                            <td><input type="text" name="retribusi[0][uraian]" placeholder="Uraian"
-                                                    class="form-control" /></td>
-                                            <td><input name="retribusi[0][nominal]" id="rp"
-                                                    class="form-control" /></td>
-                                            <td><button type="button" name="add" id="dynamic-ar"
-                                                    class="btn btn-outline-primary">Tambah</button></td>
-                                        </tr>
+                                    @foreach ($data->retribusi as $item)
+                                    <input type="hidden" name="retriID" value="{{$item->id}}">
+                                    <tr>
+                                        <td><input value="{{$item->korek}}" type="text" name="retribusi[0][korek]"
+                                                placeholder="Kode Rekening" class="form-control" /></td>
+                                        <td><input value="{{$item->uraian}}"  type="text" name="retribusi[0][uraian]" placeholder="Uraian"
+                                                class="form-control" /></td>
+                                        <td><input value="{{$item->nominal}}" name="retribusi[0][nominal]"
+                                                class="form-control input-mask text-start"></td>
+                                                <td><button type="button" class="btn btn-outline-danger" href="javascript:void(0)" onclick="hapus({{$item->id}})">Hapus</button></td>
+                                    </tr>
+                                    @endforeach
                                     @endif
                                 </table>
                             </div>
@@ -309,8 +289,23 @@
         <!-- end row -->
     @endsection
     @section('script')
+    <script src="{{ asset('/assets/libs/inputmask/inputmask.min.js') }}"></script>
+
+    <!-- form mask init -->
         <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
         <script type="text/javascript">
+        $(document).on('change',function () {
+            $(".input-mask").inputmask({
+                alias: 'numeric', 
+                groupSeparator: '.', 
+                radixPoint: ',', 
+                autoGroup: true, 
+                prefix: ' Rp', 
+                placeholder: '0', 
+                autoUnmask: true, 
+                removeMaskOnSubmit: true
+            });
+        });
             var i = 0;
             $("#dynamic-ar").click(function() {
                 ++i;
@@ -319,38 +314,12 @@
                     i +
                     '][uraian]" placeholder="Uraian" class="form-control" /></td><td><input name="retribusi[' +
                     i +
-                    '][nominal]" id="rp" placeholder="Nominal" class="form-control" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></td></tr>'
+                    '][nominal]" placeholder="Nominal" class="form-control input-mask text-start" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Hapus</button></td></tr>'
                 );
             });
             $(document).on('click', '.remove-input-field', function() {
                 $(this).parents('tr').remove();
             });
-        </script>
-        <script>
-            
-             var dengan_rupiah = document.getElementById('rp');
-            dengan_rupiah.addEventListener('keyup', function(e)
-            {
-                dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
-            });
-    
-    /* Fungsi */
-    function formatRupiah(angka, prefix)
-    {
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
-            split    = number_string.split(','),
-            sisa     = split[0].length % 3,
-            rupiah     = split[0].substr(0, sisa),
-            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
-            
-        if (ribuan) {
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-        
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp' + rupiah : '');
-    }
         </script>
         <script>
             @if ($errors->any())
@@ -370,7 +339,6 @@
                 });
             @endif
         </script>
-      x
         <script>
             $(document).ready(function() {
                 $.ajax({
@@ -414,5 +382,40 @@
                 });
 
             });
+        </script>
+         <script>
+            function hapus(id) {
+                var url = '{{ route('retribusi.hapus') }}';
+                var id = id;
+                Swal.fire({
+                    title: "Apakah Anda Yakin ?",
+                    text: "Data Yang Sudah Dihapus Tidak Bisa Dikembalikan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, Tetap Hapus!"
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id,
+                            },
+                            success: function(response) {
+                                swal.fire({
+                                    title: 'Hapus Data',
+                                    text: 'Data Berhasil Dihapus.',
+                                    icon: 'success',
+                                    timer: 2000,
+                                });
+                                location.reload();                         
+                            }
+                        })
+                    }
+                })
+            }
         </script>
     @endsection

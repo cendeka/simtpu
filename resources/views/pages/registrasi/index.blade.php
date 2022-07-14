@@ -17,10 +17,12 @@
             Registrasi
         @endslot
     @endcomponent
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".modal-upload">Import data</button>
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target=".modal-upload">Import data</button>
+                </div>
                 <div class="card-body">
                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
                         <thead>
@@ -69,7 +71,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myLargeModalLabel">Foto Makam</h5>
+                    <h5 class="modal-title" id="myLargeModalLabel">Import Data dari File Excel</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

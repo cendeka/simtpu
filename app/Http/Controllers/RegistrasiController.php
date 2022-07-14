@@ -66,7 +66,7 @@ class RegistrasiController extends Controller
         $nominal = 40000;
         $kodeReg = rand(00000, 99999);
 
-        $string = ['Rp','.'];
+        $string = ['Rp',',00','.'];
        
         
         $rules = [
@@ -261,6 +261,13 @@ class RegistrasiController extends Controller
     public function destroy(Request $request)
     {
         $data = Registrasi::where('id',$request->id)->delete();
+        // return redirect()->back()->with('message', 'Data Berhasil Dihapus');
+        return response()->json($data, 200);
+    }
+
+    public function destroyRetri(Request $request)
+    {
+        $data = Retribusi::where('id',$request->id)->delete();
         // return redirect()->back()->with('message', 'Data Berhasil Dihapus');
         return response()->json($data, 200);
     }
