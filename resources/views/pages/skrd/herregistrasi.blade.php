@@ -25,9 +25,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Orang yang Meninggal</th>
-                                <th>Masa</th>
-                                <th>Tahun</th>
-                                <th>Nominal</th>
+                                <th>Tahun Meninggal</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -38,15 +36,14 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                     <td>{{ $item->nama_meninggal }} Registrasi {{date('Y',strtotime($item->makam->tanggal_dimakamkan))}}</td>
-                                     <td></td>
-                                     <td></td>
-                                     <td></td>
+                                     <td>{{ $item->nama_meninggal }}</td>
+                                     <td>{{date('Y',strtotime($item->makam->tanggal_dimakamkan))}}</td>
                                     <td>
                                         <div class="btn-group">
                                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Opsi <i class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
-                                                <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target=".modal-tambah">Buat Tagihan</a>
+                                                <a href="#" class="dropdown-item">Detail</a>
+                                                <a href="#" class="dropdown-item" href="javascript:void(0)" onclick="tambah({{$item->id}})">Buat Tagihan</a>
                                             </div>
                                         </div>
                                     </td>
@@ -58,7 +55,7 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-    <div class="modal fade modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -66,12 +63,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post" enctype="multipart/form-data">
-                       <input type="text" name="registrasi_id" id="registrasi_id">
-                          <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                              Simpan
-                          </button>
+                    <form action="{{route('herregistrasi.store')}}" method="POST">
+                        @csrf
+                      <div class="row">
+                        <div class="col">
+                            <input type="hidden" name="registrasi_id" id="registrasi_id">
+                            <input type="hidden" name="herrID" id="herrID">
+                            <label for="nominal">Nominal</label>
+                            <input type="text" class="form-control" name="nominal" id="nominal" placeholder="Nominal">
+                            <label for="masa">Masa</label>
+                            <input type="text" class="form-control" name="masa" id="masa" placeholder="Masa">
+                            <label for="tahun">Tahun</label>
+                            <input type="text" class="form-control" name="tahun" id="tahun" placeholder="Tahun">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Keterangan">
+                               <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                                   Simpan
+                               </button>
+                        </div>
+                      </div>
                       </form>
+                      <br>
+                      <div class="row">
+                        <h3>History</h3>
+                        <div class="col">
+                            <table id="history" class="table table-bordered dt-responsive nowrap w-100">
+                                <tr>
+                                    <th>Masa</th>
+                                    <th>Tahun</th>
+                                    <th>Nominal</th>
+                                </tr>
+                            </table>
+                        </div>
+                      </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -123,16 +147,28 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-                $.ajax({
-                    type: "GET",
-                    url: window.location.href,
-                    dataType: 'json',
-                    success: function(res) {
-                     console.log(res);
-                    }
-                });
-
+        function tambah(id) {
+            var array = [];
+            var rows  = $("#history tbody tr");
+            $.ajax({
+                type: "POST",
+                url: "{{route('skrd.herregistrasi')}}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    id: id
+                },
+                dataType: 'json',
+                success: function(res) {
+                    $.each(res, function(k, v) {
+                        $('#modal-tambah').modal('show');
+                        $('#registrasi_id').val(v.id);
+                       $.each(v.herregistrasi, function(index, row) {
+                        let tableBody = document.getElementById("history");
+                        tableBody.innerHTML += '<tr><td>' + row.masa + '</td><td>' + row.tahun + '</td><td>' + row.nominal + '</td></tr>';
+                       });
+                    });
+                }
             });
+        }
     </script>
 @endsection

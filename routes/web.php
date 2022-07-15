@@ -36,12 +36,16 @@ Route::post('/registrasi/hapus', [App\Http\Controllers\RegistrasiController::cla
 Route::post('/registrasi/retribusi/hapus', [App\Http\Controllers\RegistrasiController::class, 'destroyRetri'])->name('retribusi.hapus');
 
 Route::get('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'index'])->name('herregistrasi');
+Route::post('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'store'])->name('herregistrasi.store');
+
 
 
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 
 Route::get('skrd/registrasi', [App\Http\Controllers\SkrdController::class, 'registrasi'])->name('skrd.registrasi');
 Route::get('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'herregistrasi'])->name('skrd.herregistrasi');
+Route::post('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'herregistrasi'])->name('skrd.herregistrasi');
+
 Route::get('skrd/print', [App\Http\Controllers\SkrdController::class, 'skrd'])->name('skrd.print');
 
 Route::get('makam', [App\Http\Controllers\MakamController::class, 'index'])->name('makam');

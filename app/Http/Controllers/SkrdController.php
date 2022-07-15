@@ -24,6 +24,7 @@ class SkrdController extends Controller
     {
         $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
         if ($request->ajax()) {
+            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
             return response()->json($data);
         }
         return view('pages.skrd.herregistrasi',compact('data'));
