@@ -99,9 +99,9 @@ class RegistrasiController extends Controller
             // 'nomor_tpu' => 'required',
             // 'nama_ditumpang' => 'required',
             // 'registrasi_id' => 'required',
-            'korek' => 'required',
-            'uraian' => 'required',
-            'nominal' => 'required'
+            'retribusi.*.korek' => 'required',
+            'retribusi.*.uraian' => 'required',
+            'retribusi.*.nominal' => 'required'
         ];
         $customMessages = [
             'required' => ':attribute tidak boleh kosong ',
@@ -136,9 +136,9 @@ class RegistrasiController extends Controller
             'nomor_tpu' => 'No TPU',
             'nama_ditumpang' => 'Nama Ditumpang',
             'registrasi_id' => 'Registrasi ID',
-            'korek' => 'Kode Rekening',
-            'uraian' => 'Uraian',
-            'nominal' => 'Nominal' 
+            'retribusi.*.korek' => 'Kode Rekening',
+            'retribusi.*.uraian' => 'Uraian',
+            'retribusi.*.nominal' => 'Nominal' 
         );
     
         $valid = $this->validate($request, $rules, $customMessages, $attributeNames);

@@ -15,7 +15,6 @@
             Data Registrasi
         <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -28,26 +27,29 @@
                         <input type="hidden" id="retriID" name="retriID">
                         <div>
                             <!-- data ahli waris -->
-                            <h3>Ahli Waris</h3>
-
-
+                            <?php
+                                echo $data->verifikasi;
+                            ?>
+                            <h3>Ahli Waris<i class="<?php echo e($data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger'); ?> bx bx-badge-check "></i>
+                            </h3>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="verticalnav-firstname-input">Nama</label>
-                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
+                                        <input type="text" class="form-control" id="nama" name="nama"
+                                            placeholder="Nama">
                                         <?php $__errorArgs = ['nama'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                        <div class="error"><?php echo e($message); ?></div>
+                                            <div class="error"><?php echo e($message); ?></div>
                                         <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                     </div>
-                                    </div>
+                                </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="verticalnav-lastname-input">Nomor Induk Kependudukan (NIK)</label>
@@ -264,167 +266,218 @@ unset($__errorArgs, $__bag); ?>
                                 <table class="table table-bordered" id="dynamicAddRemove">
                                     <tr>
                                         <td><button type="button" name="add" id="dynamic-ar"
-                                            class="btn btn-outline-primary">Tambah</button></td>
+                                                class="btn btn-outline-primary">Tambah</button></td>
+                                    </tr>
+                                    <tr>
+                                        <input value="" type="hidden" name="retribusi[0][id]"
+                                                    placeholder="Kode Rekening" class="form-control" />
+                                                <td><input type="text"
+                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
+                                                        class="form-control" /></td>
+                                                <td><input type="text"
+                                                        name="retribusi[0][uraian]" placeholder="Uraian"
+                                                        class="form-control" /></td>
+                                                <td><input name="retribusi[0][nominal]"
+                                                        class="form-control input-mask text-start" placeholder="Nominal"></td>
                                     </tr>
                                     <?php if(isset($data->retribusi)): ?>
-                                    <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <input type="hidden" name="retriID" value="<?php echo e($item->id); ?>">
-                                    <tr>
-                                        <td><input value="<?php echo e($item->korek); ?>" type="text" name="retribusi[0][korek]"
-                                                placeholder="Kode Rekening" class="form-control" /></td>
-                                        <td><input value="<?php echo e($item->uraian); ?>"  type="text" name="retribusi[0][uraian]" placeholder="Uraian"
-                                                class="form-control" /></td>
-                                        <td><input value="<?php echo e($item->nominal); ?>" name="retribusi[0][nominal]"
-                                                class="form-control input-mask text-start"></td>
-                                                <td><button type="button" class="btn btn-outline-danger" href="javascript:void(0)" onclick="hapus(<?php echo e($item->id); ?>)">Hapus</button></td>
-                                    </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            
+                                            <tr>
+                                                <input value="<?php echo e($item->id); ?>" type="hidden" name="retribusi[0][id]"
+                                                    placeholder="Kode Rekening" class="form-control" />
+                                                <td><input value="<?php echo e($item->korek); ?>" type="text"
+                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
+                                                        class="form-control" /></td>
+                                                <td><input value="<?php echo e($item->uraian); ?>" type="text"
+                                                        name="retribusi[0][uraian]" placeholder="Uraian"
+                                                        class="form-control" /></td>
+                                                <td><input value="<?php echo e($item->nominal); ?>" name="retribusi[0][nominal]"
+                                                        class="form-control input-mask text-start"></td>
+                                                <td><button type="button" class="btn btn-outline-danger"
+                                                        href="javascript:void(0)"
+                                                        onclick="hapus(<?php echo e($item->id); ?>)">Hapus</button></td>
+                                            </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
                                 </table>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" id="btn-save">Simpan</button>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary" id="btn-save">Simpan</button>
+                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target=".modal-verif">Verifikasi</a>
+                            </div>
                         </div>
                     </form>
-
                 </div>
-                <!-- end card -->
             </div>
-            <!-- end col -->
         </div>
-        <!-- end row -->
-    <?php $__env->stopSection(); ?>
-    <?php $__env->startSection('script'); ?>
+    </div>
+    <div class="modal fade modal-verif" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Data Registrasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                    <form action="<?php echo e(route('registrasi.verif')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="regID" id="verifID">
+                            <label for="">Diverifikasi Oleh:</label>
+                            <input class="form-control" type="text" name="verif_oleh" id="">
+                            <input class="form-check-input" type="checkbox" id="verifikasi"  name="verifikasi" value="TRUE" checked="">
+                            <label class="form-check-label" for="verifikasi">
+                             Data Telah Sesuai
+                            </label>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-success">Kirim</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <script src="<?php echo e(asset('/assets/libs/inputmask/inputmask.min.js')); ?>"></script>
 
     <!-- form mask init -->
-        <script src="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
-        <script type="text/javascript">
-        $(document).on('change',function () {
+    <script src="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
+    <script type="text/javascript">
+        $(document).on('change', function() {
             $(".input-mask").inputmask({
-                alias: 'numeric', 
-                groupSeparator: '.', 
-                radixPoint: ',', 
-                autoGroup: true, 
-                prefix: ' Rp', 
-                placeholder: '0', 
-                autoUnmask: true, 
+                alias: 'numeric',
+                groupSeparator: '.',
+                radixPoint: ',',
+                autoGroup: true,
+                prefix: ' Rp',
+                placeholder: '0',
+                autoUnmask: true,
                 removeMaskOnSubmit: true
             });
         });
-            var i = 0;
-            $("#dynamic-ar").click(function() {
-                ++i;
-                $("#dynamicAddRemove").append('<tr><td><input type="text" name="retribusi[' + i +
-                    '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input type="text" name="retribusi[' +
-                    i +
-                    '][uraian]" placeholder="Uraian" class="form-control" /></td><td><input name="retribusi[' +
-                    i +
-                    '][nominal]" placeholder="Nominal" class="form-control input-mask text-start" /></td><td><button type="button" class="btn btn-outline-danger remove-input-field">Hapus</button></td></tr>'
-                );
+        var i = 0;
+        $("#dynamic-ar").click(function() {
+            ++i;
+            $("#dynamicAddRemove").append('<tr><td><input type="text" name="retribusi[' + i +
+                '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input type="text" name="retribusi[' +
+                i +
+                '][uraian]" placeholder="Uraian" class="form-control" /></td><td><input name="retribusi[' +
+                i +
+                '][nominal]" placeholder="Nominal" class="form-control input-mask text-start" /></td><input type="hidden" name="retribusi[' +
+                i +
+                '][id]" placeholder="Uraian" class="form-control" /><td><button type="button" class="btn btn-outline-danger remove-input-field">Hapus</button></td></tr>'
+            );
+        });
+        $(document).on('click', '.remove-input-field', function() {
+            $(this).parents('tr').remove();
+        });
+    </script>
+    <script>
+        <?php if($errors->any()): ?>
+            Swal.fire({
+                title: 'Error!',
+                html: '<?php echo implode('', $errors->all('<div>:message</div>')); ?>',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        <?php endif; ?>
+        <?php if(session()->has('message')): ?>
+            swal.fire({
+                title: 'Simpan Data',
+                text: '<?php echo e(session('message')); ?>',
+                icon: 'success',
+                timer: 3000,
             });
-            $(document).on('click', '.remove-input-field', function() {
-                $(this).parents('tr').remove();
+        <?php endif; ?>
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: window.location.href,
+                dataType: 'json',
+                success: function(res) {
+                    $('#regId').val(res.id);
+                    $('#verifID').val(res.id);
+                    $('#awID').val(res.ahliwaris.id);
+                    $('#makamID').val(res.makam.id);
+
+                    $('#nama').val(res.ahliwaris.nama);
+                    $('#nik1').val(res.ahliwaris.nik1);
+                    $('#tempat_lahir1').val(res.ahliwaris.tempat_lahir1);
+                    $('#tanggal_lahir1').val(res.ahliwaris.tanggal_lahir1);
+                    $('#jenis_kelamin1').find('option[value="' + res.ahliwaris.jenis_kelamin1 + '"]')
+                        .prop('selected', true);
+                    $('#agama1').val(res.ahliwaris.agama1);
+                    $('#pekerjaan1').val(res.ahliwaris.pekerjaan1);
+                    $('#alamat1').val(res.ahliwaris.alamat1);
+
+                    $('#nama_meninggal').val(res.nama_meninggal);
+                    $('#nik2').val(res.nik2);
+                    $('#tempat_lahir2').val(res.tempat_lahir1);
+                    $('#tanggal_lahir2').val(res.tanggal_lahir2);
+                    $('#jenis_kelamin2').find('option[value="' + res.jenis_kelamin2 + '"]').prop(
+                        'selected', true);
+                    $('#agama2').val(res.agama2);
+                    $('#pekerjaan2').val(res.pekerjaan2);
+                    $('#hubungan').val(res.hubungan);
+                    $('#alamat2').val(res.alamat2);
+
+                    $('#tanggal_meninggal').val(res.makam.tanggal_meninggal);
+                    $('#tanggal_dimakamkan').val(res.makam.tanggal_dimakamkan);
+                    $('#luas_lahan').val(res.makam.luas_lahan);
+                    $('#nama_tpu').val(res.makam.nama_tpu);
+                    $('#blok_tpu').val(res.makam.blok_tpu);
+                    $('#nomor_tpu').val(res.makam.nomor_tpu);
+                    $('#nama_ditumpang').val(res.makam.nama_ditumpang);
+                }
             });
-        </script>
-        <script>
-            <?php if($errors->any()): ?>
-                Swal.fire({
-                    title: 'Error!',
-                    text: '<?php echo e(implode('', $errors->all(':message'))); ?>',
-                    icon: 'error',
-                    confirmButtonText: 'Ok'
-                })
-            <?php endif; ?>
-            <?php if(session()->has('message')): ?>
-                swal.fire({
-                    title: 'Simpan Data',
-                    text: '<?php echo e(session('message')); ?>',
-                    icon: 'success',
-                    timer: 3000,
-                });
-            <?php endif; ?>
-        </script>
-        <script>
-            $(document).ready(function() {
-                $.ajax({
-                    type: "GET",
-                    url: window.location.href,
-                    dataType: 'json',
-                    success: function(res) {
-                        $('#regId').val(res.id);
-                        $('#awID').val(res.ahliwaris.id);
-                        $('#makamID').val(res.makam.id);
 
-                        $('#nama').val(res.ahliwaris.nama);
-                        $('#nik1').val(res.ahliwaris.nik1);
-                        $('#tempat_lahir1').val(res.ahliwaris.tempat_lahir1);
-                        $('#tanggal_lahir1').val(res.ahliwaris.tanggal_lahir1);
-                        $('#jenis_kelamin1').find('option[value="' + res.ahliwaris.jenis_kelamin1 + '"]')
-                            .prop('selected', true);
-                        $('#agama1').val(res.ahliwaris.agama1);
-                        $('#pekerjaan1').val(res.ahliwaris.pekerjaan1);
-                        $('#alamat1').val(res.ahliwaris.alamat1);
-
-                        $('#nama_meninggal').val(res.nama_meninggal);
-                        $('#nik2').val(res.nik2);
-                        $('#tempat_lahir2').val(res.tempat_lahir1);
-                        $('#tanggal_lahir2').val(res.tanggal_lahir2);
-                        $('#jenis_kelamin2').find('option[value="' + res.jenis_kelamin2 + '"]').prop(
-                            'selected', true);
-                        $('#agama2').val(res.agama2);
-                        $('#pekerjaan2').val(res.pekerjaan2);
-                        $('#hubungan').val(res.hubungan);
-                        $('#alamat2').val(res.alamat2);
-
-                        $('#tanggal_meninggal').val(res.makam.tanggal_meninggal);
-                        $('#tanggal_dimakamkan').val(res.makam.tanggal_dimakamkan);
-                        $('#luas_lahan').val(res.makam.luas_lahan);
-                        $('#nama_tpu').val(res.makam.nama_tpu);
-                        $('#blok_tpu').val(res.makam.blok_tpu);
-                        $('#nomor_tpu').val(res.makam.nomor_tpu);
-                        $('#nama_ditumpang').val(res.makam.nama_ditumpang);
-                    }
-                });
-
-            });
-        </script>
-         <script>
-            function hapus(id) {
-                var url = '<?php echo e(route('retribusi.hapus')); ?>';
-                var id = id;
-                Swal.fire({
-                    title: "Apakah Anda Yakin ?",
-                    text: "Data Yang Sudah Dihapus Tidak Bisa Dikembalikan!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Ya, Tetap Hapus!"
-                }).then((result) => {
-                    if (result.value) {
-                        $.ajax({
-                            url: url,
-                            type: "POST",
-                            data: {
-                                "_token": "<?php echo e(csrf_token()); ?>",
-                                "id": id,
-                            },
-                            success: function(response) {
-                                swal.fire({
-                                    title: 'Hapus Data',
-                                    text: 'Data Berhasil Dihapus.',
-                                    icon: 'success',
-                                    timer: 2000,
-                                });
-                                location.reload();                         
-                            }
-                        })
-                    }
-                })
-            }
-        </script>
-    <?php $__env->stopSection(); ?>
+        });
+    </script>
+    <script>
+        function hapus(id) {
+            var url = '<?php echo e(route('retribusi.hapus')); ?>';
+            var id = id;
+            Swal.fire({
+                title: "Apakah Anda Yakin ?",
+                text: "Data Yang Sudah Dihapus Tidak Bisa Dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Tetap Hapus!"
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            "_token": "<?php echo e(csrf_token()); ?>",
+                            "id": id,
+                        },
+                        success: function(response) {
+                            swal.fire({
+                                title: 'Hapus Data',
+                                text: 'Data Berhasil Dihapus.',
+                                icon: 'success',
+                                timer: 2000,
+                            });
+                            location.reload();
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Repo\simtpu-v2\resources\views/pages/registrasi/form.blade.php ENDPATH**/ ?>

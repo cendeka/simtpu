@@ -41,7 +41,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo e(route('skrd.registrasi')); ?>">SKRD Registrasi</a></li>
-                        <li><a href="#">SKRD Herregistrasi</a></li>
+                        <li><a href="<?php echo e(route('skrd.herregistrasi')); ?>">SKRD Herregistrasi</a></li>
                     </ul>
                 </li>
                  <li>

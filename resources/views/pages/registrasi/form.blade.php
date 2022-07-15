@@ -261,6 +261,18 @@
                                         <td><button type="button" name="add" id="dynamic-ar"
                                                 class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
+                                    <tr>
+                                        <input value="" type="hidden" name="retribusi[0][id]"
+                                                    placeholder="Kode Rekening" class="form-control" />
+                                                <td><input type="text"
+                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
+                                                        class="form-control" /></td>
+                                                <td><input type="text"
+                                                        name="retribusi[0][uraian]" placeholder="Uraian"
+                                                        class="form-control" /></td>
+                                                <td><input name="retribusi[0][nominal]"
+                                                        class="form-control input-mask text-start" placeholder="Nominal"></td>
+                                    </tr>
                                     @if (isset($data->retribusi))
                                         @foreach ($data->retribusi as $item)
                                             {{-- <input type="text" name="retriID" value="{{$item->id}}"> --}}
@@ -307,7 +319,7 @@
                         <div class="col-lg-12">
                     <form action="{{ route('registrasi.verif') }}" method="POST">
                         @csrf
-                        <input type="text" name="regID" id="verifID">
+                        <input type="hidden" name="regID" id="verifID">
                             <label for="">Diverifikasi Oleh:</label>
                             <input class="form-control" type="text" name="verif_oleh" id="">
                             <input class="form-check-input" type="checkbox" id="verifikasi"  name="verifikasi" value="TRUE" checked="">
@@ -365,7 +377,7 @@
         @if ($errors->any())
             Swal.fire({
                 title: 'Error!',
-                text: '{{ implode('', $errors->all(':message')) }}',
+                html: '{!! implode('', $errors->all('<div>:message</div>')) !!}',
                 icon: 'error',
                 confirmButtonText: 'Ok'
             })

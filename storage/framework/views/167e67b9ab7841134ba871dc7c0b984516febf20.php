@@ -32,7 +32,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
+                            <?php
+                                $i = 1;
+                            ?>
+                            <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td><?php echo e($i++); ?></td>
+                                     <td><?php echo e($item->nama_meninggal); ?> Registrasi <?php echo e(date('Y',strtotime($item->makam->tanggal_dimakamkan))); ?></td>
+                                     <td></td>
+                                     <td></td>
+                                     <td></td>
+                                    <td>
+                                        <div class="btn-group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Opsi <i class="mdi mdi-chevron-down"></i></button>
+                                            <div class="dropdown-menu">
+                                                <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target=".modal-tambah">Buat Tagihan</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
@@ -48,9 +67,9 @@
                 </div>
                 <div class="modal-body">
                     <form action="#" method="post" enctype="multipart/form-data">
-                       
+                       <input type="text" name="registrasi_id" id="registrasi_id">
                           <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                              Upload
+                              Simpan
                           </button>
                       </form>
                 </div>
@@ -103,6 +122,19 @@
             $('#datatable_filter label').addClass('text-muted'); // <-- add this line
         });
     </script>
+    <script>
+        $(document).ready(function() {
+                $.ajax({
+                    type: "GET",
+                    url: window.location.href,
+                    dataType: 'json',
+                    success: function(res) {
+                     console.log(res);
+                    }
+                });
+
+            });
+    </script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Repo\simtpu-v2\resources\views/pages/herregistrasi/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Repo\simtpu-v2\resources\views/pages/skrd/herregistrasi.blade.php ENDPATH**/ ?>
