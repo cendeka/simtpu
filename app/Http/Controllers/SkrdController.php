@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Retribusi;
 use App\Models\Registrasi;
+use App\Models\Herregistrasi;
+
 
 
 class SkrdController extends Controller
@@ -23,11 +25,19 @@ class SkrdController extends Controller
     public function herregistrasi(Request $request)
     {
         $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+
         if ($request->ajax()) {
             $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
             return response()->json($data);
         }
-        return view('pages.skrd.herregistrasi',compact('data'));
+        return view('pages.skrd.herregistrasi',compact('data','herr'));
+    }
+
+    public function history(Request $request)
+    {
+        $data = Herregistrasi::select('masa','tahun','nominal')->where('registrasi_id',$request->registrasi_id)->get();
+        return response()->json($data);
     }
 
     public function skrd(Request $request)

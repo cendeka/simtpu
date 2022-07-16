@@ -45,6 +45,7 @@ Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'f
 Route::get('skrd/registrasi', [App\Http\Controllers\SkrdController::class, 'registrasi'])->name('skrd.registrasi');
 Route::get('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'herregistrasi'])->name('skrd.herregistrasi');
 Route::post('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'herregistrasi'])->name('skrd.herregistrasi');
+Route::get('skrd/herregistrasi/history', [App\Http\Controllers\SkrdController::class, 'history'])->name('skrd.herregistrasi.history');
 
 Route::get('skrd/print', [App\Http\Controllers\SkrdController::class, 'skrd'])->name('skrd.print');
 

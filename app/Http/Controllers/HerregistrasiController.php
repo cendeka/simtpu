@@ -52,6 +52,7 @@ class HerregistrasiController extends Controller
                 'keterangan' => $request->keterangan,
             ]
         );
+        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 
     /**
