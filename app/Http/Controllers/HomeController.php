@@ -70,16 +70,32 @@ class HomeController extends Controller
             ->groupBy('label')
             ->pluck('data');
         $label_bulan = Makam::season($request->tahun)->select(
-                DB::raw("DATE_FORMAT(tanggal_meninggal,'%M') as label"),
-                DB::raw('count(*) as data'), 
-                )
-                ->groupBy('label')
-                ->pluck('label');
-
+            DB::raw("DATE_FORMAT(tanggal_meninggal,'%M') as label"),
+            DB::raw('count(*) as data'), 
+            )
+            ->groupBy('label')
+            ->pluck('label');
+        $retri = Retribusi::select(
+            DB::raw("DATE_FORMAT(created_at,'%Y') as label"),
+            DB::raw('sum(nominal) as data'), 
+            )
+            ->groupBy('label')
+            ->get('data');
+        $label_retri = Retribusi::select(
+            DB::raw("DATE_FORMAT(created_at,'%Y') as label"),
+            DB::raw('sum(nominal) as data'), 
+            )
+            ->groupBy('label')
+            ->get('label');
         // return response()->json(['data'=>$bulan->count()],200);
-        $chart = ["label"=>$label_bulan, "data"=>$bulan];
+        $makam = ["tahun"=>$request->tahun, "label"=>$label_bulan, "data"=>$bulan];
+        $retribusi = [$label_retri, $retri];
         return response()->json(
-            $chart
+            [
+                "makam"=>$makam,
+                "retribusi"=>$retribusi,
+
+            ]
         );
     } 
 

@@ -32,7 +32,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div>
-                                    <a href="index">
+                                    <a href="/">
                                         <div class="avatar-md profile-user-wid mb-4">
                                             <span class="avatar-title rounded-circle bg-light">
                                                 <img src="{{ URL::asset('/assets/images/logo.svg') }}" alt=""

@@ -89,7 +89,7 @@ function tahun(tahun) {
                     }
                 }
             };
-            var dataObjects = [res]
+            var dataObjects = [res.makam]
             var data = {
                 labels: dataObjects[0].label,
                 datasets: [{

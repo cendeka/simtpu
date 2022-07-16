@@ -87,7 +87,7 @@
 
                                 <div class="d-flex flex-column h-100">
                                     <div class="mb-4 mb-md-5">
-                                        <a href="index" class="d-block auth-logo">
+                                        <a href="/" class="d-block auth-logo">
                                             <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="18"
                                                 class="auth-logo-dark">
                                             <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="18"
@@ -109,7 +109,7 @@
                                                     ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
                                                     quos dolores et</p>
                                                 <div class="mt-4">
-                                                    <a href="index" class="btn btn-success">Back to Home</a>
+                                                    <a href="/" class="btn btn-success">Back to Home</a>
                                                 </div>
                                             </div>
                                         </div>

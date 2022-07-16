@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center mb-5 text-muted">
-                        <a href="index" class="d-block auth-logo">
+                        <a href="/" class="d-block auth-logo">
                             <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="20"
                                 class="auth-logo-dark mx-auto">
                             <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="20"
@@ -75,7 +75,7 @@
                                         </form>
 
                                         <div class="mt-4">
-                                            <a href="index" class="btn btn-success w-md">Confirm</a>
+                                            <a href="/" class="btn btn-success w-md">Confirm</a>
                                         </div>
                                     </div>
                                 </div>
