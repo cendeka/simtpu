@@ -20,4 +20,5 @@ class Retribusi extends Model
     {
         return $this->hasOne(Registrasi::class, 'id', 'registrasi_id');
     }
+    
 }

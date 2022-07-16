@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use DB;
 
 class HomeController extends Controller
 {
@@ -47,8 +48,40 @@ class HomeController extends Controller
         $registrasi = Registrasi::with('ahliwaris','makam','retribusi')->get();
         $retribusi = Retribusi::sum('nominal');
         $makam = Makam::get();
-        return view('index', compact('registrasi','retribusi', 'makam', 'subTahun1','subTahun2','subTahun3'));
+          
+        return view('index', compact(
+            'registrasi',
+            'retribusi', 
+            'makam', 
+            'subTahun1',
+            'subTahun2',
+            'subTahun3'
+        ));
     }
+
+    public function chart(Request $request)
+    {
+
+        // $bulan = Makam::whereYear('tanggal_meninggal', $request->tahun)->get();
+        $bulan = Makam::season($request->tahun)->select(
+            DB::raw("DATE_FORMAT(tanggal_meninggal,'%M') as label"),
+            DB::raw('count(*) as data'), 
+            )
+            ->groupBy('label')
+            ->pluck('data');
+        $label_bulan = Makam::season($request->tahun)->select(
+                DB::raw("DATE_FORMAT(tanggal_meninggal,'%M') as label"),
+                DB::raw('count(*) as data'), 
+                )
+                ->groupBy('label')
+                ->pluck('label');
+
+        // return response()->json(['data'=>$bulan->count()],200);
+        $chart = ["label"=>$label_bulan, "data"=>$bulan];
+        return response()->json(
+            $chart
+        );
+    } 
 
     /*Language Translation*/
     public function lang($locale)

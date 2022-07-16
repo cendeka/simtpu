@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+Route::get('chart', [App\Http\Controllers\HomeController::class, 'chart'])->name('chart');
+
 
 //Update User Details
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');

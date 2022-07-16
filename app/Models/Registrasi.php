@@ -11,7 +11,6 @@ class Registrasi extends Model
     protected $table = 'tbl_registrasi';
     protected $guarded = [];
 
-    
     /**
      * Get the ahliwaris associated with the Registrasi
      *
