@@ -17,7 +17,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
+                        <i class=" bx bx-food-menu "></i>
                         <span key="t-starter-page">Registrasi</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -27,7 +27,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
+                        <i class="bx bx-book-content "></i>
                         <span key="t-starter-page">Herregistrasi</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -36,7 +36,7 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
+                        <i class=" bx bx-file-blank "></i>
                         <span key="t-starter-page">SKRD</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -46,7 +46,7 @@
                 </li>
                  <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
+                        <i class=" bx bx-user-pin "></i>
                         <span key="t-starter-page">Makam</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
