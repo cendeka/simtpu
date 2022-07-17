@@ -266,6 +266,18 @@ unset($__errorArgs, $__bag); ?>
                                         <td><button type="button" name="add" id="dynamic-ar"
                                                 class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
+                                    <tr>
+                                        <input value="" type="hidden" name="retribusi[0][id]"
+                                                    placeholder="Kode Rekening" class="form-control" />
+                                                <td><input type="text"
+                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
+                                                        class="form-control" /></td>
+                                                <td><input type="text"
+                                                        name="retribusi[0][uraian]" placeholder="Uraian"
+                                                        class="form-control" /></td>
+                                                <td><input name="retribusi[0][nominal]"
+                                                        class="form-control input-mask text-start" placeholder="Nominal"></td>
+                                    </tr>
                                     <?php if(isset($data->retribusi)): ?>
                                         <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             
@@ -312,7 +324,7 @@ unset($__errorArgs, $__bag); ?>
                         <div class="col-lg-12">
                     <form action="<?php echo e(route('registrasi.verif')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
-                        <input type="text" name="regID" id="verifID">
+                        <input type="hidden" name="regID" id="verifID">
                             <label for="">Diverifikasi Oleh:</label>
                             <input class="form-control" type="text" name="verif_oleh" id="">
                             <input class="form-check-input" type="checkbox" id="verifikasi"  name="verifikasi" value="TRUE" checked="">
@@ -370,7 +382,7 @@ unset($__errorArgs, $__bag); ?>
         <?php if($errors->any()): ?>
             Swal.fire({
                 title: 'Error!',
-                text: '<?php echo e(implode('', $errors->all(':message'))); ?>',
+                html: '<?php echo implode('', $errors->all('<div>:message</div>')); ?>',
                 icon: 'error',
                 confirmButtonText: 'Ok'
             })

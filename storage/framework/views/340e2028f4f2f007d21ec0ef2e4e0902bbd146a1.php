@@ -10,15 +10,77 @@
         <?php $__env->slot('li_1'); ?> SIM-TPU <?php $__env->endSlot(); ?>
         <?php $__env->slot('title'); ?> Dashboard <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
-<p>Jumlah Retribusi: <?php echo e($retribusi); ?></p>
-<p>Jumlah Registrasi Pemakaman: <?php echo e($registrasi->count()); ?></p>
-<p>Jumlah Makam: <?php echo e($makam->count()); ?></p>
-<p>Jumlah Registrasi tahun 2021: <?php echo e($subTahun1); ?></p>
-<p>Jumlah Registrasi tahun 2020: <?php echo e($subTahun2); ?></p>
-<p>Jumlah Registrasi tahun 2019: <?php echo e($subTahun3); ?></p>
+
 <div class="row">
+    <div class="col-xl-12">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-xs me-3">
+                                <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
+                                    <i class="bx bx-copy-alt"></i>
+                                </span>
+                            </div>
+                            <h5 class="font-size-14 mb-0">Total Retribusi</h5>
+                        </div>
+                        <div class="text-muted mt-4">
+                            <h4>Rp<?php echo e(number_format($retribusi,'2',',','.')); ?><i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
+                            <div class="d-flex">
+                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ms-2 text-truncate">From previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-xs me-3">
+                                <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
+                                    <i class="bx bx-copy-alt"></i>
+                                </span>
+                            </div>
+                            <h5 class="font-size-14 mb-0">Herregistrasi</h5>
+                        </div>
+                        <div class="text-muted mt-4">
+                            <h4>Rp0 <i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
+                            <div class="d-flex">
+                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ms-2 text-truncate">From previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-xs me-3">
+                                <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18">
+                                    <i class="bx bx-copy-alt"></i>
+                                </span>
+                            </div>
+                            <h5 class="font-size-14 mb-0">Makam</h5>
+                        </div>
+                        <div class="text-muted mt-4">
+                            <h4><?php echo e($makam->count()); ?><i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
+                            <div class="d-flex">
+                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ms-2 text-truncate">From previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h3>Statistik Pemakaman</h3>
     <div class="col">
-        <select name="tahun" id="tahun">
+        <select class="form-control" name="tahun" id="tahun">
             <option value="" selected>Pilih Tahun</option>
             <option value="2020" href="javascript:void(0)" onclick="tahun('2020')">2020</option>
             <option value="2019" href="javascript:void(0)" onclick="tahun('2019')">2019</option>
@@ -68,7 +130,7 @@ function tahun(tahun) {
                         stacked: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Juta'
+                            labelString: 'Makam'
                         },
                         ticks: {
                             // Shorthand the millions
