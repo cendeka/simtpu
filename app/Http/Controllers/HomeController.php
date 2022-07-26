@@ -58,7 +58,17 @@ class HomeController extends Controller
             'subTahun3'
         ));
     }
+    public function statistik() {
+        $chart = 
+        [
+            "retribusi" => Retribusi::season(2019)->select(DB::raw("DATE_FORMAT(masa,'%M') as masa"),'uraian','nominal')
+            ->get()
+        ];
+        return view('pages.statistik.chart',[
+            "retribusi"=>$chart["retribusi"]
 
+        ]);
+    }
     public function chart(Request $request)
     {
 

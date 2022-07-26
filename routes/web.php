@@ -18,6 +18,7 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 Route::get('chart', [App\Http\Controllers\HomeController::class, 'chart'])->name('chart');
+Route::get('statistik', [App\Http\Controllers\HomeController::class, 'statistik'])->name('statistik');
 
 
 //Update User Details
