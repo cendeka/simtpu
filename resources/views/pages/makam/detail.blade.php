@@ -153,7 +153,7 @@ Detail Makam
                       </div>
                     @endif
                       <div class="custom-file">
-                            <input type="text" value="{{$data->registrasi->id}}" name="registrasi_id">
+                            <input type="hidden" value="{{$data->registrasi->id}}" name="registrasi_id">
                           <input type="file" name="file" class="custom-file-input" id="chooseFile">
                           <label class="custom-file-label" for="chooseFile">Select file</label>
                       </div>

@@ -30,9 +30,24 @@ class RegistrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Registrasi::with('ahliwaris','makam','retribusi')->get();
+        $tahun = $request->tahun;
+        if ($tahun != null) {
+            # code...
+            $data = Registrasi::with('ahliwaris','makam','retribusi')
+            ->whereHas('makam', function($q) use($tahun) {
+                // Query the name field in status table
+                $q->whereYear('tanggal_meninggal', '=', $tahun); // '=' is optional
+            })
+            ->get();
+        } else {
+            # code...
+            $data = Registrasi::with('ahliwaris','makam','retribusi')
+            ->get();
+        }
+        
+       
         return view('pages.registrasi.index', [
             'data' => $data
         ]);

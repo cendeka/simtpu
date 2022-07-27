@@ -86,14 +86,14 @@
 </div>
 <div class="row">
     <h3>Statistik Pemakaman</h3>
-    <div class="col">
+    <div class="col-lg-6">
         <select class="form-control" name="tahun" id="tahun">
-            <option value="" selected>Pilih Tahun</option>
+            <option value="2021" href="javascript:void(0)" onclick="tahun('2021')" selected>2021</option>
             <option value="2020" href="javascript:void(0)" onclick="tahun('2020')">2020</option>
             <option value="2019" href="javascript:void(0)" onclick="tahun('2019')">2019</option>
         </select>
-      </div>
-      <canvas id="chart-0"></canvas>
+        <canvas id="chart-0"></canvas>
+    </div>
 </div>
 @endsection
 @section('script')
@@ -164,14 +164,19 @@ function tahun(tahun) {
                     data: dataObjects[0].data,
                     /* global setting */
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+                        'rgba(0, 255, 96, 0.8)',
+
                     ],
                     borderWidth: 1
                 }]

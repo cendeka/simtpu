@@ -18,10 +18,25 @@
         <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
     <div class="row">
+        <div class="col-4">
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Pilih Tahun<i class="mdi mdi-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="<?php echo e(route('registrasi')); ?>?tahun=2021">2021</a>
+                        <a class="dropdown-item" href="<?php echo e(route('registrasi')); ?>?tahun=2020">2020</a>
+                        <a class="dropdown-item" href="<?php echo e(route('registrasi')); ?>?tahun=2019">2019</a>
+
+
+                    </div>
+            </div>
+            <button class="btn  btn-primary" data-bs-toggle="modal" data-bs-target=".modal-upload">Import data</button>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target=".modal-upload">Import data</button>
+                   
                 </div>
                 <div class="card-body">
                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
