@@ -11,15 +11,6 @@ class Retribusi extends Model
     protected $table = 'tbl_retribusi';
     protected $guarded = [];
 
-    public function scopeSeason($query,$year)
-    {
-        return $query->whereYear('masa', '=', $year);
-    }
-
-    public function scopeMonth($query,$month)
-    {
-        return $query->whereMonth('masa', '=', $month);
-    }
     /**
      * Get the user associated with the Retribusi
      *

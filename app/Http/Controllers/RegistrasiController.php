@@ -230,7 +230,7 @@ class RegistrasiController extends Controller
                 ]);
         }
 
-        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+        return redirect()->route('registrasi')->with('message', 'Data Berhasil Disimpan');
     }
 
     /**

@@ -111,6 +111,24 @@
     <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
+        @if ($errors->any())
+            Swal.fire({
+                title: 'Error!',
+                html: '{!! implode('', $errors->all('<div>:message</div>')) !!}',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        @endif
+        @if (session()->has('message'))
+            swal.fire({
+                title: 'Simpan Data',
+                text: '{{ session('message') }}',
+                icon: 'success',
+                timer: 3000,
+            });
+        @endif
+    </script>
+    <script>
         $(document).ready(function() {
             $('#datatable').DataTable({
                 dom: 'Bfrtip',

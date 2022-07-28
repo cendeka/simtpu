@@ -42,11 +42,20 @@ class HomeController extends Controller
     public function root()
     {
         $now = Carbon::now();
+        $tahun = $now->subYear(1);
         $subTahun3 = Makam::season(Carbon::now()->subYear(3))->count();
         $subTahun2 = Makam::season(Carbon::now()->subYear(2))->count();
         $subTahun1 = Makam::season(Carbon::now()->subYear(1))->count();
         $registrasi = Registrasi::with('ahliwaris','makam','retribusi')->get();
         $retribusi = Retribusi::sum('nominal');
+        $retribusiSubTahun = Retribusi::with('registrasi.makam')
+        ->whereHas('registrasi.makam', function($q) use($tahun) {
+            // Query the name field in status table
+            $q->whereYear('tanggal_meninggal', '=', $tahun); // '=' is optional
+        })
+        ->sum('nominal');
+        $perbandingan = $retribusi-$retribusiSubTahun;
+        $persentase  = divnum($perbandingan, $retribusiSubTahun);
         $makam = Makam::get();
           
         return view('index', compact(
@@ -55,7 +64,8 @@ class HomeController extends Controller
             'makam', 
             'subTahun1',
             'subTahun2',
-            'subTahun3'
+            'subTahun3',
+            'persentase'
         ));
     }
     public function statistik() {
