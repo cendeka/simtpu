@@ -1,21 +1,19 @@
-@extends('layouts.master')
-
-@section('title')
+<?php $__env->startSection('title'); ?>
     Tagihan Herregistrasi Pemakaman
-@endsection
-@section('css')
-<link href="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ URL::asset('/assets/libs/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+<link href="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(URL::asset('/assets/libs/datatables/datatables.min.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Herregistrasi
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Tagihan
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -25,13 +23,13 @@
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label for="verticalnav-firstname-input">Tahun</label>
-                                <input class="form-control" type="text" name="tahun" placeholder="Tahun" value="{{ Request::get('tahun') }}">
+                                <input class="form-control" type="text" name="tahun" placeholder="Tahun" value="<?php echo e(Request::get('tahun')); ?>">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label for="verticalnav-lastname-input">Bulan</label>
-                                <input class="form-control" type="text" name="masa" placeholder="Masa" value="{{ Request::get('masa') }}">
+                                <input class="form-control" type="text" name="masa" placeholder="Masa" value="<?php echo e(Request::get('masa')); ?>">
                             </div>
                         </div>
                     </div>
@@ -57,19 +55,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
+                            <?php
                                 $i = 1;
-                            @endphp
-                            @foreach ($data as $item)
+                            ?>
+                            <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $i++ }}</td>  
+                                    <td><?php echo e($i++); ?></td>  
                                     <th>
-                                    @foreach ($item->registrasi as $register)
-                                        {{$register->nama_meninggal}}
-                                    @endforeach
+                                    <?php $__currentLoopData = $item->registrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $register): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php echo e($register->nama_meninggal); ?>
+
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </th>    
-                                    <th>{{$item->nominal}}</th>  
-                                    <th>{{$item->masa}}</th>        
+                                    <th><?php echo e($item->nominal); ?></th>  
+                                    <th><?php echo e($item->masa); ?></th>        
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary dropdown-toggle"
@@ -77,44 +76,44 @@
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
                                                 <a href="#" id="detail" class="dropdown-item" href="javascript:void(0)"
-                                                onclick="detail({{ $item->id }})">Detail</a>
+                                                onclick="detail(<?php echo e($item->id); ?>)">Detail</a>
                                                 <a href="#" class="dropdown-item" href="javascript:void(0)"
-                                                    onclick="tambah({{ $item->id }})">Buat Tagihan</a>
+                                                    onclick="tambah(<?php echo e($item->id); ?>)">Buat Tagihan</a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-@endsection
-@section('script')
-<script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+<script src="<?php echo e(URL::asset('/assets/libs/datatables/datatables.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/libs/jszip/jszip.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/libs/pdfmake/pdfmake.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 
 <script>
-    @if ($errors->any())
+    <?php if($errors->any()): ?>
         Swal.fire({
             title: 'Error!',
-            html: '{!! implode('', $errors->all('<div>:message</div>')) !!}',
+            html: '<?php echo implode('', $errors->all('<div>:message</div>')); ?>',
             icon: 'error',
             confirmButtonText: 'Ok'
         })
-    @endif
-    @if (session()->has('message'))
+    <?php endif; ?>
+    <?php if(session()->has('message')): ?>
         swal.fire({
             title: 'Simpan Data',
-            text: '{{ session('message') }}',
+            text: '<?php echo e(session('message')); ?>',
             icon: 'success',
             timer: 3000,
         });
-    @endif
+    <?php endif; ?>
 </script>
 <script>
     $(document).ready(function() {
@@ -157,4 +156,6 @@
         $('#datatable_filter label').addClass('text-muted'); // <-- add this line
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/herregistrasi/tagihan.blade.php ENDPATH**/ ?>

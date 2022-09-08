@@ -26,9 +26,10 @@ class HerregistrasiController extends Controller
         return view('pages.herregistrasi.index',compact('data','herr'));
         // return view('pages.herregistrasi.index', compact('data'));
     }
-    public function tagihan()
+    public function tagihan(Request $request)
     {
-        return view('pages.herregistrasi.tagihan');
+        $data = Herregistrasi::with('registrasi')->where('tahun',$request->tahun)->where('masa', $request->masa)->get();
+        return view('pages.herregistrasi.tagihan',compact('data'));
     }
 
     /**
