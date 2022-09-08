@@ -39,6 +39,7 @@ Route::post('/registrasi/hapus', [App\Http\Controllers\RegistrasiController::cla
 Route::post('/registrasi/retribusi/hapus', [App\Http\Controllers\RegistrasiController::class, 'destroyRetri'])->name('retribusi.hapus');
 
 Route::get('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'index'])->name('herregistrasi');
+Route::get('herregistrasi/tagihan/', [App\Http\Controllers\HerregistrasiController::class, 'tagihan'])->name('herregistrasi.tagihan');
 Route::post('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'store'])->name('herregistrasi.store');
 
 
@@ -56,6 +57,7 @@ Route::get('makam', [App\Http\Controllers\MakamController::class, 'index'])->nam
 Route::post('makam/upload', [App\Http\Controllers\MakamController::class, 'fotoUpload'])->name('makam.upload');
 Route::get('makam/detail', [App\Http\Controllers\MakamController::class, 'show'])->name('makam.show');
 
+Route::get('laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan');
 
 
 //Language Translation

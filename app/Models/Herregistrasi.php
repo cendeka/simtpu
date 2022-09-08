@@ -16,7 +16,7 @@ class Herregistrasi extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function registrasi(): HasMany
+    public function registrasi()
     {
         return $this->hasMany(Registrasi::class, 'id', 'registrasi_id');
     }

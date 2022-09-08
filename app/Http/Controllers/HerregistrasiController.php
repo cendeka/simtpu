@@ -14,10 +14,21 @@ class HerregistrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
-        return view('pages.herregistrasi.index');
+        $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+        
+        if ($request->ajax()) {
+            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
+            return response()->json($data);
+        }
+        return view('pages.herregistrasi.index',compact('data','herr'));
+        // return view('pages.herregistrasi.index', compact('data'));
+    }
+    public function tagihan()
+    {
+        return view('pages.herregistrasi.tagihan');
     }
 
     /**

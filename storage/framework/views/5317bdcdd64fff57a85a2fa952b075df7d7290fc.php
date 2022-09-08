@@ -111,6 +111,24 @@
     <script src="<?php echo e(URL::asset('/assets/libs/pdfmake/pdfmake.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
     <script>
+        <?php if($errors->any()): ?>
+            Swal.fire({
+                title: 'Error!',
+                html: '<?php echo implode('', $errors->all('<div>:message</div>')); ?>',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        <?php endif; ?>
+        <?php if(session()->has('message')): ?>
+            swal.fire({
+                title: 'Simpan Data',
+                text: '<?php echo e(session('message')); ?>',
+                icon: 'success',
+                timer: 3000,
+            });
+        <?php endif; ?>
+    </script>
+    <script>
         $(document).ready(function() {
             $('#datatable').DataTable({
                 dom: 'Bfrtip',
