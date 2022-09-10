@@ -19,30 +19,19 @@ Detail Makam
                             <div class="row">
                                 <div class="col-md-2 col-sm-3 col-4">
                                     <div class="nav flex-column nav-pills " id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                        <a class="nav-link active" id="product-1-tab" data-bs-toggle="pill" href="#product-1" role="tab" aria-controls="product-1" aria-selected="true">
-                                            <img src="assets/images/product/img-7.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
-                                        <a class="nav-link" id="product-2-tab" data-bs-toggle="pill" href="#product-2" role="tab" aria-controls="product-2" aria-selected="false">
-                                            <img src="assets/images/product/img-8.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
-                                        <a class="nav-link" id="product-3-tab" data-bs-toggle="pill" href="#product-3" role="tab" aria-controls="product-3" aria-selected="false">
-                                            <img src="assets/images/product/img-7.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
-                                        <a class="nav-link" id="product-4-tab" data-bs-toggle="pill" href="#product-4" role="tab" aria-controls="product-4" aria-selected="false">
-                                            <img src="assets/images/product/img-8.png" alt="" class="img-fluid mx-auto d-block rounded">
-                                        </a>
+                                 
                                     </div>
                                 </div>
                                 <div class="col-md-7 offset-md-1 col-sm-9 col-8">
                                     <div class="tab-content" id="v-pills-tabContent">
                                         <div class="tab-pane fade show active" id="product-1" role="tabpanel" aria-labelledby="product-1-tab">
                                             <div>
-                                                <img src="assets/images/product/img-7.png" alt="" class="img-fluid mx-auto d-block">
+                                                <img src="<?php echo e($data->foto_path); ?>" alt="" class="img-fluid mx-auto d-block">
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="product-2" role="tabpanel" aria-labelledby="product-2-tab">
                                             <div>
-                                                <img src="assets/images/product/img-8.png" alt="" class="img-fluid mx-auto d-block">
+                                                <img src="<?php echo e($data->foto_path); ?>" alt="" class="img-fluid mx-auto d-block">
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="product-3" role="tabpanel" aria-labelledby="product-3-tab">
@@ -57,7 +46,7 @@ Detail Makam
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-primary waves-effect waves-light mt-2 me-1">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light mt-2 me-1" data-bs-toggle="modal" data-bs-target=".modal-upload">
                                             <i class="bx bx-user me-2"></i> Tambah Foto
                                         </button>
                                     </div>
@@ -86,6 +75,11 @@ Detail Makam
                                         <p class="text-muted"><i class="bx bx-user-voice font-size-16 align-middle text-primary me-1"></i>Agama <?php echo e($data->registrasi->agama2); ?></p>
                                         <p class="text-muted"><i class="bx bx-cog font-size-16 align-middle text-primary me-1"></i> Alamat <?php echo e($data->registrasi->alamat2); ?></p>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <img src="data:image/png;base64, <?php echo base64_encode(QrCode::format('png')->color(255, 0, 0)->merge('/public/assets/images/pemda.png')->size(200)->generate("".env('APP_URL')."/makam/detail?registrasi_id=".$data->registrasi->id."")); ?> ">
                                 </div>
                             </div>
                         </div>
@@ -123,6 +117,33 @@ Detail Makam
                         </table>
                     </div>
                 </div>
+                <div class="mt-5" id="pembayaran">
+                    <h5 class="mb-3">Daftar Pembayaran Herregistrasi</h5>
+
+                    <div class="table-responsive">
+                        <table class="table mb-0 table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Tahun</th>
+                                <th>Bulan</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $i = 1;
+                                ?>
+                              <?php $__currentLoopData = $data->registrasi->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td><?php echo e($i++); ?></td>
+                                    <td><?php echo e($item->tahun); ?></td>
+                                    <td><?php echo e($item->masa); ?></td>
+                                    <td><?php echo e($item->status); ?></td>
+                                </tr>
+                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- end Specifications -->
 
             </div>
@@ -130,6 +151,45 @@ Detail Makam
         <!-- end card -->
     </div>
 </div>
+<!--  Large modal example -->
+<div class="modal fade modal-upload" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Foto Makam</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="<?php echo e(route('makam.upload')); ?>" method="post" enctype="multipart/form-data">
+                    <h3 class="text-center mb-5">Upload Foto</h3>
+                      <?php echo csrf_field(); ?>
+                      <?php if($message = Session::get('success')): ?>
+                      <div class="alert alert-success">
+                          <strong><?php echo e($message); ?></strong>
+                      </div>
+                    <?php endif; ?>
+                    <?php if(count($errors) > 0): ?>
+                      <div class="alert alert-danger">
+                          <ul>
+                              <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                          </ul>
+                      </div>
+                    <?php endif; ?>
+                      <div class="custom-file">
+                            <input type="hidden" value="<?php echo e($data->registrasi->id); ?>" name="registrasi_id">
+                          <input type="file" name="file" class="custom-file-input" id="chooseFile">
+                          <label class="custom-file-label" for="chooseFile">Select file</label>
+                      </div>
+                      <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                          Upload
+                      </button>
+                  </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- end row -->
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/makam/detail.blade.php ENDPATH**/ ?>

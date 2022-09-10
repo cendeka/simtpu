@@ -19,16 +19,26 @@ class HerregistrasiController extends Controller
         $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
         $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
         
-        if ($request->ajax()) {
-            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
-            return response()->json($data);
-        }
+        // if ($request->ajax()) {
+        //     $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
+        //     return response()->json($data);
+        // }
         return view('pages.herregistrasi.index',compact('data','herr'));
         // return view('pages.herregistrasi.index', compact('data'));
     }
     public function tagihan(Request $request)
     {
-        $data = Herregistrasi::with('registrasi')->where('tahun',$request->tahun)->where('masa', $request->masa)->get();
+        
+        if ($request->status) {
+            # code...
+            $data = Herregistrasi::with('registrasi')->where('tahun',$request->tahun)->where('masa', $request->masa)->where('status', $request->status)->get();
+
+        } else {
+            # code...
+            $data = Herregistrasi::with('registrasi')->where('tahun',$request->tahun)->where('masa', $request->masa)->get();
+
+        }
+
         return view('pages.herregistrasi.tagihan',compact('data'));
     }
 

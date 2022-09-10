@@ -56,6 +56,8 @@ Route::get('skrd/print', [App\Http\Controllers\SkrdController::class, 'skrd'])->
 Route::get('makam', [App\Http\Controllers\MakamController::class, 'index'])->name('makam');
 Route::post('makam/upload', [App\Http\Controllers\MakamController::class, 'fotoUpload'])->name('makam.upload');
 Route::get('makam/detail', [App\Http\Controllers\MakamController::class, 'show'])->name('makam.show');
+Route::get('makam/info', [App\Http\Controllers\MakamController::class, 'publik'])->name('makam.publik');
+
 
 Route::get('laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan');
 

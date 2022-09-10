@@ -14,7 +14,7 @@ class MakamController extends Controller
      */
     public function index()
     {
-        $data = Makam::with('registrasi')->get();
+        $data = Makam::with('registrasi.herregistrasi')->get();
         return view('pages.makam.index', compact('data'));
     }
 
@@ -49,6 +49,11 @@ class MakamController extends Controller
     {
         $data = Makam::where('registrasi_id', $request->registrasi_id)->with('registrasi','registrasi.ahliwaris')->first();
         return view('pages.makam.detail',compact('data'));
+    }
+    public function publik(Request $request)
+    {
+        $data = Makam::where('registrasi_id', $request->registrasi_id)->with('registrasi','registrasi.ahliwaris')->first();
+        return view('pages.makam.publik',compact('data'));
     }
 
     /**

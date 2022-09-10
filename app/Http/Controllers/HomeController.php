@@ -57,6 +57,9 @@ class HomeController extends Controller
         $perbandingan = $retribusi-$retribusiSubTahun;
         $persentase  = divnum($perbandingan, $retribusiSubTahun);
         $makam = Makam::get();
+        $collection = Makam::distinct()->get(['nama_tpu']);
+        $tpu = $collection->unique('nama_tpu');
+        $tpu->values()->all();
           
         return view('index', compact(
             'registrasi',
@@ -65,7 +68,8 @@ class HomeController extends Controller
             'subTahun1',
             'subTahun2',
             'subTahun3',
-            'persentase'
+            'persentase',
+            'tpu'
         ));
     }
     public function statistik() {

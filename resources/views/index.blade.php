@@ -94,6 +94,13 @@
         </select>
         <canvas id="chart-0"></canvas>
     </div>
+    <div class="col-lg-6">
+       @foreach ($tpu as $item)
+          <ul>
+            <li> {{$item->nama_tpu}}</li>
+          </ul>
+       @endforeach
+    </div>
 </div>
 @endsection
 @section('script')

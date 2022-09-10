@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+
 @section('title')
 Detail Makam
 @endsection
@@ -115,6 +116,33 @@ Detail Makam
                                     <th scope="row">Luas Lahan</th>
                                     <td>{{$data->luas_lahan}} m2</td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-5" id="pembayaran">
+                    <h5 class="mb-3">Daftar Pembayaran Herregistrasi</h5>
+
+                    <div class="table-responsive">
+                        <table class="table mb-0 table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Tahun</th>
+                                <th>Bulan</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $i = 1;
+                                @endphp
+                              @foreach ($data->registrasi->herregistrasi as $item)
+                                <tr>
+                                    <td>{{$i++}}</td>
+                                    <td>{{$item->tahun}}</td>
+                                    <td>{{$item->masa}}</td>
+                                    <td>{{$item->status}}</td>
+                                </tr>
+                              @endforeach
                             </tbody>
                         </table>
                     </div>

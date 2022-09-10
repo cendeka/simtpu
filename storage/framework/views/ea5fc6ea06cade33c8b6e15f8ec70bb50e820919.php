@@ -21,39 +21,51 @@
             
           </div>
           <div class="col">
-            MARET <br>
-            2022 <br>
-            GANDA DJUANDA ( ETI BIN SUHI ) JL PROF MOCH YAMIN RT 003/004 SAYANG  
+            <?php echo e($data->registrasi->created_at->format('m')); ?> <br> 
+            <?php echo e(date('Y', strtotime($data->registrasi->created_at))); ?> <br>
+            <?php echo e($data->registrasi->ahliwaris->nama); ?> <br>
+            <?php echo e($data->registrasi->ahliwaris->alamat1); ?> 
           </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
           <div class="col align-self-start">
-            04     1  02    01    17
+            <?php $__currentLoopData = $data->registrasi->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <p><?php echo e($item->korek); ?></p>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
           <div class="col align-self-center">
-            Retribusi Lahan Pemakaman 1X2 <br>
-            Retribusi Pemakaman <br>
-            Retribusi lahan Perluasan <br>
-            Retribusi Lahan cadangan <br>
-            Administrasi Lahan Cadangan <br>
-            Retribusi Ambulance <br>
-            Retribusi Kebersihan <br>
-            Lokasi Pemakaman <br>
-            PASAREAN AGUNG <br>
+            <?php $__currentLoopData = $data->registrasi->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <p><?php echo e($item->uraian); ?></p>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php echo e($data->registrasi->makam->nama_tpu); ?> <br>
           </div>
           <div class="col">
-            Rp.50.000.00 <br>
-            Rp.50.000.00  <br>
-            Rp.20.000.00 <br>
+            <?php $__currentLoopData = $data->registrasi->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <p><?php echo e($item->nominal); ?></p>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row text-center" style="height: 200px;">
+     <div class="container">
+        <div class="row">
+          <div class="col align-self-start">
+           
+          </div>
           <div class="col align-self-center">
-            =========   Seratus Dua Puluh Ribu Rupiah  ===========
+            
+          </div>
+          <div class="col">
+            <p>Rp<?php echo e(number_format($data->registrasi->retribusi->sum('nominal'), '2', ',', '.')); ?></p>
+          </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row text-center" style="height: 100px;">
+          <div class="col align-self-center">
+            =========   <em><span id="terbilang"></span> Rupiah</em>  ===========
           </div>
         </div>
     </div>
@@ -198,4 +210,4 @@
     </script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/skrd/detail.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/print/retribusi.blade.php ENDPATH**/ ?>

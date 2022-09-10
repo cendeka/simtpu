@@ -72,8 +72,7 @@
                         <?php echo csrf_field(); ?>
                         <div class="row">
                             <div class="col">
-                                <select name="registrasi_id" id="registrasi_id">
-                                </select>
+                                <input type="hidden" name="registrasi_id" id="registrasi_id">
                                 <input type="hidden" name="herrID" id="herrID">
                                 <label for="nominal">Nominal</label>
                                 <input type="text" class="form-control" name="nominal" id="nominal"
@@ -191,7 +190,7 @@
                 success: function(res) {
                     $.each(res, function(k, v) {
                         $('#modal-tambah').modal('show');
-                        $('#registrasi_id').html(' <option value="' + v.id + '">' + v.id + '</option>');
+                        $('#registrasi_id').val(v.id);
                     });
                 }
             });

@@ -5,7 +5,7 @@
 @endsection
 @section('css')
     <link href="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-    
+
     <!-- DataTables -->
     <link href="{{ URL::asset('/assets/libs/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
@@ -22,15 +22,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                    <table id="datatable" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Orang yang Meninggal</th>
-                                <th>Tahun Meninggal</th>
-                                <th>Tahun Herregistrasi</th>
-                                <th>Nominal</th>
-                                <th>Status</th>
+                                <th style="width: 50px !important;">Makam</th>
+                                <th>TPU</th>
+                                <th>Meninggal</th>
+                                <th>Herregistrasi</th>
+                                <th>Herregistrasi Selanjutnya</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -42,26 +42,25 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $item->nama_meninggal }}</td>
+                                    <td>{{$item->makam->nama_tpu}}</td>
                                     <td>{{ date('Y', strtotime($item->makam->tanggal_dimakamkan)) }}</td>
                                     <td>
-                                        @foreach ($item->herregistrasi as $herregistrasi)
-                                           <ul>
-                                            <li>{{$herregistrasi->tahun}}</li>
-                                           </ul>
-                                        @endforeach
+                                       @if ($item->herregistrasi->isNotEmpty())
+                                           @foreach ($item->herregistrasi as $herregistrasi)
+                                            @if ($loop->last)
+                                                {{ $herregistrasi->tahun}}
+                                            @endif
+                                           @endforeach
+                                       @else
+                                       <span class="badge bg-danger" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($item->makam->tanggal_dimakamkan)->addYears(2)->format('m-Y') }}</span>
+
+                                       @endif
                                     </td>
                                     <td>
                                         @foreach ($item->herregistrasi as $herregistrasi)
-                                           <ul>
-                                            <li>{{$herregistrasi->nominal}}</li>
-                                           </ul>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($item->herregistrasi as $herregistrasi)
-                                           <ul>
-                                            <li>{{$herregistrasi->status}}</li>
-                                           </ul>
+                                            @if ($loop->last)
+                                                <span class="badge bg-info" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($herregistrasi->tahun)->addYears(2)->format('m-Y') }}</span>
+                                            @endif
                                         @endforeach
                                     </td>
                                     <td>
@@ -70,8 +69,7 @@
                                                 data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
-                                                <a href="#" id="detail" class="dropdown-item" href="javascript:void(0)"
-                                                onclick="detail({{ $item->id }})">Detail</a>
+                                                <a href="/makam/detail?registrasi_id={{$item->id}}#pembayaran" id="detail" class="dropdown-item">Detail</a>
                                                 <a href="#" class="dropdown-item" href="javascript:void(0)"
                                                     onclick="tambah({{ $item->id }})">Buat Tagihan</a>
                                             </div>
@@ -106,7 +104,7 @@
                                 <label for="masa">Masa</label>
                                 <input type="text" class="form-control" name="masa" id="masa" placeholder="Masa">
                                 <label for="tahun">Tahun</label>
-                                <input type="text" class="form-control" name="tahun" id="tahun"
+                                <input type="date" class="form-control" name="tahun" id="tahun"
                                     placeholder="Tahun">
                                 <label for="keterangan">Keterangan</label>
                                 <input type="text" class="form-control" name="keterangan" id="keterangan"
@@ -131,7 +129,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" id="div-history">
-
+                        <input type="text" name="nominal" class="form-control" id="nominal">
                     </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -180,21 +178,21 @@
                         extend: 'excelHtml5',
                         className: 'btn btn-dark',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-dark',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
                         extend: 'pdfHtml5',
                         className: 'btn btn-dark',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                 ]
@@ -221,6 +219,7 @@
                 }
             });
         }
+
         function detail(registrasi_id) {
             $.ajax({
                 type: "GET",
@@ -231,21 +230,24 @@
                 dataType: 'json',
                 success: function(rows) {
                     $('#modal-detail').modal('show');
-                    var html = '<table class="table table-bordered dt-responsive nowrap w-100">';
-                    html += '<tr>';
-                    for( var j in rows[0] ) {
-                    html += '<th>' + j + '</th>';
-                    }
-                    html += '</tr>';
-                    for( var i = 0; i < rows.length; i++) {
-                    html += '<tr>';
-                    for( var j in rows[i] ) {
-                        html += '<td>' + rows[i][j] + '</td>';
-                    }
-                    html += '</tr>';
-                    }
-                    html += '</table>';
-                    document.getElementById('div-history').innerHTML = html;
+                    rows.forEach(function(e) {
+                       console.log(e.nominal);
+                    });
+                    // var html = '<table class="table table-bordered dt-responsive nowrap w-100">';
+                    // html += '<tr>';
+                    // for( var j in rows[0] ) {
+                    // html += '<th>' + j + '</th>';
+                    // }
+                    // html += '</tr>';
+                    // for( var i = 0; i < rows.length; i++) {
+                    // html += '<tr>';
+                    // for( var j in rows[i] ) {
+                    //     html += '<td>' + rows[i][j] + '</td>';
+                    // }
+                    // html += '</tr>';
+                    // }
+                    // html += '</table>';
+                    // document.getElementById('div-history').innerHTML = html;
                 }
             });
         }

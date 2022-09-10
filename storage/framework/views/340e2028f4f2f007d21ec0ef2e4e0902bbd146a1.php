@@ -87,6 +87,13 @@
         </select>
         <canvas id="chart-0"></canvas>
     </div>
+    <div class="col-lg-6">
+       <?php $__currentLoopData = $tpu; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <ul>
+            <li> <?php echo e($item->nama_tpu); ?></li>
+          </ul>
+       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>

@@ -1,17 +1,19 @@
-<?php $__env->startSection('title'); ?>
+@extends('layouts.master')
+
+@section('title')
     SKRD Pemakaman
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('css'); ?>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
-    <?php $__env->startComponent('components.breadcrumb'); ?>
-        <?php $__env->slot('li_1'); ?>
+@endsection
+@section('css')
+@endsection
+@section('content')
+    @component('components.breadcrumb')
+        @slot('li_1')
             SKRD
-        <?php $__env->endSlot(); ?>
-        <?php $__env->slot('title'); ?>
+        @endslot
+        @slot('title')
             SKRD Pemakaman
-        <?php $__env->endSlot(); ?>
-    <?php echo $__env->renderComponent(); ?>
+        @endslot
+    @endcomponent
     <div class="container" style="height: 200px;">
         <div class="row">
           <div class="col align-self-start">
@@ -75,10 +77,10 @@
             </div>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
-        var a = <?php echo e($data->registrasi->retribusi->sum('nominal')); ?>;
+        var a = {{$data->registrasi->retribusi->sum('nominal')}};
         function terbilang(a) {
             var bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh',
                 'Sebelas'
@@ -196,6 +198,4 @@
                         $('#terbilang').html(terbilang(a));
                     });
     </script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/skrd/detail.blade.php ENDPATH**/ ?>
+@endsection

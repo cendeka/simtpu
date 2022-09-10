@@ -1,17 +1,19 @@
-<?php $__env->startSection('title'); ?>
+@extends('layouts.master')
+
+@section('title')
     SKRD Pemakaman
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('css'); ?>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
-    <?php $__env->startComponent('components.breadcrumb'); ?>
-        <?php $__env->slot('li_1'); ?>
+@endsection
+@section('css')
+@endsection
+@section('content')
+    @component('components.breadcrumb')
+        @slot('li_1')
             SKRD
-        <?php $__env->endSlot(); ?>
-        <?php $__env->slot('title'); ?>
+        @endslot
+        @slot('title')
             SKRD Pemakaman
-        <?php $__env->endSlot(); ?>
-    <?php echo $__env->renderComponent(); ?>
+        @endslot
+    @endcomponent
     <div class="container" style="height: 200px;">
         <div class="row">
           <div class="col align-self-start">
@@ -21,39 +23,51 @@
             
           </div>
           <div class="col">
-            MARET <br>
-            2022 <br>
-            GANDA DJUANDA ( ETI BIN SUHI ) JL PROF MOCH YAMIN RT 003/004 SAYANG  
+            {{ $data->registrasi->created_at->format('m') }} <br> 
+            {{ date('Y', strtotime($data->registrasi->created_at)) }} <br>
+            {{ $data->registrasi->ahliwaris->nama }} <br>
+            {{ $data->registrasi->ahliwaris->alamat1 }} 
           </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
           <div class="col align-self-start">
-            04     1  02    01    17
+            @foreach ($data->registrasi->retribusi as $item)
+                <p>{{ $item->korek }}</p>
+            @endforeach
           </div>
           <div class="col align-self-center">
-            Retribusi Lahan Pemakaman 1X2 <br>
-            Retribusi Pemakaman <br>
-            Retribusi lahan Perluasan <br>
-            Retribusi Lahan cadangan <br>
-            Administrasi Lahan Cadangan <br>
-            Retribusi Ambulance <br>
-            Retribusi Kebersihan <br>
-            Lokasi Pemakaman <br>
-            PASAREAN AGUNG <br>
+            @foreach ($data->registrasi->retribusi as $item)
+                <p>{{ $item->uraian }}</p>
+            @endforeach
+            {{$data->registrasi->makam->nama_tpu}} <br>
           </div>
           <div class="col">
-            Rp.50.000.00 <br>
-            Rp.50.000.00  <br>
-            Rp.20.000.00 <br>
+            @foreach ($data->registrasi->retribusi as $item)
+            <p>{{ $item->nominal }}</p>
+            @endforeach
           </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row text-center" style="height: 200px;">
+     <div class="container">
+        <div class="row">
+          <div class="col align-self-start">
+           
+          </div>
           <div class="col align-self-center">
-            =========   Seratus Dua Puluh Ribu Rupiah  ===========
+            
+          </div>
+          <div class="col">
+            <p>Rp{{ number_format($data->registrasi->retribusi->sum('nominal'), '2', ',', '.') }}</p>
+          </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row text-center" style="height: 100px;">
+          <div class="col align-self-center">
+            =========   <em><span id="terbilang"></span> Rupiah</em>  ===========
           </div>
         </div>
     </div>
@@ -75,10 +89,10 @@
             </div>
         </div>
     </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <script>
-        var a = <?php echo e($data->registrasi->retribusi->sum('nominal')); ?>;
+        var a = {{$data->registrasi->retribusi->sum('nominal')}};
         function terbilang(a) {
             var bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh',
                 'Sebelas'
@@ -196,6 +210,4 @@
                         $('#terbilang').html(terbilang(a));
                     });
     </script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/skrd/detail.blade.php ENDPATH**/ ?>
+@endsection

@@ -32,6 +32,8 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo e(route('herregistrasi')); ?>">Data Herregistrasi</a></li>
+                        <li><a href="<?php echo e(route('herregistrasi.tagihan')); ?>">Tagihan Herregistrasi</a></li>
+
                     </ul>
                 </li>
                 <li>

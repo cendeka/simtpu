@@ -43,7 +43,7 @@ class SkrdController extends Controller
     public function skrd(Request $request)
     {
         $data = Retribusi::where('registrasi_id',$request->registrasi_id)->with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->first();
-        return view('pages.skrd.detail', compact('data'));
+        return view('pages.print.retribusi', compact('data'));
     }
     /**
      * Show the form for creating a new resource.
