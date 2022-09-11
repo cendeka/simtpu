@@ -25,13 +25,13 @@ class SkrdController extends Controller
     public function herregistrasi(Request $request)
     {
         $data = Herregistrasi::where('status',"Sudah Bayar")->with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
-        // $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
 
-        // if ($request->ajax()) {
-        //     $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
-        //     return response()->json($data);
-        // }
-        return view('pages.skrd.herregistrasi',compact('data'));
+        if ($request->ajax()) {
+            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
+            return response()->json($data);
+        }
+        return view('pages.skrd.herregistrasi',compact('data','herr'));
     }
 
     public function history(Request $request)

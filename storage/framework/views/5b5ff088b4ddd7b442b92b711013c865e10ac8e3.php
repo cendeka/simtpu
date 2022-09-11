@@ -125,22 +125,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myLargeModalLabel">History Tagihan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="div-history">
-                        <input type="text" name="nominal" class="form-control" id="nominal">
-                    </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
     <script src="<?php echo e(URL::asset('/assets/libs/datatables/datatables.min.js')); ?>"></script>
@@ -222,38 +206,6 @@
                         $('#modal-tambah').modal('show');
                         $('#registrasi_id').val(v.id);
                     });
-                }
-            });
-        }
-
-        function detail(registrasi_id) {
-            $.ajax({
-                type: "GET",
-                url: "<?php echo e(route('skrd.herregistrasi.history')); ?>",
-                data: {
-                    registrasi_id: registrasi_id
-                },
-                dataType: 'json',
-                success: function(rows) {
-                    $('#modal-detail').modal('show');
-                    rows.forEach(function(e) {
-                       console.log(e.nominal);
-                    });
-                    // var html = '<table class="table table-bordered dt-responsive nowrap w-100">';
-                    // html += '<tr>';
-                    // for( var j in rows[0] ) {
-                    // html += '<th>' + j + '</th>';
-                    // }
-                    // html += '</tr>';
-                    // for( var i = 0; i < rows.length; i++) {
-                    // html += '<tr>';
-                    // for( var j in rows[i] ) {
-                    //     html += '<td>' + rows[i][j] + '</td>';
-                    // }
-                    // html += '</tr>';
-                    // }
-                    // html += '</table>';
-                    // document.getElementById('div-history').innerHTML = html;
                 }
             });
         }
