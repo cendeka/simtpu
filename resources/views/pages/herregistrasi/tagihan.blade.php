@@ -13,7 +13,12 @@
             Herregistrasi
         @endslot
         @slot('title')
-            Tagihan
+            Tagihan 
+            @if (request()->all() != null)
+                {{request()->get('tahun')}}
+            @else
+                {{\Carbon\Carbon::now()->year}}
+            @endif
         @endslot
     @endcomponent
     <div class="row">
@@ -39,19 +44,20 @@
                                 <div class="mb-3">
                                     <label for="verticalnav-lastname-input">Bulan</label>
                                     {{-- <input class="form-control" type="text" name="masa" placeholder="Masa" value="{{ Request::get('masa') }}"> --}}
-                                    <select class="form-control" name="masa" id="">
-                                        <option value="{{request()->get('masa') ?? ''}}" selected>{{request()->get('masa') ?? 'Bulan'}}</option>
-                                        <option value="Januari">Januari</option>
-                                        <option value="Februari">Februari</option>
-                                        <option value="Maret">Maret</option>
-                                        <option value="April">April</option>
-                                        <option value="Mei">Mei</option>
-                                        <option value="Juni">Juni</option>
-                                        <option value="Agustus">Agustus</option>
-                                        <option value="September">September</option>
-                                        <option value="Oktober">Oktober</option>
-                                        <option value="November">November</option>
-                                        <option value="Desember">Desember</option>
+                                    <select class="form-control" name="bulan" id="">
+                                        <option value="{{request()->get('bulan') ?? ''}}" selected>{{request()->get('bulan') ?? 'Bulan'}}</option>
+                                        <option value="01">Januari</option>
+                                        <option value="02">Februari</option>
+                                        <option value="03">Maret</option>
+                                        <option value="04">April</option>
+                                        <option value="05">Mei</option>
+                                        <option value="06">Juni</option>
+                                        <option value="07">Juli</option>
+                                        <option value="08">Agustus</option>
+                                        <option value="09">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
                                     </select>
                                 </div>
                             </div>
@@ -61,8 +67,8 @@
                                     {{-- <input class="form-control" type="text" name="status" placeholder="Status" value="{{ Request::get('status') }}"> --}}
                                     <select class="form-control" name="status" id="">
                                         <option value="{{request()->get('status') ?? ''}}" selected>{{request()->get('status') ?? 'Status Pembayaran'}}</option>
-                                        <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
-                                        <option value="Pembayaran Selesai">Pembayaran Selesai</option>
+                                        <option value="Belum Bayar">Belum Bayar</option>
+                                        <option value="Sudah Bayar">Sudah Bayar</option>
                                     </select>
                                 </div>
                             </div>
@@ -107,22 +113,19 @@
                                             {{ $register->makam->nama_tpu }}
                                         @endforeach
                                     </td>
-                                    <td>{{ $item->nominal }}</td>
-                                    <td>{{ $item->masa }}</td>
+                                    <td>Rp{{ number_format($item->nominal,'2',',','.') }}</td>
+                                    <td>{{\Carbon\Carbon::parse($item->tahun)->format('F')}}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
-                                                    class="mdi mdi-chevron-down"></i></button>
-                                            <div class="dropdown-menu">
-                                                <a href="#" id="detail" class="dropdown-item"
-                                                    href="javascript:void(0)"
-                                                    onclick="detail({{ $item->id }})">Detail</a>
-                                                <a href="#" class="dropdown-item" href="javascript:void(0)"
-                                                    onclick="tambah({{ $item->id }})">Buat Tagihan</a>
-                                            </div>
-                                        </div>
+                                        @if ($item->status == "Sudah Bayar")
+                                        <button onclick="tambah({{ $item->id }})" type="button" class="btn btn-danger waves-effect waves-light" disabled="" data-bs-toggle="button" autocomplete="off">
+                                            <i class="bx bx-money  font-size-16 align-middle me-2"></i> Sudah Bayar
+                                        </button>
+                                        @else
+                                        <button onclick="tambah({{ $item->id }})" type="button" class="btn btn-primary waves-effect waves-light">
+                                            <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
+                                        </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -132,13 +135,79 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
+    <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('pembayaran.store') }}" method="POST">
+                    @csrf
+                    <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
+                    <input type="hidden" name="no_inv" id="no_inv">
+                    <input type="hidden" name="registrasi_id" id="registrasi_id">
+                    <input type="hidden" name="herrID" id="herrID">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nominal">Uraian</label>
+                                <input type="text" class="form-control" name="uraian" id="uraian"
+                                    placeholder="Uraian">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nominal">Nominal</label>
+                                <input type="text" class="form-control" name="nominal" id="nominal"
+                                    placeholder="Nominal">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label for="nominal">Tanggal</label>
+                                <input type="date" class="form-control" name="tanggal" id="tanggal"
+                                    placeholder="Tanggal">
+                            </div>
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                            Simpan
+                        </button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-
+    <script>
+        function tambah(id) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('herregistrasi.get') }}",
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                success: function(res) {
+                    $.each(res, function(k, v) {
+                        $('#modal-tambah').modal('show');
+                        $('#jumlah').text(v.nominal);
+                        $('#inv').text(v.no_inv);
+                        $('#no_inv').val(v.no_inv);
+                        $('#registrasi_id').val(v.registrasi_id);
+                        $('#herrID').val(v.id);
+                    });
+                }
+            });
+        }
+    </script>
     <script>
         @if ($errors->any())
             Swal.fire({

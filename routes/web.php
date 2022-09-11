@@ -41,6 +41,10 @@ Route::post('/registrasi/retribusi/hapus', [App\Http\Controllers\RegistrasiContr
 Route::get('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'index'])->name('herregistrasi');
 Route::get('herregistrasi/tagihan/', [App\Http\Controllers\HerregistrasiController::class, 'tagihan'])->name('herregistrasi.tagihan');
 Route::post('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'store'])->name('herregistrasi.store');
+Route::get('herregistrasi/tagihan/data', [App\Http\Controllers\HerregistrasiController::class, 'getHerr'])->name('herregistrasi.get');
+
+
+Route::post('pembayaran', [App\Http\Controllers\PembayaranController::class, 'store'])->name('pembayaran.store');
 
 
 

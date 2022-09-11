@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Herregistrasi extends Model
+class Pembayaran extends Model
 {
     use HasFactory;
-    protected $table = 'tbl_herregistrasi';
+    protected $table = 'tbl_pembayaran';
     protected $guarded = [];
     
     /**
@@ -20,13 +20,14 @@ class Herregistrasi extends Model
     {
         return $this->hasMany(Registrasi::class, 'id', 'registrasi_id');
     }
+    
     /**
-     * Get the user associated with the Herregistrasi
+     * Get the user associated with the Pembayaran
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function pembayaran()
+    public function herregistrasi()
     {
-        return $this->hasOne(Pembayaran::class, 'herr_id', 'id');
+        return $this->hasOne(Herregistrasi::class, 'id', 'herr_id');
     }
 }

@@ -138,8 +138,8 @@ Detail Makam
                               @foreach ($data->registrasi->herregistrasi as $item)
                                 <tr>
                                     <td>{{$i++}}</td>
-                                    <td>{{$item->tahun}}</td>
-                                    <td>{{$item->masa}}</td>
+                                    <td>{{\Carbon\Carbon::parse($item->tahun)->format('Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($item->tahun)->format('F')}}</td>
                                     <td>{{$item->status}}</td>
                                 </tr>
                               @endforeach

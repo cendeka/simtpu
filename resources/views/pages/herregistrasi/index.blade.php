@@ -94,26 +94,33 @@
                 <div class="modal-body">
                     <form action="{{ route('herregistrasi.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="registrasi_id" id="registrasi_id">
+                        <input type="hidden" name="herrID" id="herrID">
                         <div class="row">
-                            <div class="col">
-                                <input type="hidden" name="registrasi_id" id="registrasi_id">
-                                <input type="hidden" name="herrID" id="herrID">
-                                <label for="nominal">Nominal</label>
-                                <input type="text" class="form-control" name="nominal" id="nominal"
-                                    placeholder="Nominal">
-                                <label for="masa">Masa</label>
-                                <input type="text" class="form-control" name="masa" id="masa" placeholder="Masa">
-                                <label for="tahun">Tahun</label>
-                                <input type="date" class="form-control" name="tahun" id="tahun"
-                                    placeholder="Tahun">
-                                <label for="keterangan">Keterangan</label>
-                                <input type="text" class="form-control" name="keterangan" id="keterangan"
-                                    placeholder="Keterangan">
-                                <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                                    Simpan
-                                </button>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="nominal">Uraian</label>
+                                    <input type="text" class="form-control" name="uraian" id="uraian"
+                                        placeholder="Uraian">
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="nominal">Nominal</label>
+                                    <input type="text" class="form-control" name="nominal" id="nominal"
+                                        placeholder="Nominal">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label for="nominal">Tanggal</label>
+                                    <input type="date" class="form-control" name="tahun" id="tahun"
+                                        placeholder="Tanggal">
+                                </div>
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                                Simpan
+                            </button>
                     </form>
                 </div>
             </div><!-- /.modal-content -->

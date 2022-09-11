@@ -11,7 +11,14 @@
             Herregistrasi
         <?php $__env->endSlot(); ?>
         <?php $__env->slot('title'); ?>
-            Tagihan
+            Tagihan 
+            <?php if(request()->all() != null): ?>
+                <?php echo e(request()->get('tahun')); ?>
+
+            <?php else: ?>
+                <?php echo e(\Carbon\Carbon::now()->year); ?>
+
+            <?php endif; ?>
         <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
     <div class="row">
@@ -37,19 +44,20 @@
                                 <div class="mb-3">
                                     <label for="verticalnav-lastname-input">Bulan</label>
                                     
-                                    <select class="form-control" name="masa" id="">
-                                        <option value="<?php echo e(request()->get('masa') ?? ''); ?>" selected><?php echo e(request()->get('masa') ?? 'Bulan'); ?></option>
-                                        <option value="Januari">Januari</option>
-                                        <option value="Februari">Februari</option>
-                                        <option value="Maret">Maret</option>
-                                        <option value="April">April</option>
-                                        <option value="Mei">Mei</option>
-                                        <option value="Juni">Juni</option>
-                                        <option value="Agustus">Agustus</option>
-                                        <option value="September">September</option>
-                                        <option value="Oktober">Oktober</option>
-                                        <option value="November">November</option>
-                                        <option value="Desember">Desember</option>
+                                    <select class="form-control" name="bulan" id="">
+                                        <option value="<?php echo e(request()->get('bulan') ?? ''); ?>" selected><?php echo e(request()->get('bulan') ?? 'Bulan'); ?></option>
+                                        <option value="01">Januari</option>
+                                        <option value="02">Februari</option>
+                                        <option value="03">Maret</option>
+                                        <option value="04">April</option>
+                                        <option value="05">Mei</option>
+                                        <option value="06">Juni</option>
+                                        <option value="07">Juli</option>
+                                        <option value="08">Agustus</option>
+                                        <option value="09">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
                                     </select>
                                 </div>
                             </div>
@@ -59,8 +67,8 @@
                                     
                                     <select class="form-control" name="status" id="">
                                         <option value="<?php echo e(request()->get('status') ?? ''); ?>" selected><?php echo e(request()->get('status') ?? 'Status Pembayaran'); ?></option>
-                                        <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
-                                        <option value="Pembayaran Selesai">Pembayaran Selesai</option>
+                                        <option value="Belum Bayar">Belum Bayar</option>
+                                        <option value="Sudah Bayar">Sudah Bayar</option>
                                     </select>
                                 </div>
                             </div>
@@ -107,22 +115,19 @@
 
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </td>
-                                    <td><?php echo e($item->nominal); ?></td>
-                                    <td><?php echo e($item->masa); ?></td>
+                                    <td>Rp<?php echo e(number_format($item->nominal,'2',',','.')); ?></td>
+                                    <td><?php echo e(\Carbon\Carbon::parse($item->tahun)->format('F')); ?></td>
                                     <td><?php echo e($item->status); ?></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
-                                                    class="mdi mdi-chevron-down"></i></button>
-                                            <div class="dropdown-menu">
-                                                <a href="#" id="detail" class="dropdown-item"
-                                                    href="javascript:void(0)"
-                                                    onclick="detail(<?php echo e($item->id); ?>)">Detail</a>
-                                                <a href="#" class="dropdown-item" href="javascript:void(0)"
-                                                    onclick="tambah(<?php echo e($item->id); ?>)">Buat Tagihan</a>
-                                            </div>
-                                        </div>
+                                        <?php if($item->status == "Sudah Bayar"): ?>
+                                        <button onclick="tambah(<?php echo e($item->id); ?>)" type="button" class="btn btn-danger waves-effect waves-light" disabled="" data-bs-toggle="button" autocomplete="off">
+                                            <i class="bx bx-money  font-size-16 align-middle me-2"></i> Sudah Bayar
+                                        </button>
+                                        <?php else: ?>
+                                        <button onclick="tambah(<?php echo e($item->id); ?>)" type="button" class="btn btn-primary waves-effect waves-light">
+                                            <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
+                                        </button>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -132,13 +137,79 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
+    <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="<?php echo e(route('pembayaran.store')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
+                    <input type="hidden" name="no_inv" id="no_inv">
+                    <input type="hidden" name="registrasi_id" id="registrasi_id">
+                    <input type="hidden" name="herrID" id="herrID">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nominal">Uraian</label>
+                                <input type="text" class="form-control" name="uraian" id="uraian"
+                                    placeholder="Uraian">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="nominal">Nominal</label>
+                                <input type="text" class="form-control" name="nominal" id="nominal"
+                                    placeholder="Nominal">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label for="nominal">Tanggal</label>
+                                <input type="date" class="form-control" name="tanggal" id="tanggal"
+                                    placeholder="Tanggal">
+                            </div>
+                        </div>
+                        <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                            Simpan
+                        </button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
     <script src="<?php echo e(URL::asset('/assets/libs/datatables/datatables.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('/assets/libs/jszip/jszip.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('/assets/libs/pdfmake/pdfmake.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
-
+    <script>
+        function tambah(id) {
+            $.ajax({
+                type: "GET",
+                url: "<?php echo e(route('herregistrasi.get')); ?>",
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                success: function(res) {
+                    $.each(res, function(k, v) {
+                        $('#modal-tambah').modal('show');
+                        $('#jumlah').text(v.nominal);
+                        $('#inv').text(v.no_inv);
+                        $('#no_inv').val(v.no_inv);
+                        $('#registrasi_id').val(v.registrasi_id);
+                        $('#herrID').val(v.id);
+                    });
+                }
+            });
+        }
+    </script>
     <script>
         <?php if($errors->any()): ?>
             Swal.fire({

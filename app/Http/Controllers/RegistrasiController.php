@@ -9,6 +9,7 @@ use App\Models\Retribusi;
 
 use App\Imports\RegisImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Crypt;
 
 use Illuminate\Http\Request;
 
@@ -32,7 +33,7 @@ class RegistrasiController extends Controller
      */
     public function index(Request $request)
     {
-        $tahun = $request->tahun;
+        $tahun = $request;
         if ($tahun != null) {
             # code...
             $data = Registrasi::with('ahliwaris','makam','retribusi')
@@ -81,7 +82,7 @@ class RegistrasiController extends Controller
 
 
         $nominal = 40000;
-        $kodeReg = rand(00000, 99999);
+        $kodeReg = rand(100000, 999999);
 
         $string = ['Rp',',00','.'];
        
@@ -166,6 +167,7 @@ class RegistrasiController extends Controller
                 'tempat_lahir1' => $request->tempat_lahir1,
                 'tanggal_lahir1' => $request->tanggal_lahir1,
                 'jenis_kelamin1' => $request->jenis_kelamin1,
+                // 'nik1' => Crypt::encryptString($request->nik1),
                 'nik1' => $request->nik1,
                 'agama1' => $request->agama1,
                 'pekerjaan1' => $request->pekerjaan1,
@@ -183,6 +185,7 @@ class RegistrasiController extends Controller
                 'tempat_lahir2' => $request->tempat_lahir2,
                 'tanggal_lahir2' => $request->tanggal_lahir2,
                 'jenis_kelamin2' => $request->jenis_kelamin2,
+                // 'nik2' => Crypt::encryptString($request->nik2),
                 'nik2' => $request->nik2,
                 'agama2' => $request->agama2,
                 'pekerjaan2' => $request->pekerjaan2,

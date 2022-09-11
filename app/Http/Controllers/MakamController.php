@@ -52,7 +52,10 @@ class MakamController extends Controller
     }
     public function publik(Request $request)
     {
-        $data = Makam::where('registrasi_id', $request->registrasi_id)->with('registrasi','registrasi.ahliwaris')->first();
+        $kode_registrasi = $request->kode_registrasi;
+        $data = Makam::whereHas('registrasi', function ($q) use ($kode_registrasi) {
+            $q->where('kode_registrasi', $kode_registrasi);
+        })->first();
         return view('pages.makam.publik',compact('data'));
     }
 

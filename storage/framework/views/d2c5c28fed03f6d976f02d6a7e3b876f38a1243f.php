@@ -135,8 +135,8 @@ Detail Makam
                               <?php $__currentLoopData = $data->registrasi->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td><?php echo e($i++); ?></td>
-                                    <td><?php echo e($item->tahun); ?></td>
-                                    <td><?php echo e($item->masa); ?></td>
+                                    <td><?php echo e(\Carbon\Carbon::parse($item->tahun)->format('Y')); ?></td>
+                                    <td><?php echo e(\Carbon\Carbon::parse($item->tahun)->format('F')); ?></td>
                                     <td><?php echo e($item->status); ?></td>
                                 </tr>
                               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
