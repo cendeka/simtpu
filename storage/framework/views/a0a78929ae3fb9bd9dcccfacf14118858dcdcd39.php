@@ -46,13 +46,22 @@
                         <li><a href="<?php echo e(route('skrd.herregistrasi')); ?>">SKRD Herregistrasi</a></li>
                     </ul>
                 </li>
-                 <li>
+                <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class=" bx bx-user-pin "></i>
                         <span key="t-starter-page">Makam</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo e(route('makam')); ?>">Data Makam</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class=" bx bx-line-chart"></i>
+                        <span key="t-starter-page">Laporan</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?php echo e(route('statistik')); ?>">Data Statistik</a></li>
                     </ul>
                 </li>
 

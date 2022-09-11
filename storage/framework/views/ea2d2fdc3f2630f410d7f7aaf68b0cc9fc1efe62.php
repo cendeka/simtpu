@@ -1,19 +1,17 @@
-@extends('layouts.master')
-
-@section('title')
+<?php $__env->startSection('title'); ?>
     SKRD Herregistrasi Pemakaman
-@endsection
-@section('css')
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             SKRD
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             SKRD Herregistrasi Pemakaman
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     <div class="container" style="height: 200px;">
         <div class="row">
           <div class="col align-self-start">
@@ -23,12 +21,13 @@
             
           </div>
           <div class="col">
-            {{ $data->tahun }} <br> 
-            {{ date('Y', strtotime($data->tahun)) }} <br>
-            @foreach ($data->registrasi as $item)
-                {{$item->ahliwaris->nama}} <br>
-                {{$item->ahliwaris->alamat1}}
-            @endforeach
+            <?php echo e($data->tahun); ?> <br> 
+            <?php echo e(date('Y', strtotime($data->tahun))); ?> <br>
+            <?php $__currentLoopData = $data->registrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php echo e($item->ahliwaris->nama); ?> <br>
+                <?php echo e($item->ahliwaris->alamat1); ?>
+
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
         </div>
     </div>
@@ -38,10 +37,11 @@
            <p>00000</p>
           </div>
           <div class="col align-self-center">
-            {{$data->uraian}}
+            <?php echo e($data->uraian); ?>
+
           </div>
           <div class="col">
-            <p>Rp{{ number_format($data->nominal, '2', ',', '.') }}</p>
+            <p>Rp<?php echo e(number_format($data->nominal, '2', ',', '.')); ?></p>
           </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
             
           </div>
           <div class="col">
-            <p>Rp{{ number_format($data->nominal, '2', ',', '.') }}</p>
+            <p>Rp<?php echo e(number_format($data->nominal, '2', ',', '.')); ?></p>
           </div>
         </div>
     </div>
@@ -84,10 +84,10 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <script>
-        var a = {{$data->nominal}};
+        var a = <?php echo e($data->nominal); ?>;
         function terbilang(a) {
             var bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh',
                 'Sebelas'
@@ -205,4 +205,6 @@
                         $('#terbilang').html(terbilang(a));
                     });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/print/herregistrasi.blade.php ENDPATH**/ ?>

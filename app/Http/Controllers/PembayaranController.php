@@ -48,6 +48,7 @@ class PembayaranController extends Controller
                 'nominal' => $request->nominal,
                 'tanggal' => $request->tanggal,
                 'keterangan' => $request->keterangan,
+                'herr_id' => $request->herrID
             ]
         );
         $herrID = $request->herrID;

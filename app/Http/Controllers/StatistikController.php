@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Registrasi;
+use App\Models\Retribusi;
+use App\Models\Makam;
+use App\Models\Herregistrasi;
+
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use DB;
 
 class StatistikController extends Controller
 {
@@ -13,10 +21,17 @@ class StatistikController extends Controller
      */
     public function index()
     {
-        //
-        return view('pages.statistik.index', [
+        $tpu = [
+            "Sirnalaya I",
+            "Sirnalaya II"
+        ];
+        foreach ($tpu as $key => $value) {
+            $makam = Makam::where('nama_tpu', $value)->count();
 
-        ]);
+        }
+        return view('pages.statistik.index', compact(
+            'makam'
+        ));
     }
 
     /**

@@ -38,18 +38,19 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $item->nama_meninggal }}</td>
-                                    <td>{{ date('Y', strtotime($item->makam->tanggal_dimakamkan)) }}</td>
+                                    <td>@foreach ($item->registrasi as $nama)
+                                        {{ $nama->nama_meninggal }}
+                                    @endforeach</td>
+                                    <td> 
+                                        {{$item->registrasi_id}}
+                                    </td>
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                 data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
-                                                <a href="#" id="detail" class="dropdown-item" href="javascript:void(0)"
-                                                onclick="detail({{ $item->id }})">Detail</a>
-                                                <a href="#" class="dropdown-item" href="javascript:void(0)"
-                                                    onclick="tambah({{ $item->id }})">Buat Tagihan</a>
+                                                <a class="dropdown-item" href="/skrd/herregistrasi/print?registrasi_id={{$item->registrasi_id}}">Print SKRD</a>
                                             </div>
                                         </div>
                                     </td>

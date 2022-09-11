@@ -18,7 +18,7 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 Route::get('chart', [App\Http\Controllers\HomeController::class, 'chart'])->name('chart');
-Route::get('statistik', [App\Http\Controllers\HomeController::class, 'statistik'])->name('statistik');
+Route::get('statistik', [App\Http\Controllers\StatistikController::class, 'index'])->name('statistik');
 
 
 //Update User Details
@@ -55,7 +55,8 @@ Route::get('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'h
 Route::post('skrd/herregistrasi', [App\Http\Controllers\SkrdController::class, 'herregistrasi'])->name('skrd.herregistrasi');
 Route::get('skrd/herregistrasi/history', [App\Http\Controllers\SkrdController::class, 'history'])->name('skrd.herregistrasi.history');
 
-Route::get('skrd/print', [App\Http\Controllers\SkrdController::class, 'skrd'])->name('skrd.print');
+Route::get('skrd/retribusi/print', [App\Http\Controllers\SkrdController::class, 'skrdRetri'])->name('retri.print');
+Route::get('skrd/herregistrasi/print', [App\Http\Controllers\SkrdController::class, 'skrdHerr'])->name('herr.print');
 
 Route::get('makam', [App\Http\Controllers\MakamController::class, 'index'])->name('makam');
 Route::post('makam/upload', [App\Http\Controllers\MakamController::class, 'fotoUpload'])->name('makam.upload');

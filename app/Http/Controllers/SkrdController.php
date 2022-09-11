@@ -24,14 +24,14 @@ class SkrdController extends Controller
 
     public function herregistrasi(Request $request)
     {
-        $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
-        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+        $data = Herregistrasi::with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
+        // $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
 
-        if ($request->ajax()) {
-            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
-            return response()->json($data);
-        }
-        return view('pages.skrd.herregistrasi',compact('data','herr'));
+        // if ($request->ajax()) {
+        //     $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
+        //     return response()->json($data);
+        // }
+        return view('pages.skrd.herregistrasi',compact('data'));
     }
 
     public function history(Request $request)
@@ -40,10 +40,15 @@ class SkrdController extends Controller
         return response()->json($data);
     }
 
-    public function skrd(Request $request)
+    public function skrdRetri(Request $request)
     {
         $data = Retribusi::where('registrasi_id',$request->registrasi_id)->with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->first();
         return view('pages.print.retribusi', compact('data'));
+    }
+    public function skrdHerr(Request $request)
+    {
+        $data = Herregistrasi::where('registrasi_id',$request->registrasi_id)->with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->first();
+        return view('pages.print.herregistrasi', compact('data'));
     }
     /**
      * Show the form for creating a new resource.

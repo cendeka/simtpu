@@ -149,7 +149,7 @@
                     <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
                     <input type="hidden" name="no_inv" id="no_inv">
                     <input type="hidden" name="registrasi_id" id="registrasi_id">
-                    <input type="hidden" name="herrID" id="herrID">
+                    <input type="text" name="herrID" id="herrID">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="mb-3">

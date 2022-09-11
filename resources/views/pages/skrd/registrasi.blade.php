@@ -63,7 +63,7 @@
                                         <div class="btn-group">
                                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Opsi <i class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="print?registrasi_id={{$item->registrasi->id}}">Print SKRD</a>
+                                                <a class="dropdown-item" href="retribusi/print?registrasi_id={{$item->registrasi->id}}">Print SKRD</a>
                                             </div>
                                         </div>
                                     </td>
