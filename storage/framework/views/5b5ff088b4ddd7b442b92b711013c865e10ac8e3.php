@@ -41,7 +41,7 @@
                                     <td><?php echo e($i++); ?></td>
                                     <td><?php echo e($item->nama_meninggal); ?></td>
                                     <td><?php echo e($item->makam->nama_tpu); ?></td>
-                                    <td><?php echo e(date('Y', strtotime($item->makam->tanggal_dimakamkan))); ?></td>
+                                    <td><?php echo e(date('m-Y', strtotime($item->makam->tanggal_dimakamkan))); ?></td>
                                     <td>
                                        <?php if($item->herregistrasi->isNotEmpty()): ?>
                                            <?php $__currentLoopData = $item->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $herregistrasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

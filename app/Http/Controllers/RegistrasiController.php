@@ -33,7 +33,7 @@ class RegistrasiController extends Controller
      */
     public function index(Request $request)
     {
-        $tahun = $request;
+        $tahun = $request->tahun;
         if ($tahun != null) {
             # code...
             $data = Registrasi::with('ahliwaris','makam','retribusi')

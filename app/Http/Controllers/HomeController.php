@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Registrasi;
 use App\Models\Retribusi;
 use App\Models\Makam;
+use App\Models\Herregistrasi;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -42,19 +44,34 @@ class HomeController extends Controller
     public function root()
     {
         $now = Carbon::now();
-        $tahun = $now->subYear(1);
+        $tahunIni = $now->format('Y');
+        $tahun = $now->subYear(1)->format('Y');
         $subTahun3 = Makam::season(Carbon::now()->subYear(3))->count();
         $subTahun2 = Makam::season(Carbon::now()->subYear(2))->count();
         $subTahun1 = Makam::season(Carbon::now()->subYear(1))->count();
         $registrasi = Registrasi::with('ahliwaris','makam','retribusi')->get();
         $retribusi = Retribusi::sum('nominal');
+        $retribusiTahun = Retribusi::with('registrasi.makam')
+        ->whereHas('registrasi.makam', function($q) use($tahunIni) {
+            // Query the name field in status table
+            $q->whereYear('tanggal_meninggal', '=', $tahunIni); // '=' is optional
+        })->sum('nominal');
+        // $retribusiTahun = 37840000*2;
         $retribusiSubTahun = Retribusi::with('registrasi.makam')
         ->whereHas('registrasi.makam', function($q) use($tahun) {
             // Query the name field in status table
             $q->whereYear('tanggal_meninggal', '=', $tahun); // '=' is optional
-        })
-        ->sum('nominal');
-        $perbandingan = $retribusi-$retribusiSubTahun;
+        })->sum('nominal');
+        
+        $herregistrasiTahun = Herregistrasi::whereYear('tahun', $tahunIni)->sum('nominal');
+        $herregistrasiSubTahun = Herregistrasi::whereYear('tahun', $tahun)->sum('nominal');
+        $perbandinganHerr = $herregistrasiTahun-$herregistrasiSubTahun;
+        $persentaseHerr = divnum($perbandinganHerr, $herregistrasiSubTahun);
+
+
+
+        $herregistrasi = Herregistrasi::where('status', "Sudah Bayar")->sum('nominal');
+        $perbandingan = $retribusiTahun-$retribusiSubTahun;
         $persentase  = divnum($perbandingan, $retribusiSubTahun);
         $makam = Makam::get();
         $collection = Makam::distinct()->get(['nama_tpu']);
@@ -63,12 +80,14 @@ class HomeController extends Controller
           
         return view('index', compact(
             'registrasi',
-            'retribusi', 
+            'retribusi',
+            'herregistrasi', 
             'makam', 
             'subTahun1',
             'subTahun2',
             'subTahun3',
             'persentase',
+            'persentaseHerr',
             'tpu'
         ));
     }

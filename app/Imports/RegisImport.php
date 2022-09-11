@@ -10,6 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Models\Registrasi;
 use App\Models\AhliWaris;
 use App\Models\Makam;
+use App\Models\Retribusi;
+use App\Models\Herregistrasi;
+
 
 
 
@@ -36,7 +39,7 @@ class RegisImport implements ToCollection,WithHeadingRow
             ]);  
             $registrasi = Registrasi::create(
                 [
-                    'kode_registrasi' => rand(0000,9999),
+                    'kode_registrasi' => rand(100000, 999999),
                     'ahliwaris_id' => $ahliwaris->id,
                     'hubungan' => $row['hubungan'],
                     'nama_meninggal' => $row['nama_meninggal'],
@@ -46,7 +49,7 @@ class RegisImport implements ToCollection,WithHeadingRow
                     'nik2' => $row['nik2'],
                     'agama2' => $row['agama2'],
                     'pekerjaan2' => $row['pekerjaan2'],
-                    'alamat2' => $row['nama_jalan']." ".$row['rt']." ".$row['rw']." ".$row['desa']
+                    'alamat2' => $row['alamat2']
             ]);  
             $makam = Makam::create(
                 [
@@ -60,6 +63,21 @@ class RegisImport implements ToCollection,WithHeadingRow
                     'blok_tpu' =>$row['blok_tpu'],
                     'nomor_tpu' => $row['nomor_tpu'],
                     'nama_ditumpang' => $row['nama_ditumpang'],
+                ]
+            ); 
+            $retri = Retribusi::create(
+                [
+                    'registrasi_id' => $registrasi->id,
+                    'korek' =>$row['korek'],
+                    'uraian' => $row['uraian'],
+                    'nominal' =>$row['nominal'],
+                ]
+            ); 
+            $retri = Herregistrasi::create(
+                [
+                    'registrasi_id' => $registrasi->id,
+                    'nominal' => 40000,
+                    'status' => "Perlu Verifikasi"
                 ]
             ); 
         }

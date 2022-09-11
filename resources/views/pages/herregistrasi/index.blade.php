@@ -43,7 +43,7 @@
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $item->nama_meninggal }}</td>
                                     <td>{{$item->makam->nama_tpu}}</td>
-                                    <td>{{ date('Y', strtotime($item->makam->tanggal_dimakamkan)) }}</td>
+                                    <td>{{ date('m-Y', strtotime($item->makam->tanggal_dimakamkan)) }}</td>
                                     <td>
                                        @if ($item->herregistrasi->isNotEmpty())
                                            @foreach ($item->herregistrasi as $herregistrasi)
