@@ -24,7 +24,7 @@ class SkrdController extends Controller
 
     public function herregistrasi(Request $request)
     {
-        $data = Herregistrasi::with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
+        $data = Herregistrasi::where('status',"Sudah Bayar")->with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
         // $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
 
         // if ($request->ajax()) {
