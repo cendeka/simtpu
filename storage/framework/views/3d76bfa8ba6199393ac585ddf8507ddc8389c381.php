@@ -41,8 +41,10 @@
 
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></td>
                                     <td> 
-                                        <?php echo e($item->registrasi_id); ?>
+                                        <?php $__currentLoopData = $item->registrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php echo e(date('Y', strtotime($v->makam->tanggal_dimakamkan))); ?>
 
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </td>
                                     <td>
                                         <div class="btn-group">

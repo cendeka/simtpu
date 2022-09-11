@@ -42,7 +42,9 @@
                                         {{ $nama->nama_meninggal }}
                                     @endforeach</td>
                                     <td> 
-                                        {{$item->registrasi_id}}
+                                        @foreach ($item->registrasi as $v)
+                                            {{ date('Y', strtotime($v->makam->tanggal_dimakamkan)) }}
+                                        @endforeach
                                     </td>
                                     <td>
                                         <div class="btn-group">
