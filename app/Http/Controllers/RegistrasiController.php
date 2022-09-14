@@ -6,6 +6,8 @@ use App\Models\Registrasi;
 use App\Models\AhliWaris;
 use App\Models\Makam;
 use App\Models\Retribusi;
+use App\Models\Konfigurasi;
+
 
 use App\Imports\RegisImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -63,7 +65,9 @@ class RegistrasiController extends Controller
     {
         
         $data = json_decode('{"verifikasi": "FALSE"}');
-        return view('pages.registrasi.form', compact('data'));
+        $konfig = Konfigurasi::get();
+
+        return view('pages.registrasi.form', compact('data','konfig'));
     }
 
     /**

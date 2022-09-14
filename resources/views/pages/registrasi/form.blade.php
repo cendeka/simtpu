@@ -261,8 +261,15 @@
                                         <td><button type="button" name="add" id="dynamic-ar"
                                                 class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
-                                    <tr>
-                                        <input value="" type="hidden" name="retribusi[0][id]"
+                                    <tr> 
+                                        @foreach($konfig as $value)
+                                        <select>
+                                        @foreach($value->properties as $p)
+                                            <option value="">{{$p['uraian']}}</option>
+                                        </select>
+                                        @endforeach
+                                    @endforeach
+                                                <input value="" type="hidden" name="retribusi[0][id]"
                                                     placeholder="Kode Rekening" class="form-control" />
                                                 <td><input type="text"
                                                         name="retribusi[0][korek]" placeholder="Kode Rekening"

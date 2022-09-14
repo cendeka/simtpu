@@ -5,7 +5,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('css'); ?>
     <link href="<?php echo e(URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css')); ?>" rel="stylesheet" type="text/css" />
-    
+
     <!-- DataTables -->
     <link href="<?php echo e(URL::asset('/assets/libs/datatables/datatables.min.css')); ?>" rel="stylesheet" type="text/css" />
 <?php $__env->stopSection(); ?>
@@ -22,15 +22,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                    <table id="datatable" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Orang yang Meninggal</th>
-                                <th>Tahun Meninggal</th>
-                                <th>Tahun Herregistrasi</th>
-                                <th>Nominal</th>
-                                <th>Status</th>
+                                <th style="width: 50px !important;">Makam</th>
+                                <th>TPU</th>
+                                <th>Meninggal</th>
+                                <th>Herregistrasi</th>
+                                <th>Herregistrasi Selanjutnya</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -42,26 +42,26 @@
                                 <tr>
                                     <td><?php echo e($i++); ?></td>
                                     <td><?php echo e($item->nama_meninggal); ?></td>
-                                    <td><?php echo e(date('Y', strtotime($item->makam->tanggal_dimakamkan))); ?></td>
+                                    <td><?php echo e($item->makam->nama_tpu); ?></td>
+                                    <td><?php echo e(date('m-Y', strtotime($item->makam->tanggal_dimakamkan))); ?></td>
                                     <td>
-                                        <?php $__currentLoopData = $item->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $herregistrasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                           <ul>
-                                            <li><?php echo e($herregistrasi->tahun); ?></li>
-                                           </ul>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                       <?php if($item->herregistrasi->isNotEmpty()): ?>
+                                           <?php $__currentLoopData = $item->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $herregistrasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($loop->last): ?>
+                                                <?php echo e($herregistrasi->tahun); ?>
+
+                                            <?php endif; ?>
+                                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                       <?php else: ?>
+                                       <span class="badge bg-danger" title="Tagihan belum dibuat"><?php echo e(\Carbon\Carbon::parse($item->makam->tanggal_dimakamkan)->addYears(2)->format('m-Y')); ?></span>
+
+                                       <?php endif; ?>
                                     </td>
                                     <td>
                                         <?php $__currentLoopData = $item->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $herregistrasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                           <ul>
-                                            <li><?php echo e($herregistrasi->nominal); ?></li>
-                                           </ul>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </td>
-                                    <td>
-                                        <?php $__currentLoopData = $item->herregistrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $herregistrasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                           <ul>
-                                            <li><?php echo e($herregistrasi->status); ?></li>
-                                           </ul>
+                                            <?php if($loop->last): ?>
+                                                <span class="badge bg-info" title="Tagihan belum dibuat"><?php echo e(\Carbon\Carbon::parse($herregistrasi->tahun)->addYears(2)->format('m-Y')); ?></span>
+                                            <?php endif; ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </td>
                                     <td>
@@ -70,8 +70,7 @@
                                                 data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
-                                                <a href="#" id="detail" class="dropdown-item" href="javascript:void(0)"
-                                                onclick="detail(<?php echo e($item->id); ?>)">Detail</a>
+                                                <a href="/makam/detail?registrasi_id=<?php echo e($item->id); ?>#pembayaran" id="detail" class="dropdown-item">Detail</a>
                                                 <a href="#" class="dropdown-item" href="javascript:void(0)"
                                                     onclick="tambah(<?php echo e($item->id); ?>)">Buat Tagihan</a>
                                             </div>
@@ -96,43 +95,34 @@
                 <div class="modal-body">
                     <form action="<?php echo e(route('herregistrasi.store')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
+                        <input type="hidden" name="registrasi_id" id="registrasi_id">
+                        <input type="hidden" name="herrID" id="herrID">
                         <div class="row">
-                            <div class="col">
-                                <input type="hidden" name="registrasi_id" id="registrasi_id">
-                                <input type="hidden" name="herrID" id="herrID">
-                                <label for="nominal">Nominal</label>
-                                <input type="text" class="form-control" name="nominal" id="nominal"
-                                    placeholder="Nominal">
-                                <label for="masa">Masa</label>
-                                <input type="text" class="form-control" name="masa" id="masa" placeholder="Masa">
-                                <label for="tahun">Tahun</label>
-                                <input type="text" class="form-control" name="tahun" id="tahun"
-                                    placeholder="Tahun">
-                                <label for="keterangan">Keterangan</label>
-                                <input type="text" class="form-control" name="keterangan" id="keterangan"
-                                    placeholder="Keterangan">
-                                <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                                    Simpan
-                                </button>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="nominal">Uraian</label>
+                                    <input type="text" class="form-control" name="uraian" id="uraian"
+                                        placeholder="Uraian">
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="nominal">Nominal</label>
+                                    <input type="text" class="form-control" name="nominal" id="nominal"
+                                        placeholder="Nominal">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label for="nominal">Tanggal</label>
+                                    <input type="date" class="form-control" name="tahun" id="tahun"
+                                        placeholder="Tanggal">
+                                </div>
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                                Simpan
+                            </button>
                     </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myLargeModalLabel">History Tagihan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="div-history">
-
-                    </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -180,21 +170,21 @@
                         extend: 'excelHtml5',
                         className: 'btn btn-dark',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
                         extend: 'print',
                         className: 'btn btn-dark',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
                         extend: 'pdfHtml5',
                         className: 'btn btn-dark',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                 ]
@@ -218,34 +208,6 @@
                         $('#modal-tambah').modal('show');
                         $('#registrasi_id').val(v.id);
                     });
-                }
-            });
-        }
-        function detail(registrasi_id) {
-            $.ajax({
-                type: "GET",
-                url: "<?php echo e(route('skrd.herregistrasi.history')); ?>",
-                data: {
-                    registrasi_id: registrasi_id
-                },
-                dataType: 'json',
-                success: function(rows) {
-                    $('#modal-detail').modal('show');
-                    var html = '<table class="table table-bordered dt-responsive nowrap w-100">';
-                    html += '<tr>';
-                    for( var j in rows[0] ) {
-                    html += '<th>' + j + '</th>';
-                    }
-                    html += '</tr>';
-                    for( var i = 0; i < rows.length; i++) {
-                    html += '<tr>';
-                    for( var j in rows[i] ) {
-                        html += '<td>' + rows[i][j] + '</td>';
-                    }
-                    html += '</tr>';
-                    }
-                    html += '</table>';
-                    document.getElementById('div-history').innerHTML = html;
                 }
             });
         }
