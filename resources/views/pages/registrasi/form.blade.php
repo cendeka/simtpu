@@ -262,18 +262,25 @@
                                                 class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
                                     <tr> 
-                                        @foreach($konfig as $value)
+                                        {{-- @foreach($konfig as $value)
                                         <select>
                                         @foreach($value->properties as $p)
                                             <option value="">{{$p['uraian']}}</option>
                                         </select>
                                         @endforeach
-                                    @endforeach
+                                        @endforeach --}}
                                                 <input value="" type="hidden" name="retribusi[0][id]"
                                                     placeholder="Kode Rekening" class="form-control" />
-                                                <td><input type="text"
-                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
-                                                        class="form-control" /></td>
+                                                <td>
+                                                    <select class="form-control" name="" id="retribusi">
+                                                        <option value="">1</option>    
+                                                        @foreach($konfig as $value)
+                                                            @foreach ($value->properties as $p)
+                                                                <option value="{{json_encode($p)}}">{{$p['uraian']}}</option>
+                                                            @endforeach
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                                 <td><input type="text"
                                                         name="retribusi[0][uraian]" placeholder="Uraian"
                                                         class="form-control" /></td>
@@ -478,4 +485,15 @@
             })
         }
     </script>
+    <script>
+        $('#retribusi').focusout(function(e) { 
+            var retribusi = $(this).val();
+            for(key in retribusi)
+            {
+            if(retribusi.hasOwnProperty(key))
+                console.log(retribusi[key])
+            }
+        });   
+    </script>
+    
 @endsection

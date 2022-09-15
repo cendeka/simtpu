@@ -61,13 +61,14 @@ class RegistrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         
         $data = json_decode('{"verifikasi": "FALSE"}');
         $konfig = Konfigurasi::get();
+        $uraian = Konfigurasi::where('id', 1)->first();
 
-        return view('pages.registrasi.form', compact('data','konfig'));
+        return view('pages.registrasi.form', compact('data','konfig','uraian'));
     }
 
     /**

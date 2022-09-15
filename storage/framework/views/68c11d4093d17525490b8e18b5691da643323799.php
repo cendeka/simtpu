@@ -266,12 +266,20 @@ unset($__errorArgs, $__bag); ?>
                                         <td><button type="button" name="add" id="dynamic-ar"
                                                 class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
-                                    <tr>
-                                        <input value="" type="hidden" name="retribusi[0][id]"
+                                    <tr> 
+                                        
+                                                <input value="" type="hidden" name="retribusi[0][id]"
                                                     placeholder="Kode Rekening" class="form-control" />
-                                                <td><input type="text"
-                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
-                                                        class="form-control" /></td>
+                                                <td>
+                                                    <select class="form-control" name="" id="retribusi">
+                                                        <option value="">1</option>    
+                                                        <?php $__currentLoopData = $konfig; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php $__currentLoopData = $value->properties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value="<?php echo e(json_encode($p)); ?>"><?php echo e($p['uraian']); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </select>
+                                                </td>
                                                 <td><input type="text"
                                                         name="retribusi[0][uraian]" placeholder="Uraian"
                                                         class="form-control" /></td>
@@ -476,6 +484,17 @@ unset($__errorArgs, $__bag); ?>
             })
         }
     </script>
+    <script>
+        $('#retribusi').focusout(function(e) { 
+            var retribusi = $(this).val();
+            for(key in retribusi)
+            {
+            if(retribusi.hasOwnProperty(key))
+                console.log(retribusi[key])
+        }
+        });   
+    </script>
+    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/registrasi/form.blade.php ENDPATH**/ ?>
