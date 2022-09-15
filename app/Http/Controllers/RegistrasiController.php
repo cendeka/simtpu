@@ -289,10 +289,12 @@ class RegistrasiController extends Controller
     public function edit(Request $request)
     {  
         $data = Registrasi::with('ahliwaris','makam','retribusi')->where('id',$request->id)->first();
+        $konfig = Konfigurasi::get();
+
         if ($request->ajax()) {
             return response()->json($data);
         }
-        return view('pages.registrasi.form', compact('data'));
+        return view('pages.registrasi.form', compact('data','konfig'));
     }
 
     /**

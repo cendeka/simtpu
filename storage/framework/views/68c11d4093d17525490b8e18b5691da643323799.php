@@ -28,7 +28,8 @@
                             <?php
                                 echo $data->verifikasi;
                             ?>
-                            <h3>Ahli Waris<i class="<?php echo e($data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger'); ?> bx bx-badge-check "></i>
+                            <h3>Ahli Waris<i
+                                    class="<?php echo e($data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger'); ?> bx bx-badge-check "></i>
                             </h3>
                             <div class="row">
                                 <div class="col-lg-6">
@@ -259,32 +260,31 @@ unset($__errorArgs, $__bag); ?>
 
                             <!-- retribusi -->
                             <h3>Retribusi</h3>
-
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select class="form-control" name="" id="retribusi">
+                                        <option value="">1</option>
+                                        <?php $__currentLoopData = $konfig; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $__currentLoopData = $value->properties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e(json_encode($p)); ?>"><?php echo e($value->konfig); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="retribusi">
                                 <table class="table table-bordered" id="dynamicAddRemove">
                                     <tr>
+                                        <input value="" type="hidden" name="retribusi[0][id]"
+                                            placeholder="Kode Rekening" class="form-control" />
+                                        <td><input disabled id="korek0" type="text" name="retribusi[0][korek]"
+                                                placeholder="Kode Rekening" class="form-control" /></td>
+                                        <td><input  disabled type="text" name="retribusi[0][uraian]" id="uraian0"
+                                                placeholder="Uraian" class="form-control" /></td>
+                                        <td><input disabled name="retribusi[0][nominal]" id="nominal0"
+                                                class="form-control input-mask text-start" placeholder="Nominal"></td>
                                         <td><button type="button" name="add" id="dynamic-ar"
-                                                class="btn btn-outline-primary">Tambah</button></td>
-                                    </tr>
-                                    <tr> 
-                                        
-                                                <input value="" type="hidden" name="retribusi[0][id]"
-                                                    placeholder="Kode Rekening" class="form-control" />
-                                                <td>
-                                                    <select class="form-control" name="" id="retribusi">
-                                                        <option value="">1</option>    
-                                                        <?php $__currentLoopData = $konfig; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <?php $__currentLoopData = $value->properties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                <option value="<?php echo e(json_encode($p)); ?>"><?php echo e($p['uraian']); ?></option>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </select>
-                                                </td>
-                                                <td><input type="text"
-                                                        name="retribusi[0][uraian]" placeholder="Uraian"
-                                                        class="form-control" /></td>
-                                                <td><input name="retribusi[0][nominal]"
-                                                        class="form-control input-mask text-start" placeholder="Nominal"></td>
+                                                    class="btn btn-outline-primary">Tambah</button></td>
                                     </tr>
                                     <?php if(isset($data->retribusi)): ?>
                                         <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -312,7 +312,8 @@ unset($__errorArgs, $__bag); ?>
                         <div class="row">
                             <div class="col">
                                 <button type="submit" class="btn btn-primary" id="btn-save">Simpan</button>
-                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target=".modal-verif">Verifikasi</a>
+                                <a class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target=".modal-verif">Verifikasi</a>
                             </div>
                         </div>
                     </form>
@@ -320,7 +321,8 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
-    <div class="modal fade modal-verif" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade modal-verif" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -330,20 +332,21 @@ unset($__errorArgs, $__bag); ?>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                    <form action="<?php echo e(route('registrasi.verif')); ?>" method="POST">
-                        <?php echo csrf_field(); ?>
-                        <input type="hidden" name="regID" id="verifID">
-                            <label for="">Diverifikasi Oleh:</label>
-                            <input class="form-control" type="text" name="verif_oleh" id="">
-                            <input class="form-check-input" type="checkbox" id="verifikasi"  name="verifikasi" value="TRUE" checked="">
-                            <label class="form-check-label" for="verifikasi">
-                             Data Telah Sesuai
-                            </label>
+                            <form action="<?php echo e(route('registrasi.verif')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
+                                <input type="hidden" name="regID" id="verifID">
+                                <label for="">Diverifikasi Oleh:</label>
+                                <input class="form-control" type="text" name="verif_oleh" id="">
+                                <input class="form-check-input" type="checkbox" id="verifikasi" name="verifikasi"
+                                    value="TRUE" checked="">
+                                <label class="form-check-label" for="verifikasi">
+                                    Data Telah Sesuai
+                                </label>
                         </div>
                         <div class="col">
                             <button type="submit" class="btn btn-success">Kirim</button>
                         </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -370,21 +373,36 @@ unset($__errorArgs, $__bag); ?>
             });
         });
         var i = 0;
+        var retribusi;
+        var ret;
+
+        $('#retribusi').on('change', function() {
+            var retribusi = $(this).val();
+            var ret = jQuery.parseJSON(retribusi);
+            $("#korek" + i).val(ret.kode_rekening);
+            $("#uraian" + i).val(ret.uraian);
+            $("#nominal" + i).val(ret.nominal);
+            console.log(ret.nominal);
+        });
         $("#dynamic-ar").click(function() {
-            ++i;
-            $("#dynamicAddRemove").append('<tr><td><input type="text" name="retribusi[' + i +
-                '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input type="text" name="retribusi[' +
-                i +
-                '][uraian]" placeholder="Uraian" class="form-control" /></td><td><input name="retribusi[' +
-                i +
-                '][nominal]" placeholder="Nominal" class="form-control input-mask text-start" /></td><input type="hidden" name="retribusi[' +
-                i +
-                '][id]" placeholder="Uraian" class="form-control" /><td><button type="button" class="btn btn-outline-danger remove-input-field">Hapus</button></td></tr>'
-            );
+                ++i;
+                $("#dynamicAddRemove").append('<tr><td><input disabled type="text" id="korek'+i+'" name="retribusi[' + i +
+                    '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input disabled type="text" name="retribusi[' +
+                    i +
+                    '][uraian]" placeholder="Uraian" id="uraian'+i+'" class="form-control" id="uraian"' + i +
+                    ' /></td><td><input disabled name="retribusi[' +
+                    i +
+                    '][nominal]" placeholder="Nominal"  class="form-control input-mask text-start" id="nominal' + i +
+                    '" /></td><input type="hidden" name="retribusi[' +
+                    i +
+                    '][id]" placeholder="Nominal" class="form-control" /><td><button type="button" class="btn btn-outline-danger remove-input-field">Hapus</button></td></tr>'
+                );
         });
         $(document).on('click', '.remove-input-field', function() {
-            $(this).parents('tr').remove();
+                $(this).parents('tr').remove();
         });
+
+       
     </script>
     <script>
         <?php if($errors->any()): ?>
@@ -485,16 +503,13 @@ unset($__errorArgs, $__bag); ?>
         }
     </script>
     <script>
-        $('#retribusi').focusout(function(e) { 
-            var retribusi = $(this).val();
-            for(key in retribusi)
-            {
-            if(retribusi.hasOwnProperty(key))
-                console.log(retribusi[key])
-        }
-        });   
+        $('form').submit(function(e) {
+    $(':disabled').each(function(e) {
+        $(this).removeAttr('disabled');
+    })
+});
+
     </script>
-    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/registrasi/form.blade.php ENDPATH**/ ?>

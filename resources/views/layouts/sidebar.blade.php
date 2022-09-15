@@ -66,7 +66,15 @@
                 </li>
 
                 <li class="menu-title" key="t-menu">@lang('translation.Pages')</li>
-
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class=" bx bx-cog "></i>
+                        <span key="t-starter-page">Konfigurasi</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('konfig.tambah')}}">Retribusi</a></li>
+                    </ul>
+                </li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <span class="badge rounded-pill bg-success float-end"
