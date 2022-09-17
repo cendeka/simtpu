@@ -75,7 +75,15 @@
                         <li><a href="{{route('konfig.tambah')}}">Retribusi</a></li>
                     </ul>
                 </li>
+                @role('admin')
                 <li>
+                    <a href="/admin" class="waves-effect">
+                        <i class="bx bx-user-circle"></i>
+                        <span key="t-starter-page">Panel Admin</span>
+                    </a>
+                </li>
+                @endrole
+                {{-- <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <span class="badge rounded-pill bg-success float-end"
                             key="t-new">@lang('translation.New')</span>
@@ -106,11 +114,11 @@
                         <li><a href="auth-two-step-verification-2"
                                 key="t-two-step-verification-2">@lang('translation.Two_step_verification') 2</a></li>
                     </ul>
-                </li>
+                </li> --}}
 
 
 
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-share-alt"></i>
                         <span key="t-multi-level">@lang('translation.Multi_Level')</span>
@@ -128,7 +136,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

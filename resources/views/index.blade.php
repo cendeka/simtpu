@@ -84,6 +84,7 @@
         </div>
     </div>
 </div>
+@role('admin')
 <div class="row">
     <h3>Statistik Pemakaman</h3>
     <div class="col-lg-12">
@@ -103,6 +104,7 @@
        @endforeach
     </div> --}}
 </div>
+@endrole
 @endsection
 @section('script')
 <script src="https://www.chartjs.org/dist/2.6.0/Chart.bundle.js"></script>

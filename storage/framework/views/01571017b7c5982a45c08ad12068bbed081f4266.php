@@ -79,6 +79,7 @@
         </div>
     </div>
 </div>
+<?php if (app('laratrust')->hasRole('admin')) : ?>
 <div class="row">
     <h3>Statistik Pemakaman</h3>
     <div class="col-lg-12">
@@ -92,6 +93,7 @@
     </div>
     
 </div>
+<?php endif; // app('laratrust')->hasRole ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
 <script src="https://www.chartjs.org/dist/2.6.0/Chart.bundle.js"></script>
