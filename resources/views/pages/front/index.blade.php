@@ -1,7 +1,7 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master-layouts')
 
 @section('title')
-    Herregistrasi Pemakaman
+    SIM-TPU Cianjur
 @endsection
 @section('css')
    

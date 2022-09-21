@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/beranda', [App\Http\Controllers\FrontController::class, 'index'])->name('beranda');
+Route::get('/', [App\Http\Controllers\FrontController::class, 'index'])->name('beranda');
 
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 Route::get('chart', [App\Http\Controllers\HomeController::class, 'chart'])->name('chart');
 Route::get('statistik', [App\Http\Controllers\StatistikController::class, 'index'])->name('statistik');
 

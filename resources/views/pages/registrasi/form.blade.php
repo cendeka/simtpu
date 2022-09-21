@@ -27,9 +27,6 @@
                         <input type="hidden" id="retriID" name="retriID">
                         <div>
                             <!-- data ahli waris -->
-                            @php
-                                echo $data->verifikasi;
-                            @endphp
                             <h3>Ahli Waris<i
                                     class="{{ $data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger' }} bx bx-badge-check "></i>
                             </h3>
@@ -72,6 +69,7 @@
                                     <div class="mb-3">
                                         <label for="verticalnav-email-input">Jenis Kelamin</label>
                                         <select name="jenis_kelamin1" id="jenis_kelamin1" class="form-control">
+                                            <option value="" selected>Pilih Jenis Kelamin</option>
                                             <option value="Laki-Laki">Laki-Laki</option>
                                             <option value="Perempuan">Perempuan</option>
                                         </select>
@@ -151,6 +149,7 @@
                                     <div class="mb-3">
                                         <label for="verticalnav-email-input">Jenis Kelamin</label>
                                         <select name="jenis_kelamin2" id="jenis_kelamin2" class="form-control">
+                                            <option value="" selected>Pilih Jenis Kelamin</option>
                                             <option value="Laki-Laki">Laki-Laki</option>
                                             <option value="Perempuan">Perempuan</option>
                                         </select>
@@ -250,59 +249,73 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="verticalnav-address-input">Keterangan Makam Lainnya</label>
+                                            <textarea id="alamat2" name="alamat2" class="form-control" rows="2" placeholder="Tambah Keterangan"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- retribusi -->
                             <h3>Retribusi</h3>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <select class="form-control" name="" id="retribusi">
-                                        <option value="">1</option>
-                                        @foreach ($konfig as $value)
-                                            @foreach ($value->properties as $p)
-                                                <option value="{{ json_encode($p) }}">{{ $value->konfig }}</option>
+                                    <div class="mb-3">
+                                        <select class="form-control" name="" id="retribusi">
+                                            <option value="">Pilih Retribusi</option>
+                                            @foreach ($konfig as $value)
+                                                @foreach ($value->properties as $p)
+                                                    <option value="{{ json_encode($p) }}">{{ $value->konfig }}</option>
+                                                @endforeach
                                             @endforeach
-                                        @endforeach
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="retribusi">
-                                <table class="table table-bordered" id="dynamicAddRemove">
-                                    <tr>
-                                        <input value="" type="hidden" name="retribusi[0][id]"
-                                            placeholder="Kode Rekening" class="form-control" />
-                                        <td><input disabled id="korek0" type="text" name="retribusi[0][korek]"
-                                                placeholder="Kode Rekening" class="form-control" /></td>
-                                        <td><input  disabled type="text" name="retribusi[0][uraian]" id="uraian0"
-                                                placeholder="Uraian" class="form-control" /></td>
-                                        <td><input disabled name="retribusi[0][nominal]" id="nominal0"
-                                                class="form-control input-mask text-start" placeholder="Nominal"></td>
-                                        <td><button type="button" name="add" id="dynamic-ar"
-                                                    class="btn btn-outline-primary">Tambah</button></td>
-                                    </tr>
-                                    @if (isset($data->retribusi))
-                                        @foreach ($data->retribusi as $item)
-                                            {{-- <input type="text" name="retriID" value="{{$item->id}}"> --}}
-                                            <tr>
-                                                <input value="{{ $item->id }}" type="hidden" name="retribusi[0][id]"
-                                                    placeholder="Kode Rekening" class="form-control" />
-                                                <td><input value="{{ $item->korek }}" type="text"
-                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
-                                                        class="form-control" /></td>
-                                                <td><input value="{{ $item->uraian }}" type="text"
-                                                        name="retribusi[0][uraian]" placeholder="Uraian"
-                                                        class="form-control" /></td>
-                                                <td><input value="{{ $item->nominal }}" name="retribusi[0][nominal]"
-                                                        class="form-control input-mask text-start"></td>
-                                                <td><button type="button" class="btn btn-outline-danger"
-                                                        href="javascript:void(0)"
-                                                        onclick="hapus({{ $item->id }})">Hapus</button></td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </table>
+                           <div class="">
+                            <div class="col">
+                                <label for="">Rincian Retribusi</label>
+                                <div class="retribusi">
+                                    <table class="table table-bordered" id="dynamicAddRemove">
+                                        <tr>
+                                            <input value="" type="hidden" name="retribusi[0][id]"
+                                                placeholder="Kode Rekening" class="form-control" />
+                                            <td><input disabled id="korek0" type="text" name="retribusi[0][korek]"
+                                                    placeholder="Kode Rekening" class="form-control" /></td>
+                                            <td><input  disabled type="text" name="retribusi[0][uraian]" id="uraian0"
+                                                    placeholder="Uraian" class="form-control" /></td>
+                                            <td><input disabled name="retribusi[0][nominal]" id="nominal0"
+                                                    class="form-control input-mask text-start" placeholder="Nominal"></td>
+                                            <td><button type="button" name="add" id="dynamic-ar"
+                                                        class="btn btn-outline-primary">Tambah</button></td>
+                                        </tr>
+                                        @if (isset($data->retribusi))
+                                            @foreach ($data->retribusi as $item)
+                                                {{-- <input type="text" name="retriID" value="{{$item->id}}"> --}}
+                                                <tr>
+                                                    <input value="{{ $item->id }}" type="hidden" name="retribusi[0][id]"
+                                                        placeholder="Kode Rekening" class="form-control" />
+                                                    <td><input value="{{ $item->korek }}" type="text"
+                                                            name="retribusi[0][korek]" placeholder="Kode Rekening"
+                                                            class="form-control" /></td>
+                                                    <td><input value="{{ $item->uraian }}" type="text"
+                                                            name="retribusi[0][uraian]" placeholder="Uraian"
+                                                            class="form-control" /></td>
+                                                    <td><input value="{{ $item->nominal }}" name="retribusi[0][nominal]"
+                                                            class="form-control input-mask text-start"></td>
+                                                    <td><button type="button" class="btn btn-outline-danger"
+                                                            href="javascript:void(0)"
+                                                            onclick="hapus({{ $item->id }})">Hapus</button></td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </table>
+                                </div>
                             </div>
+                           </div>
                         </div>
                         <div class="row">
                             <div class="col">

@@ -25,9 +25,6 @@
                         <input type="hidden" id="retriID" name="retriID">
                         <div>
                             <!-- data ahli waris -->
-                            <?php
-                                echo $data->verifikasi;
-                            ?>
                             <h3>Ahli Waris<i
                                     class="<?php echo e($data->verifikasi == 'TRUE' ? 'text-success' : 'text-danger'); ?> bx bx-badge-check "></i>
                             </h3>
@@ -77,6 +74,7 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="mb-3">
                                         <label for="verticalnav-email-input">Jenis Kelamin</label>
                                         <select name="jenis_kelamin1" id="jenis_kelamin1" class="form-control">
+                                            <option value="" selected>Pilih Jenis Kelamin</option>
                                             <option value="Laki-Laki">Laki-Laki</option>
                                             <option value="Perempuan">Perempuan</option>
                                         </select>
@@ -156,6 +154,7 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="mb-3">
                                         <label for="verticalnav-email-input">Jenis Kelamin</label>
                                         <select name="jenis_kelamin2" id="jenis_kelamin2" class="form-control">
+                                            <option value="" selected>Pilih Jenis Kelamin</option>
                                             <option value="Laki-Laki">Laki-Laki</option>
                                             <option value="Perempuan">Perempuan</option>
                                         </select>
@@ -255,59 +254,73 @@ unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="verticalnav-address-input">Keterangan Makam Lainnya</label>
+                                            <textarea id="alamat2" name="alamat2" class="form-control" rows="2" placeholder="Tambah Keterangan"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- retribusi -->
                             <h3>Retribusi</h3>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <select class="form-control" name="" id="retribusi">
-                                        <option value="">1</option>
-                                        <?php $__currentLoopData = $konfig; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php $__currentLoopData = $value->properties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e(json_encode($p)); ?>"><?php echo e($value->konfig); ?></option>
+                                    <div class="mb-3">
+                                        <select class="form-control" name="" id="retribusi">
+                                            <option value="">Pilih Retribusi</option>
+                                            <?php $__currentLoopData = $konfig; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <?php $__currentLoopData = $value->properties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e(json_encode($p)); ?>"><?php echo e($value->konfig); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="retribusi">
-                                <table class="table table-bordered" id="dynamicAddRemove">
-                                    <tr>
-                                        <input value="" type="hidden" name="retribusi[0][id]"
-                                            placeholder="Kode Rekening" class="form-control" />
-                                        <td><input disabled id="korek0" type="text" name="retribusi[0][korek]"
-                                                placeholder="Kode Rekening" class="form-control" /></td>
-                                        <td><input  disabled type="text" name="retribusi[0][uraian]" id="uraian0"
-                                                placeholder="Uraian" class="form-control" /></td>
-                                        <td><input disabled name="retribusi[0][nominal]" id="nominal0"
-                                                class="form-control input-mask text-start" placeholder="Nominal"></td>
-                                        <td><button type="button" name="add" id="dynamic-ar"
-                                                    class="btn btn-outline-primary">Tambah</button></td>
-                                    </tr>
-                                    <?php if(isset($data->retribusi)): ?>
-                                        <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            
-                                            <tr>
-                                                <input value="<?php echo e($item->id); ?>" type="hidden" name="retribusi[0][id]"
-                                                    placeholder="Kode Rekening" class="form-control" />
-                                                <td><input value="<?php echo e($item->korek); ?>" type="text"
-                                                        name="retribusi[0][korek]" placeholder="Kode Rekening"
-                                                        class="form-control" /></td>
-                                                <td><input value="<?php echo e($item->uraian); ?>" type="text"
-                                                        name="retribusi[0][uraian]" placeholder="Uraian"
-                                                        class="form-control" /></td>
-                                                <td><input value="<?php echo e($item->nominal); ?>" name="retribusi[0][nominal]"
-                                                        class="form-control input-mask text-start"></td>
-                                                <td><button type="button" class="btn btn-outline-danger"
-                                                        href="javascript:void(0)"
-                                                        onclick="hapus(<?php echo e($item->id); ?>)">Hapus</button></td>
-                                            </tr>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php endif; ?>
-                                </table>
+                           <div class="">
+                            <div class="col">
+                                <label for="">Rincian Retribusi</label>
+                                <div class="retribusi">
+                                    <table class="table table-bordered" id="dynamicAddRemove">
+                                        <tr>
+                                            <input value="" type="hidden" name="retribusi[0][id]"
+                                                placeholder="Kode Rekening" class="form-control" />
+                                            <td><input disabled id="korek0" type="text" name="retribusi[0][korek]"
+                                                    placeholder="Kode Rekening" class="form-control" /></td>
+                                            <td><input  disabled type="text" name="retribusi[0][uraian]" id="uraian0"
+                                                    placeholder="Uraian" class="form-control" /></td>
+                                            <td><input disabled name="retribusi[0][nominal]" id="nominal0"
+                                                    class="form-control input-mask text-start" placeholder="Nominal"></td>
+                                            <td><button type="button" name="add" id="dynamic-ar"
+                                                        class="btn btn-outline-primary">Tambah</button></td>
+                                        </tr>
+                                        <?php if(isset($data->retribusi)): ?>
+                                            <?php $__currentLoopData = $data->retribusi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                
+                                                <tr>
+                                                    <input value="<?php echo e($item->id); ?>" type="hidden" name="retribusi[0][id]"
+                                                        placeholder="Kode Rekening" class="form-control" />
+                                                    <td><input value="<?php echo e($item->korek); ?>" type="text"
+                                                            name="retribusi[0][korek]" placeholder="Kode Rekening"
+                                                            class="form-control" /></td>
+                                                    <td><input value="<?php echo e($item->uraian); ?>" type="text"
+                                                            name="retribusi[0][uraian]" placeholder="Uraian"
+                                                            class="form-control" /></td>
+                                                    <td><input value="<?php echo e($item->nominal); ?>" name="retribusi[0][nominal]"
+                                                            class="form-control input-mask text-start"></td>
+                                                    <td><button type="button" class="btn btn-outline-danger"
+                                                            href="javascript:void(0)"
+                                                            onclick="hapus(<?php echo e($item->id); ?>)">Hapus</button></td>
+                                                </tr>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
+                                    </table>
+                                </div>
                             </div>
+                           </div>
                         </div>
                         <div class="row">
                             <div class="col">
