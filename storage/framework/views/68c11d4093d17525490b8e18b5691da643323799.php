@@ -227,7 +227,7 @@ unset($__errorArgs, $__bag); ?>
                                         <div class="mb-3">
                                             <label for="verticalnav-card-verification-input">Nama TPU</label>
                                             <input type="text" class="form-control" id="nama_tpu" name="nama_tpu"
-                                                placeholder="Nama TPU">
+                                                placeholder="Nama TPU" value="<?php echo e(Auth::user()->roles->first()->display_name); ?>" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

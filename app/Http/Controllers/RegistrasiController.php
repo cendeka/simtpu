@@ -12,6 +12,7 @@ use App\Models\Konfigurasi;
 use App\Imports\RegisImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Crypt;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -36,20 +37,31 @@ class RegistrasiController extends Controller
     public function index(Request $request)
     {
         $tahun = $request->tahun;
+        // Auth::user()->roles->first()->display_name; 
+        $tpu = Auth::user()->roles->first()->display_name;
+
         if ($tahun != null) {
-            # code...
+
+            /* case 1. email or password is wrong */
             $data = Registrasi::with('ahliwaris','makam','retribusi')
             ->whereHas('makam', function($q) use($tahun) {
                 // Query the name field in status table
                 $q->whereYear('tanggal_meninggal', '=', $tahun); // '=' is optional
             })
             ->get();
-        } else {
-            # code...
-            $data = Registrasi::with('ahliwaris','makam','retribusi')
-            ->get();
-        }
+        } elseif ($tpu != "Admin") {
         
+            $data = Registrasi::with('ahliwaris','makam','retribusi')
+            ->whereHas('makam', function($q) use($tpu) {
+                // Query the name field in status table
+                $q->where('nama_tpu', '=', $tpu); // '=' is optional
+            })
+            ->get();
+        
+        } else {
+           /* case 2. email is not confirmed */
+           $data = Registrasi::with('ahliwaris','makam','retribusi')->get();
+        }
        
         return view('pages.registrasi.index', [
             'data' => $data

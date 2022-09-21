@@ -18,6 +18,7 @@
 <p>Jumlah Registrasi tahun 2021: {{$subTahun1}}</p>
 <p>Jumlah Registrasi tahun 2020: {{$subTahun2}}</p>
 <p>Jumlah Registrasi tahun 2019: {{$subTahun3}}</p> --}}
+<p>{{Auth::user()->roles->first()->display_name }}</p>
 <div class="row">
     <div class="col-xl-12">
         <div class="row">
