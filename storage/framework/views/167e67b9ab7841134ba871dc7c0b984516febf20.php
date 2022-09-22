@@ -38,18 +38,23 @@
                             <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td><?php echo e($i++); ?></td>
-                                    <td><?php echo e($item->nama_meninggal); ?></td>
-                                    <td><?php echo e(date('Y', strtotime($item->makam->tanggal_dimakamkan))); ?></td>
+                                    <td><?php $__currentLoopData = $item->registrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $nama): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php echo e($nama->nama_meninggal); ?>
+
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></td>
+                                    <td> 
+                                        <?php $__currentLoopData = $item->registrasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php echo e(date('Y', strtotime($v->makam->tanggal_dimakamkan))); ?>
+
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </td>
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                 data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
-                                                <a href="#" id="detail" class="dropdown-item" href="javascript:void(0)"
-                                                onclick="detail(<?php echo e($item->id); ?>)">Detail</a>
-                                                <a href="#" class="dropdown-item" href="javascript:void(0)"
-                                                    onclick="tambah(<?php echo e($item->id); ?>)">Buat Tagihan</a>
+                                                <a class="dropdown-item" href="/skrd/herregistrasi/print?registrasi_id=<?php echo e($item->registrasi_id); ?>">Print SKRD</a>
                                             </div>
                                         </div>
                                     </td>

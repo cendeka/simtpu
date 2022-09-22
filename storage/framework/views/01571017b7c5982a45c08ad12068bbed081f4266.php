@@ -13,6 +13,7 @@
         <?php $__env->slot('title'); ?> Dashboard <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
 
+<p><?php echo e(Auth::user()->roles->first()->display_name); ?></p>
 <div class="row">
     <div class="col-xl-12">
         <div class="row">

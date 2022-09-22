@@ -60,7 +60,7 @@
                                     <td><?php echo e($i++); ?></td>
                                     <td><?php echo e($item->nama_meninggal); ?></td>
                                     <td><?php echo e($item->ahliwaris->nama); ?></td>
-                                    <td><?php echo e(date('Y',strtotime($item->makam->tanggal_meninggal))); ?></td>
+                                    <td><?php echo e(date('m-Y',strtotime($item->makam->tanggal_meninggal))); ?></td>
                                     <td><?php echo e($item->makam->nama_tpu); ?></td>
                                     <td>Rp<?php echo e(number_format($item->retribusi->sum('nominal'),'2',',','.')); ?></td>
                                     <td>

@@ -38,7 +38,16 @@ class KonfigurasiController extends Controller
     public function store(Request $request)
     {
         //
-      $konfig = Konfigurasi::create($request->all());
+    //   $konfig = Konfigurasi::create($request->all());
+    $id = $request->id;
+    $konfig = Konfigurasi::updateOrCreate(
+        [
+            'id' => $id,
+        ],
+        
+        $request->all()
+        
+    ); 
       return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 
@@ -71,9 +80,12 @@ class KonfigurasiController extends Controller
      * @param  \App\Models\Konfigurasi  $konfigurasi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Konfigurasi $konfigurasi)
+    public function update($id)
     {
-        //
+        $konfig = Konfigurasi::find($id);
+	    return response()->json([
+	      'data' => $konfig
+	    ]);
     }
 
     /**

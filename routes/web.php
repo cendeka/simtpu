@@ -49,7 +49,10 @@ Route::get('herregistrasi/tagihan/data', [App\Http\Controllers\HerregistrasiCont
 Route::post('pembayaran', [App\Http\Controllers\PembayaranController::class, 'store'])->name('pembayaran.store');
 
 Route::get('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'index'])->name('konfig.tambah');
+Route::get('konfigurasi/{id}/edit', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');
 Route::post('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'store'])->name('konfig.store');
+
+
 
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 
