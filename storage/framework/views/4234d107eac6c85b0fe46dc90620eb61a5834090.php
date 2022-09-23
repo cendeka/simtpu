@@ -11,7 +11,7 @@
             Herregistrasi
         <?php $__env->endSlot(); ?>
         <?php $__env->slot('title'); ?>
-            Tagihan 
+            Tagihan
             <?php if(request()->all() != null): ?>
                 <?php echo e(request()->get('tahun')); ?>
 
@@ -32,7 +32,8 @@
                                     <label for="verticalnav-firstname-input">Tahun</label>
                                     
                                     <select class="form-control" name="tahun" id="tahun">
-                                        <option value="<?php echo e(request()->get('tahun') ?? ''); ?>" selected><?php echo e(request()->get('tahun') ?? 'Tahun'); ?></option>
+                                        <option value="<?php echo e(request()->get('tahun') ?? ''); ?>" selected>
+                                            <?php echo e(request()->get('tahun') ?? 'Tahun'); ?></option>
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>
@@ -45,7 +46,8 @@
                                     <label for="verticalnav-lastname-input">Bulan</label>
                                     
                                     <select class="form-control" name="bulan" id="">
-                                        <option value="<?php echo e(request()->get('bulan') ?? ''); ?>" selected><?php echo e(request()->get('bulan') ?? 'Bulan'); ?></option>
+                                        <option value="<?php echo e(request()->get('bulan') ?? ''); ?>" selected>
+                                            <?php echo e(request()->get('bulan') ?? 'Bulan'); ?></option>
                                         <option value="01">Januari</option>
                                         <option value="02">Februari</option>
                                         <option value="03">Maret</option>
@@ -66,7 +68,8 @@
                                     <label for="verticalnav-lastname-input">Status</label>
                                     
                                     <select class="form-control" name="status" id="">
-                                        <option value="<?php echo e(request()->get('status') ?? ''); ?>" selected><?php echo e(request()->get('status') ?? 'Status Pembayaran'); ?></option>
+                                        <option value="<?php echo e(request()->get('status') ?? ''); ?>" selected>
+                                            <?php echo e(request()->get('status') ?? 'Status Pembayaran'); ?></option>
                                         <option value="Belum Bayar">Belum Bayar</option>
                                         <option value="Sudah Bayar">Sudah Bayar</option>
                                     </select>
@@ -115,19 +118,17 @@
 
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </td>
-                                    <td>Rp<?php echo e(number_format($item->nominal,'2',',','.')); ?></td>
+                                    <td>Rp<?php echo e(number_format($item->nominal, '2', ',', '.')); ?></td>
                                     <td><?php echo e(\Carbon\Carbon::parse($item->tahun)->format('F')); ?></td>
                                     <td><?php echo e($item->status); ?></td>
                                     <td>
-                                        <?php if($item->status == "Sudah Bayar"): ?>
-                                        <button onclick="tambah(<?php echo e($item->id); ?>)" type="button" class="btn btn-danger waves-effect waves-light" disabled="" data-bs-toggle="button" autocomplete="off">
-                                            <i class="bx bx-money  font-size-16 align-middle me-2"></i> Sudah Bayar
-                                        </button>
-                                        <?php else: ?>
-                                        <button onclick="tambah(<?php echo e($item->id); ?>)" type="button" class="btn btn-primary waves-effect waves-light">
+                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#modal-verif<?php echo e($item->id); ?>"><i
+                                                class="fa fa-check"></i>Verifikasi</button>
+                                        <button style="<?php echo e($item->status == "Sudah Bayar" ? 'display: none;' : ''); ?>" onclick="tambah(<?php echo e($item->id); ?>)" type="button"
+                                            class="btn btn-primary waves-effect waves-light">
                                             <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
                                         </button>
-                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -136,52 +137,90 @@
                 </div>
             </div>
         </div> <!-- end col -->
+        <div class="col">
+            <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="<?php echo e(route('pembayaran.store')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
+                                <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
+                                <input type="hidden" name="no_inv" id="no_inv">
+                                <input type="hidden" name="registrasi_id" id="registrasi_id">
+                                <input type="text" name="herrID" id="herrID">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="nominal">Uraian</label>
+                                            <input type="text" class="form-control" name="uraian" id="uraian"
+                                                placeholder="Uraian">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="nominal">Nominal</label>
+                                            <input type="text" class="form-control" name="nominal" id="nominal"
+                                                placeholder="Nominal">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="nominal">Tanggal</label>
+                                            <input type="date" class="form-control" name="tanggal" id="tanggal"
+                                                placeholder="Tanggal">
+                                        </div>
+                                    </div>
+                                    <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                                        Simpan
+                                    </button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+        <div class="col">
+            <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="modal modal-blur fade" id="modal-verif<?php echo e($d->id); ?>" tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Data Registrasi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form action="<?php echo e(route('pembayaran.verif')); ?>" method="POST">
+                                            <?php echo csrf_field(); ?>
+                                         <input type="text" name="pembayaranId" value="<?php echo e($d->pembayaran->id ?? 0); ?>">
+                                         <input class="form-check-input" type="checkbox" id="verifikasi" name="verifikasi"
+                                            value="1" checked="">
+                                        <label class="form-check-label" for="verifikasi">
+                                            Data Telah Sesuai
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-success">Kirim</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
     </div> <!-- end row -->
-    <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="<?php echo e(route('pembayaran.store')); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
-                    <input type="hidden" name="no_inv" id="no_inv">
-                    <input type="hidden" name="registrasi_id" id="registrasi_id">
-                    <input type="text" name="herrID" id="herrID">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="nominal">Uraian</label>
-                                <input type="text" class="form-control" name="uraian" id="uraian"
-                                    placeholder="Uraian">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="nominal">Nominal</label>
-                                <input type="text" class="form-control" name="nominal" id="nominal"
-                                    placeholder="Nominal">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                                <label for="nominal">Tanggal</label>
-                                <input type="date" class="form-control" name="tanggal" id="tanggal"
-                                    placeholder="Tanggal">
-                            </div>
-                        </div>
-                        <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                            Simpan
-                        </button>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
     <script src="<?php echo e(URL::asset('/assets/libs/datatables/datatables.min.js')); ?>"></script>

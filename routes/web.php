@@ -47,6 +47,8 @@ Route::get('herregistrasi/tagihan/data', [App\Http\Controllers\HerregistrasiCont
 
 
 Route::post('pembayaran', [App\Http\Controllers\PembayaranController::class, 'store'])->name('pembayaran.store');
+Route::post('pembayaran/verifikasi', [App\Http\Controllers\PembayaranController::class, 'verifikasi'])->name('pembayaran.verif');
+
 
 Route::get('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'index'])->name('konfig.tambah');
 Route::get('konfigurasi/{id}/edit', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');

@@ -24,14 +24,19 @@ class SkrdController extends Controller
 
     public function herregistrasi(Request $request)
     {
-        $data = Herregistrasi::where('status',"Sudah Bayar")->with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
-        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+        // $data = Herregistrasi::where('status',"Sudah Bayar")->with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
+        // $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
 
-        if ($request->ajax()) {
-            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
-            return response()->json($data);
-        }
-        return view('pages.skrd.herregistrasi',compact('data','herr'));
+        // if ($request->ajax()) {
+        //     $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
+        //     return response()->json($data);
+        // }
+        $data =  Herregistrasi::whereHas('pembayaran', function($q){
+            // Query the name field in status table
+            $q->where('verifikasi', '=', 1); // '=' is optional
+        })->with('registrasi','registrasi.ahliwaris','registrasi.makam')
+        ->get();
+        return view('pages.skrd.herregistrasi',compact('data'));
     }
 
     public function history(Request $request)

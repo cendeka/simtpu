@@ -47,7 +47,7 @@ class HerregistrasiController extends Controller
                 $query->whereYear('tahun', Carbon::now()->year);
             })->get();
         }
-        $pembayaran = Pembayaran::where('herr_id', 9)->first();
+        // $pembayaran = Pembayaran::where('herr_id', 9)->first();
         
         // if ($request->status) {
         //     # code...
@@ -59,7 +59,7 @@ class HerregistrasiController extends Controller
 
         // }
 
-        return view('pages.herregistrasi.tagihan',compact('data', 'pembayaran'));
+        return view('pages.herregistrasi.tagihan',compact('data'));
     }
 
     /**

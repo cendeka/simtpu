@@ -13,11 +13,11 @@
             Herregistrasi
         @endslot
         @slot('title')
-            Tagihan 
+            Tagihan
             @if (request()->all() != null)
-                {{request()->get('tahun')}}
+                {{ request()->get('tahun') }}
             @else
-                {{\Carbon\Carbon::now()->year}}
+                {{ \Carbon\Carbon::now()->year }}
             @endif
         @endslot
     @endcomponent
@@ -32,7 +32,8 @@
                                     <label for="verticalnav-firstname-input">Tahun</label>
                                     {{-- <input class="form-control" type="text" name="tahun" placeholder="Tahun" value="{{ Request::get('tahun') }}"> --}}
                                     <select class="form-control" name="tahun" id="tahun">
-                                        <option value="{{request()->get('tahun') ?? ''}}" selected>{{request()->get('tahun') ?? 'Tahun'}}</option>
+                                        <option value="{{ request()->get('tahun') ?? '' }}" selected>
+                                            {{ request()->get('tahun') ?? 'Tahun' }}</option>
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>
@@ -45,7 +46,8 @@
                                     <label for="verticalnav-lastname-input">Bulan</label>
                                     {{-- <input class="form-control" type="text" name="masa" placeholder="Masa" value="{{ Request::get('masa') }}"> --}}
                                     <select class="form-control" name="bulan" id="">
-                                        <option value="{{request()->get('bulan') ?? ''}}" selected>{{request()->get('bulan') ?? 'Bulan'}}</option>
+                                        <option value="{{ request()->get('bulan') ?? '' }}" selected>
+                                            {{ request()->get('bulan') ?? 'Bulan' }}</option>
                                         <option value="01">Januari</option>
                                         <option value="02">Februari</option>
                                         <option value="03">Maret</option>
@@ -66,7 +68,8 @@
                                     <label for="verticalnav-lastname-input">Status</label>
                                     {{-- <input class="form-control" type="text" name="status" placeholder="Status" value="{{ Request::get('status') }}"> --}}
                                     <select class="form-control" name="status" id="">
-                                        <option value="{{request()->get('status') ?? ''}}" selected>{{request()->get('status') ?? 'Status Pembayaran'}}</option>
+                                        <option value="{{ request()->get('status') ?? '' }}" selected>
+                                            {{ request()->get('status') ?? 'Status Pembayaran' }}</option>
                                         <option value="Belum Bayar">Belum Bayar</option>
                                         <option value="Sudah Bayar">Sudah Bayar</option>
                                     </select>
@@ -113,19 +116,17 @@
                                             {{ $register->makam->nama_tpu }}
                                         @endforeach
                                     </td>
-                                    <td>Rp{{ number_format($item->nominal,'2',',','.') }}</td>
-                                    <td>{{\Carbon\Carbon::parse($item->tahun)->format('F')}}</td>
+                                    <td>Rp{{ number_format($item->nominal, '2', ',', '.') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tahun)->format('F') }}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        @if ($item->status == "Sudah Bayar")
-                                        <button onclick="tambah({{ $item->id }})" type="button" class="btn btn-danger waves-effect waves-light" disabled="" data-bs-toggle="button" autocomplete="off">
-                                            <i class="bx bx-money  font-size-16 align-middle me-2"></i> Sudah Bayar
-                                        </button>
-                                        @else
-                                        <button onclick="tambah({{ $item->id }})" type="button" class="btn btn-primary waves-effect waves-light">
+                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#modal-verif{{ $item->id }}"><i
+                                                class="fa fa-check"></i>Verifikasi</button>
+                                        <button style="{{$item->status == "Sudah Bayar" ? 'display: none;' : '' }}" onclick="tambah({{ $item->id }})" type="button"
+                                            class="btn btn-primary waves-effect waves-light">
                                             <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
                                         </button>
-                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -134,52 +135,90 @@
                 </div>
             </div>
         </div> <!-- end col -->
+        <div class="col">
+            <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('pembayaran.store') }}" method="POST">
+                                @csrf
+                                <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
+                                <input type="hidden" name="no_inv" id="no_inv">
+                                <input type="hidden" name="registrasi_id" id="registrasi_id">
+                                <input type="text" name="herrID" id="herrID">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="nominal">Uraian</label>
+                                            <input type="text" class="form-control" name="uraian" id="uraian"
+                                                placeholder="Uraian">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="nominal">Nominal</label>
+                                            <input type="text" class="form-control" name="nominal" id="nominal"
+                                                placeholder="Nominal">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label for="nominal">Tanggal</label>
+                                            <input type="date" class="form-control" name="tanggal" id="tanggal"
+                                                placeholder="Tanggal">
+                                        </div>
+                                    </div>
+                                    <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                                        Simpan
+                                    </button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+        <div class="col">
+            @foreach ($data as $d)
+            <div class="modal modal-blur fade" id="modal-verif{{ $d->id }}" tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Data Registrasi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form action="{{ route('pembayaran.verif') }}" method="POST">
+                                            @csrf
+                                         <input type="text" name="pembayaranId" value="{{$d->pembayaran->id ?? 0}}">
+                                         <input class="form-check-input" type="checkbox" id="verifikasi" name="verifikasi"
+                                            value="1" checked="">
+                                        <label class="form-check-label" for="verifikasi">
+                                            Data Telah Sesuai
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-success">Kirim</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        </div>
     </div> <!-- end row -->
-    <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('pembayaran.store') }}" method="POST">
-                    @csrf
-                    <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
-                    <input type="hidden" name="no_inv" id="no_inv">
-                    <input type="hidden" name="registrasi_id" id="registrasi_id">
-                    <input type="text" name="herrID" id="herrID">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="nominal">Uraian</label>
-                                <input type="text" class="form-control" name="uraian" id="uraian"
-                                    placeholder="Uraian">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="nominal">Nominal</label>
-                                <input type="text" class="form-control" name="nominal" id="nominal"
-                                    placeholder="Nominal">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="mb-3">
-                                <label for="nominal">Tanggal</label>
-                                <input type="date" class="form-control" name="tanggal" id="tanggal"
-                                    placeholder="Tanggal">
-                            </div>
-                        </div>
-                        <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                            Simpan
-                        </button>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>

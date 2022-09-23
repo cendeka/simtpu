@@ -48,7 +48,9 @@ class PembayaranController extends Controller
                 'nominal' => $request->nominal,
                 'tanggal' => $request->tanggal,
                 'keterangan' => $request->keterangan,
-                'herr_id' => $request->herrID
+                'herr_id' => $request->herrID,
+                'verifikasi' => $request->verifikasi
+
             ]
         );
         $herrID = $request->herrID;
@@ -62,6 +64,23 @@ class PembayaranController extends Controller
         );
         return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
+    public function verifikasi(Request $request)
+    {
+        $pembayaranId = $request->pembayaranId;
+
+        $pembayaran = Pembayaran::updateOrCreate(
+            [
+                'id' => $pembayaranId,
+            ],
+            [
+                'verifikasi' => $request->verifikasi
+
+            ]
+        );
+        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+
+    }
+
 
     /**
      * Display the specified resource.
