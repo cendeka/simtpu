@@ -122,7 +122,7 @@
                                     <td><?php echo e(\Carbon\Carbon::parse($item->tahun)->format('F')); ?></td>
                                     <td><?php echo e($item->status); ?></td>
                                     <td>
-                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                        <button class="btn btn-success" style="<?php echo e($item->status == "Belum Bayar" ? 'display: none;' : ''); ?>" data-bs-toggle="modal"
                                             data-bs-target="#modal-verif<?php echo e($item->id); ?>"><i
                                                 class="fa fa-check"></i>Verifikasi</button>
                                         <button style="<?php echo e($item->status == "Sudah Bayar" ? 'display: none;' : ''); ?>" onclick="tambah(<?php echo e($item->id); ?>)" type="button"

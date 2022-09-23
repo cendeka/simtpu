@@ -120,7 +120,7 @@
                                     <td>{{ \Carbon\Carbon::parse($item->tahun)->format('F') }}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        <button class="btn btn-success" data-bs-toggle="modal"
+                                        <button class="btn btn-success" style="{{$item->status == "Belum Bayar" ? 'display: none;' : '' }}" data-bs-toggle="modal"
                                             data-bs-target="#modal-verif{{ $item->id }}"><i
                                                 class="fa fa-check"></i>Verifikasi</button>
                                         <button style="{{$item->status == "Sudah Bayar" ? 'display: none;' : '' }}" onclick="tambah({{ $item->id }})" type="button"
