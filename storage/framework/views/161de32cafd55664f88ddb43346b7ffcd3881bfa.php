@@ -28,8 +28,9 @@
                             
                         </p>
                     </div>
-                    <div id="qr-reader" style="width:500px"></div>
-                    <div id="qr-reader-results"></div>
+                    <div id="reader" style="display: inline-block;"></div>
+                    <div class="empty"></div>
+                    <div id="scanned-result"></div>
                 </div>
             </div>
             <div class="row">
