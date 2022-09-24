@@ -78,6 +78,10 @@
     <!-- ====== Blog Start ====== -->
     <section class="ud-blog-grids">
         <div class="container">
+            <div class="ud-section-title">
+                <span>Artikel</span>
+                <h2>Artikel terbaru</h2>
+            </div>
           <div class="row">
             <div class="col-lg-4 col-md-6">
               <div class="ud-single-blog">
