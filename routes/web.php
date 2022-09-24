@@ -20,7 +20,10 @@ Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 Route::get('chart', [App\Http\Controllers\HomeController::class, 'chart'])->name('chart');
-Route::get('statistik', [App\Http\Controllers\StatistikController::class, 'index'])->name('statistik');
+
+Route::get('laporan/statistik', [App\Http\Controllers\StatistikController::class, 'index'])->name('statistik');
+Route::get('laporan/registrasi', [App\Http\Controllers\StatistikController::class, 'registrasi'])->name('laporan.registrasi');
+Route::get('laporan/registrasi/download', [App\Http\Controllers\StatistikController::class, 'laporanRegistrasi'])->name('laporan.registrasiDownload');
 
 
 //Update User Details

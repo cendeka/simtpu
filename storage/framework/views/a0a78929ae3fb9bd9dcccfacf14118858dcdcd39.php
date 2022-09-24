@@ -62,6 +62,8 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo e(route('statistik')); ?>">Data Statistik</a></li>
+                        <li><a href="<?php echo e(route('laporan.registrasi')); ?>">Laporan Registrasi</a></li>
+
                     </ul>
                 </li>
 

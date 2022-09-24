@@ -7,6 +7,9 @@ use App\Models\Registrasi;
 use App\Models\Retribusi;
 use App\Models\Makam;
 use App\Models\Herregistrasi;
+use App\Exports\RegistrasiExport;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -32,6 +35,22 @@ class StatistikController extends Controller
         return view('pages.statistik.index', compact(
             'makam'
         ));
+    }
+    public function registrasi(Request $request)
+    {   
+        $tahun = $request->tahun;
+        $bulan = $request->bulan;
+
+        $data = Registrasi::whereHas('makam', function ($query) use($tahun, $bulan) {
+            $query->whereYear('tanggal_meninggal', $tahun)
+                  ->whereMonth('tanggal_meninggal', $bulan);
+        })->get();
+        return view('pages.laporan.registrasi',compact('data'));
+    }
+
+    public function laporanRegistrasi(Request $request)
+    {
+        return Excel::download(new RegistrasiExport($request->tahun, $request->bulan), 'Laporan Registrasi.xlsx');
     }
 
     /**

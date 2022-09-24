@@ -62,6 +62,8 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('statistik')}}">Data Statistik</a></li>
+                        <li><a href="{{route('laporan.registrasi')}}">Laporan Registrasi</a></li>
+
                     </ul>
                 </li>
 
