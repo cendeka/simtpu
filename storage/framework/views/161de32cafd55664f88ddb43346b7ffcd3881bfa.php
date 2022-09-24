@@ -87,10 +87,8 @@
     </section>
 
 
-    <div id="video-container">
-        <video id="qr-video"></video>
-    </div>
-    <span id="file-qr-result">None</span>
+    <span id="cam-has-camera"></span>
+    <span id="cam-qr-result">None</span>
 
     <!-- ====== Features End ====== -->
     <!-- ====== Blog Start ====== -->
