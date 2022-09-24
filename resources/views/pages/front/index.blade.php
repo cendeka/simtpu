@@ -30,6 +30,8 @@
                             Pada website ini terdapat informasi dari mulai list daftar Tempat Pemakaman Umum (TPU) yang terdapat di Kabupaten Cianjur, terdapat pelayanan pemakaman dari mulai pemesanan, hingga pembayaran sewa per tahunnya, dan pada website ini juga dapat melihat status pembayaran sewa tanah makam apakah itu sudah dibayar, atau belum dibayar. --}}
                         </p>
                     </div>
+                    <div id="qr-reader" style="width:500px"></div>
+                    <div id="qr-reader-results"></div>
                 </div>
             </div>
             <div class="row">

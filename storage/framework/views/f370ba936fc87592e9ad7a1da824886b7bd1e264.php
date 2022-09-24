@@ -234,6 +234,27 @@
     <script src="<?php echo e(URL::asset('front/assets/js/bootstrap.bundle.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('front/assets/js/wow.min.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('front/assets/js/main.js')); ?>"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        var resultContainer = document.getElementById('qr-reader-results');
+        var lastResult, countResults = 0;
+
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText !== lastResult) {
+                ++countResults;
+                lastResult = decodedText;
+                // Handle on success condition with the decoded message.
+                console.log(`Scan result ${decodedText}`, decodedResult);
+            }
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", {
+                fps: 10,
+                qrbox: 250
+            });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
     <script>
         // ==== for menu scroll
         const pageLink = document.querySelectorAll(".ud-menu-scroll");

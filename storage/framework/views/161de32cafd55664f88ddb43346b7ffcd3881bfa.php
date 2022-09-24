@@ -28,6 +28,8 @@
                             
                         </p>
                     </div>
+                    <div id="qr-reader" style="width:500px"></div>
+                    <div id="qr-reader-results"></div>
                 </div>
             </div>
             <div class="row">
