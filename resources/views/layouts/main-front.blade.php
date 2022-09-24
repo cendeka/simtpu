@@ -234,89 +234,113 @@
     <script src="{{ URL::asset('front/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ URL::asset('front/assets/js/wow.min.js') }}"></script>
     <script src="{{ URL::asset('front/assets/js/main.js') }}"></script>
-    <script src="{{ URL::asset('assets/vendor/html5-qrcode/html5-qrcode.min.js') }}"></script>
-    <script>
-        function docReady(fn) {
-            // see if DOM is already available
-            if (document.readyState === "complete" || document.readyState === "interactive") {
-                // call on next available tick
-                setTimeout(fn, 1);
-            } else {
-                document.addEventListener("DOMContentLoaded", fn);
-            }
-        }
-        /** Ugly function to write the results to a table dynamically. */
-        function printScanResultPretty(codeId, decodedText, decodedResult) {
-            let resultSection = document.getElementById('scanned-result');
-            let tableBodyId = "scanned-result-table-body";
-            if (!document.getElementById(tableBodyId)) {
-                let table = document.createElement("table");
-                table.className = "styled-table";
-                table.style.width = "100%";
-                resultSection.appendChild(table);
-                let theader = document.createElement('thead');
-                let trow = document.createElement('tr');
-                let th1 = document.createElement('td');
-                th1.innerText = "Count";
-                let th2 = document.createElement('td');
-                th2.innerText = "Format";
-                let th3 = document.createElement('td');
-                th3.innerText = "Result";
-                trow.appendChild(th1);
-                trow.appendChild(th2);
-                trow.appendChild(th3);
-                theader.appendChild(trow);
-                table.appendChild(theader);
-                let tbody = document.createElement("tbody");
-                tbody.id = tableBodyId;
-                table.appendChild(tbody);
-            }
-            let tbody = document.getElementById(tableBodyId);
-            let trow = document.createElement('tr');
-            let td1 = document.createElement('td');
-            td1.innerText = `${codeId}`;
-            let td2 = document.createElement('td');
-            td2.innerText = `${decodedResult.result.format.formatName}`;
-            let td3 = document.createElement('td');
-            td3.innerText = `${decodedText}`;
-            trow.appendChild(td1);
-            trow.appendChild(td2);
-            trow.appendChild(td3);
-            tbody.appendChild(trow);
-        }
-        docReady(function() {
-            hljs.initHighlightingOnLoad();
-            var lastMessage;
-            var codeId = 0;
-            function onScanSuccess(decodedText, decodedResult) {
-                /**
-                 * If you following the code example of this page by looking at the
-                 * source code of the demo page - good job!!
-                 * 
-                 * Tip: update this function with a success callback of your choise.
-                 */
-                if (lastMessage !== decodedText) {
-                    lastMessage = decodedText;
-                    printScanResultPretty(codeId, decodedText, decodedResult);
-                    ++codeId;
-                }
-            }
-            let html5QrcodeScanner = new Html5QrcodeScanner(
-                "reader", 
-                { 
-                    fps: 10,
-                    qrbox: { width: 250, height: 250 },
-                    // Important notice: this is experimental feature, use it at your
-                    // own risk. See documentation in
-                    // mebjas@/html5-qrcode/src/experimental-features.ts
-                    experimentalFeatures: {
-                        useBarCodeDetectorIfSupported: true
-                    },
-                    rememberLastUsedCamera: true
-                });
-            html5QrcodeScanner.render(onScanSuccess);
+    <!--<script src="../qr-scanner.umd.min.js"></script>-->
+    <!--<script src="../qr-scanner.legacy.min.js"></script>-->
+    <script type="module">
+    import QrScanner from "../assets/vendor/scanner/qr-scanner.min.js";
+
+    const video = document.getElementById('qr-video');
+    const videoContainer = document.getElementById('video-container');
+    const camHasCamera = document.getElementById('cam-has-camera');
+    const camList = document.getElementById('cam-list');
+    const camHasFlash = document.getElementById('cam-has-flash');
+    const flashToggle = document.getElementById('flash-toggle');
+    const flashState = document.getElementById('flash-state');
+    const camQrResult = document.getElementById('cam-qr-result');
+    const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
+    const fileSelector = document.getElementById('file-selector');
+    const fileQrResult = document.getElementById('file-qr-result');
+
+    function setResult(label, result) {
+        console.log(result.data);
+        label.textContent = result.data;
+        camQrResultTimestamp.textContent = new Date().toString();
+        label.style.color = 'teal';
+        clearTimeout(label.highlightTimeout);
+        label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+    }
+
+    // ####### Web Cam Scanning #######
+
+    const scanner = new QrScanner(video, result => setResult(camQrResult, result), {
+        onDecodeError: error => {
+            camQrResult.textContent = error;
+            camQrResult.style.color = 'inherit';
+        },
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+    });
+
+    const updateFlashAvailability = () => {
+        scanner.hasFlash().then(hasFlash => {
+            camHasFlash.textContent = hasFlash;
+            flashToggle.style.display = hasFlash ? 'inline-block' : 'none';
         });
-        </script>
+    };
+
+    scanner.start().then(() => {
+        updateFlashAvailability();
+        // List cameras after the scanner started to avoid listCamera's stream and the scanner's stream being requested
+        // at the same time which can result in listCamera's unconstrained stream also being offered to the scanner.
+        // Note that we can also start the scanner after listCameras, we just have it this way around in the demo to
+        // start the scanner earlier.
+        QrScanner.listCameras(true).then(cameras => cameras.forEach(camera => {
+            const option = document.createElement('option');
+            option.value = camera.id;
+            option.text = camera.label;
+            camList.add(option);
+        }));
+    });
+
+    QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+
+    // for debugging
+    window.scanner = scanner;
+
+    document.getElementById('scan-region-highlight-style-select').addEventListener('change', (e) => {
+        videoContainer.className = e.target.value;
+        scanner._updateOverlay(); // reposition the highlight because style 2 sets position: relative
+    });
+
+    document.getElementById('show-scan-region').addEventListener('change', (e) => {
+        const input = e.target;
+        const label = input.parentNode;
+        label.parentNode.insertBefore(scanner.$canvas, label.nextSibling);
+        scanner.$canvas.style.display = input.checked ? 'block' : 'none';
+    });
+
+    document.getElementById('inversion-mode-select').addEventListener('change', event => {
+        scanner.setInversionMode(event.target.value);
+    });
+
+    camList.addEventListener('change', event => {
+        scanner.setCamera(event.target.value).then(updateFlashAvailability);
+    });
+
+    flashToggle.addEventListener('click', () => {
+        scanner.toggleFlash().then(() => flashState.textContent = scanner.isFlashOn() ? 'on' : 'off');
+    });
+
+    document.getElementById('start-button').addEventListener('click', () => {
+        scanner.start();
+    });
+
+    document.getElementById('stop-button').addEventListener('click', () => {
+        scanner.stop();
+    });
+
+    // ####### File Scanning #######
+
+    fileSelector.addEventListener('change', event => {
+        const file = fileSelector.files[0];
+        if (!file) {
+            return;
+        }
+        QrScanner.scanImage(file, { returnDetailedScanResult: true })
+            .then(result => setResult(fileQrResult, result))
+            .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+    });
+</script>
     <script>
         // ==== for menu scroll
         const pageLink = document.querySelectorAll(".ud-menu-scroll");
