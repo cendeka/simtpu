@@ -79,10 +79,7 @@ Detail Makam
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <?php echo QrCode::format('png')->generate('Welcome to Makitweb'); ?>
-
-                                    
-                                    
+                                    <img src="data:image/png;base64, <?php echo base64_encode(QrCode::format('png')->color(255, 0, 0)->merge('/public/assets/images/pemda.png')->size(200)->generate("".env('APP_URL')."/makam/detail?registrasi_id=".$data->registrasi->id."")); ?> ">
                                 </div>
                             </div>
                         </div>

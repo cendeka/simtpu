@@ -253,7 +253,9 @@ function docReady(fn) {
                 ++countResults;
                 lastResult = decodedText;
                 // Handle on success condition with the decoded message.
+                // $("#hasil a").attr("href",decodedText);
                 console.log(`Scan result ${decodedText}`, decodedResult);
+                window.open(decodedText);
             }
         }
 
