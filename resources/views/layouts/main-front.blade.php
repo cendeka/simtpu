@@ -66,7 +66,7 @@
                         <div class="navbar-collapse">
                             <ul id="nav" class="navbar-nav mx-auto">
                                 <li class="nav-item">
-                                    <a class="ud-menu-scroll" href="#home">Home</a>
+                                    <a class="ud-menu-scroll" href="{{route('beranda')}}">Home</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="ud-menu-scroll" href="#home">Informasi</a>
@@ -120,8 +120,7 @@
                                     style="height: 54px; width: 52px;" alt="logo" />
                             </a>
                             <p class="ud-widget-desc">
-                                We create digital experiences for brands and companies by
-                                using technology.
+                                Dinas Perumahan dan Kawasan Permukiman Kabupaten Cianjur.
                             </p>
                             <ul class="ud-widget-socials">
                                 <li>
@@ -181,21 +180,7 @@
                         <div class="ud-widget">
                             <h5 class="ud-widget-title">Informasi Lainnya</h5>
                             <ul class="ud-widget-links">
-                                <li>
-                                    <a href="https://lineicons.com/" rel="nofollow noopner" target="_blank">Lineicons
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://ecommercehtml.com/" rel="nofollow noopner"
-                                        target="_blank">Ecommerce HTML</a>
-                                </li>
-                                <li>
-                                    <a href="https://ayroui.com/" rel="nofollow noopner" target="_blank">Ayro UI</a>
-                                </li>
-                                <li>
-                                    <a href="https://graygrids.com/" rel="nofollow noopner" target="_blank">Plain
-                                        Admin</a>
-                                </li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -235,47 +220,7 @@
     <script src="{{ URL::asset('front/assets/js/wow.min.js') }}"></script>
     <script src="{{ URL::asset('front/assets/js/main.js') }}"></script>
     <script>
-        // ==== for menu scroll
-        const pageLink = document.querySelectorAll(".ud-menu-scroll");
 
-        pageLink.forEach((elem) => {
-            elem.addEventListener("click", (e) => {
-                e.preventDefault();
-                document.querySelector(elem.getAttribute("href")).scrollIntoView({
-                    behavior: "smooth",
-                    offsetTop: 1 - 60,
-                });
-            });
-        });
-
-        // section menu active
-        function onScroll(event) {
-            const sections = document.querySelectorAll(".ud-menu-scroll");
-            const scrollPos =
-                window.pageYOffset ||
-                document.documentElement.scrollTop ||
-                document.body.scrollTop;
-
-            for (let i = 0; i < sections.length; i++) {
-                const currLink = sections[i];
-                const val = currLink.getAttribute("href");
-                const refElement = document.querySelector(val);
-                const scrollTopMinus = scrollPos + 73;
-                if (
-                    refElement.offsetTop <= scrollTopMinus &&
-                    refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
-                ) {
-                    document
-                        .querySelector(".ud-menu-scroll")
-                        .classList.remove("active");
-                    currLink.classList.add("active");
-                } else {
-                    currLink.classList.remove("active");
-                }
-            }
-        }
-
-        window.document.addEventListener("scroll", onScroll);
     </script>
     @yield('script')
 

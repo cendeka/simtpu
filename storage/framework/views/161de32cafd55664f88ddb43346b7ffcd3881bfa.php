@@ -85,8 +85,6 @@
             </div>
         </div>
     </section>
-    <div id="qr-reader" style="width:500px"></div>
-    <div id="qr-reader-results"></div>
     <!-- ====== Features End ====== -->
     <!-- ====== Blog Start ====== -->
     <section class="ud-blog-grids">
@@ -96,69 +94,31 @@
                 <h2>Artikel terbaru</h2>
             </div>
             <div class="row">
+                <?php $__currentLoopData = $blog; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="col-lg-4 col-md-6">
                     <div class="ud-single-blog">
                         <div class="ud-blog-image">
                             <a href="blog-details.html">
-                                <img src="<?php echo e(URL::asset('front/assets/images/blog/blog-01.jpg')); ?>" alt="blog" />
+                                <img src="<?php echo e($post->foto_path); ?>" alt="blog" />
                             </a>
                         </div>
                         <div class="ud-blog-content">
-                            <span class="ud-blog-date">Dec 22, 2023</span>
+                            <span class="ud-blog-date"><?php echo e(date('d-m-Y', strtotime($post->created_at))); ?></span>
                             <h3 class="ud-blog-title">
-                                <a href="blog-details.html">
-                                    Meet AutoManage, the best AI management tools
+                                <a href="/blog/detail?id=<?php echo e($post->id); ?>">
+                                    <?php echo e($post->judul); ?>
+
                                 </a>
                             </h3>
                             <p class="ud-blog-desc">
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry.
+                                <?php echo $post->post; ?>
+
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="ud-single-blog">
-                        <div class="ud-blog-image">
-                            <a href="blog-details.html">
-                                <img src="<?php echo e(URL::asset('front/assets/images/blog/blog-02.jpg')); ?>" alt="blog" />
-                            </a>
-                        </div>
-                        <div class="ud-blog-content">
-                            <span class="ud-blog-date">Dec 22, 2023</span>
-                            <h3 class="ud-blog-title">
-                                <a href="blog-details.html">
-                                    How to earn more money as a wellness coach
-                                </a>
-                            </h3>
-                            <p class="ud-blog-desc">
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="ud-single-blog">
-                        <div class="ud-blog-image">
-                            <a href="blog-details.html">
-                                <img src="<?php echo e(URL::asset('front/assets/images/blog/blog-03.jpg')); ?>" alt="blog" />
-                            </a>
-                        </div>
-                        <div class="ud-blog-content">
-                            <span class="ud-blog-date">Dec 22, 2023</span>
-                            <h3 class="ud-blog-title">
-                                <a href="blog-details.html">
-                                    The no-fuss guide to upselling and cross selling
-                                </a>
-                            </h3>
-                            <p class="ud-blog-desc">
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                
             </div>
         </div>
     </section>
@@ -173,7 +133,7 @@
                             <span>Hubungi Kami</span>
                             <h2>
                                 Silakan hubungi kami <br />
-                                Untuk informasi mengenai TPU
+                                Untuk informasi mengenai pelayanan pemakaman
                             </h2>
                         </div>
                         <div class="ud-contact-info-wrapper">
@@ -232,38 +192,7 @@
     <!-- ====== Contact End ====== -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-<script src="https://unpkg.com/html5-qrcode"></script>
-    <script>
-function docReady(fn) {
-        // see if DOM is already available
-        if (document.readyState === "complete"
-            || document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
-    }
 
-    docReady(function () {
-        var resultContainer = document.getElementById('qr-reader-results');
-        var lastResult, countResults = 0;
-        function onScanSuccess(decodedText, decodedResult) {
-            if (decodedText !== lastResult) {
-                ++countResults;
-                lastResult = decodedText;
-                // Handle on success condition with the decoded message.
-                // $("#hasil a").attr("href",decodedText);
-                console.log(`Scan result ${decodedText}`, decodedResult);
-                window.open(decodedText);
-            }
-        }
-
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess);
-    });
-    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.main-front', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/ilhamtaufiq/www/simtpuv2/resources/views/pages/front/index.blade.php ENDPATH**/ ?>

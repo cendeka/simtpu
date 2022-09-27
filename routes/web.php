@@ -25,6 +25,9 @@ Route::get('laporan/statistik', [App\Http\Controllers\StatistikController::class
 Route::get('laporan/registrasi', [App\Http\Controllers\StatistikController::class, 'registrasi'])->name('laporan.registrasi');
 Route::get('laporan/registrasi/download', [App\Http\Controllers\StatistikController::class, 'laporanRegistrasi'])->name('laporan.registrasiDownload');
 
+Route::get('blog/detail',[App\Http\Controllers\BlogController::class,'detail']);
+Route::get('blog/tambah',[App\Http\Controllers\BlogController::class,'create']);
+Route::post('posts/store',[App\Http\Controllers\BlogController::class,'store'])->name('posts.store');
 
 //Update User Details
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');

@@ -87,8 +87,6 @@
             </div>
         </div>
     </section>
-    <div id="qr-reader" style="width:500px"></div>
-    <div id="qr-reader-results"></div>
     <!-- ====== Features End ====== -->
     <!-- ====== Blog Start ====== -->
     <section class="ud-blog-grids">
@@ -98,7 +96,29 @@
                 <h2>Artikel terbaru</h2>
             </div>
             <div class="row">
+                @foreach ($blog as $post)
                 <div class="col-lg-4 col-md-6">
+                    <div class="ud-single-blog">
+                        <div class="ud-blog-image">
+                            <a href="blog-details.html">
+                                <img src="{{ $post->foto_path }}" alt="blog" />
+                            </a>
+                        </div>
+                        <div class="ud-blog-content">
+                            <span class="ud-blog-date">{{date('d-m-Y', strtotime($post->created_at))}}</span>
+                            <h3 class="ud-blog-title">
+                                <a href="/blog/detail?id={{$post->id}}">
+                                    {{$post->judul}}
+                                </a>
+                            </h3>
+                            <p class="ud-blog-desc">
+                                {!! $post->post !!}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                {{-- <div class="col-lg-4 col-md-6">
                     <div class="ud-single-blog">
                         <div class="ud-blog-image">
                             <a href="blog-details.html">
@@ -118,49 +138,7 @@
                             </p>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="ud-single-blog">
-                        <div class="ud-blog-image">
-                            <a href="blog-details.html">
-                                <img src="{{ URL::asset('front/assets/images/blog/blog-02.jpg') }}" alt="blog" />
-                            </a>
-                        </div>
-                        <div class="ud-blog-content">
-                            <span class="ud-blog-date">Dec 22, 2023</span>
-                            <h3 class="ud-blog-title">
-                                <a href="blog-details.html">
-                                    How to earn more money as a wellness coach
-                                </a>
-                            </h3>
-                            <p class="ud-blog-desc">
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="ud-single-blog">
-                        <div class="ud-blog-image">
-                            <a href="blog-details.html">
-                                <img src="{{ URL::asset('front/assets/images/blog/blog-03.jpg') }}" alt="blog" />
-                            </a>
-                        </div>
-                        <div class="ud-blog-content">
-                            <span class="ud-blog-date">Dec 22, 2023</span>
-                            <h3 class="ud-blog-title">
-                                <a href="blog-details.html">
-                                    The no-fuss guide to upselling and cross selling
-                                </a>
-                            </h3>
-                            <p class="ud-blog-desc">
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
@@ -175,7 +153,7 @@
                             <span>Hubungi Kami</span>
                             <h2>
                                 Silakan hubungi kami <br />
-                                Untuk informasi mengenai TPU
+                                Untuk informasi mengenai pelayanan pemakaman
                             </h2>
                         </div>
                         <div class="ud-contact-info-wrapper">
@@ -234,36 +212,5 @@
     <!-- ====== Contact End ====== -->
 @endsection
 @section('script')
-<script src="https://unpkg.com/html5-qrcode"></script>
-    <script>
-function docReady(fn) {
-        // see if DOM is already available
-        if (document.readyState === "complete"
-            || document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
-    }
 
-    docReady(function () {
-        var resultContainer = document.getElementById('qr-reader-results');
-        var lastResult, countResults = 0;
-        function onScanSuccess(decodedText, decodedResult) {
-            if (decodedText !== lastResult) {
-                ++countResults;
-                lastResult = decodedText;
-                // Handle on success condition with the decoded message.
-                // $("#hasil a").attr("href",decodedText);
-                console.log(`Scan result ${decodedText}`, decodedResult);
-                window.open(decodedText);
-            }
-        }
-
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess);
-    });
-    </script>
 @endsection
