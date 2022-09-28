@@ -26,9 +26,9 @@
                 <div class="table-responsive">
                     <table class="table align-middle table-nowrap mb-0">
                         <tr>
-                            <th scope="col" colspan="2">Post</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" colspan="2">Judul Artikel</th>
+                            <th scope="col">Penulis</th>
+                            <th scope="col">Opsi</th>
                           </tr>
                         <tbody>
                           @foreach ($post as $item)
@@ -38,7 +38,7 @@
                                 <h5 class="font-size-13 text-truncate mb-1"><a href="javascript: void(0);" class="text-dark">{{$item->judul}}</a></h5>
                                 <p class="text-muted mb-0">{{date('d-m-Y', strtotime($item->created_at))}}</p>
                             </td>
-                            <td><i class="bx bx-like align-middle me-1"></i> 125</td>
+                            <td><i class="bx bx-user align-middle me-1"></i> {{$item->author}}</td>
                             <td>
                                 <div class="dropdown">
                                     <a class="text-muted font-size-16" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
@@ -46,11 +46,8 @@
                                     </a>
                                   
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Separated link</a>
+                                        <a class="dropdown-item" href="/blog/update?id={{$item->id}}">Ubah</a>
+                                        <a class="dropdown-item" href="#">Hapus</a>
                                     </div>
                                 </div>
                             </td>

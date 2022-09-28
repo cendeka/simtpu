@@ -14,7 +14,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $post = Blog::limit(10)->get();
+        $post = Blog::limit(11)->get();
         return view('pages.blog.index', compact('post'));
     }
 
@@ -45,19 +45,26 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
+        $user_name = Auth::user()->first_name;
+
 
         $this->validate($request, [
             'judul' => 'required',
             'kategori' => 'required',
-            'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
+            // 'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
             'post' => 'required'
        ]);
        $post_id = $request->post_id;
        $old = Blog::where('id', $post_id)->first();
-       $imagePath = public_path('/storage/blog/'.$old->foto);
-       if($old->foto <> "") {
-           unlink($imagePath);
+       if ($old != null) {
+        # code...
+        $imagePath = public_path('/storage/blog/'.$old->foto);
+       
+        if($old->foto <> "") {
+            unlink($imagePath);
+        }
        }
+
        if($request->file()) {
            $fileName = $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
            $filePath = $request->file('file')->storeAs('blog', $fileName, 'public');
@@ -72,6 +79,7 @@ class BlogController extends Controller
             'user_id' => $user_id,
             'kategori' => $request->kategori,
             'judul' => $request->judul,
+            'author' => $user_name,
             'foto' => $foto,
             'foto_path' => $foto_path,
             'post' => $request->post

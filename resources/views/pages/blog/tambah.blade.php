@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="post_id" value="{{$post->id ?? ''}}">
+                        <input type="text" name="post_id" value="{{$post->id ?? ''}}">
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Thumbnail</label>
-                                    <input type="file" name="file" class="form-control" />
+                                    <input type="file" name="file" class="form-control" accept="image/*"/>
                                 </div>
                             </div>
                         </div>
