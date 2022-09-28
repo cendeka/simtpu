@@ -14,7 +14,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        //
+        $post = Blog::limit(10)->get();
+        return view('pages.blog.index', compact('post'));
     }
 
     public function detail(Request $request)
@@ -51,21 +52,31 @@ class BlogController extends Controller
             'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
             'post' => 'required'
        ]);
-
+       $post_id = $request->post_id;
+       $old = Blog::where('id', $post_id)->first();
+       $imagePath = public_path('/storage/blog/'.$old->foto);
+       if($old->foto <> "") {
+           unlink($imagePath);
+       }
        if($request->file()) {
            $fileName = $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
            $filePath = $request->file('file')->storeAs('blog', $fileName, 'public');
            $foto =  $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
            $foto_path = '/storage/' . $filePath;
        }
-       $post = Blog::create([
+       $post = Blog::updateOrCreate(
+        [
+            'id' => $post_id,
+        ],
+        [
             'user_id' => $user_id,
             'kategori' => $request->kategori,
             'judul' => $request->judul,
             'foto' => $foto,
             'foto_path' => $foto_path,
             'post' => $request->post
-       ]);
+        ]);
+       return redirect()->route('blog.index')->with('message', 'Data Berhasil Disimpan');
 
     }
 
@@ -86,9 +97,10 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Blog $blog)
+    public function edit(Request $request)
     {
-        //
+        $post = Blog::where('id', $request->id)->first();
+        return view('pages.blog.tambah', compact('post'));
     }
 
     /**

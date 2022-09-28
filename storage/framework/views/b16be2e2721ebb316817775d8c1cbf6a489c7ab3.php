@@ -1,31 +1,31 @@
-@extends('layouts.master')
 
-@section('title')
+
+<?php $__env->startSection('title'); ?>
     Blog
-@endsection
-@section('css')
-@endsection
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Blog
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Tambah Post
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="post_id" value="{{$post->id ?? ''}}">
+                    <form method="post" action="<?php echo e(route('posts.store')); ?>" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
+                        <input type="hidden" name="post_id" value="<?php echo e($post->id ?? ''); ?>">
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Judul</label>
-                                    <input type="text" value="{{$post->judul ?? ''}}" name="judul" class="form-control" />
+                                    <input type="text" value="<?php echo e($post->judul ?? ''); ?>" name="judul" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label>Kategori</label>
@@ -57,9 +57,9 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-@endsection
-@section('script')
-<script src="{{URL::asset('assets/js/tinymce/tinymce.min.js')}}" referrerpolicy="origin"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+<script src="<?php echo e(URL::asset('assets/js/tinymce/tinymce.min.js')); ?>" referrerpolicy="origin"></script>
 <script src="https://cdn.tiny.cloud/1/sjcuvozoutp6vaaxpevv2rfyqdnqh7u5zudlxkma34jep46y/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>
 <script>
 tinymce.init({
@@ -74,10 +74,12 @@ tinymce.init({
       ],
       setup: function (editor) {
         editor.on('init', function () {
-            var content = "{!! $post->post ?? '' !!}";
+            var content = "<?php echo $post->post ?? ''; ?>";
             editor.setContent(content);
         });
     }  
     });
   </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Repo\simtpu-v2\resources\views/pages/blog/tambah.blade.php ENDPATH**/ ?>

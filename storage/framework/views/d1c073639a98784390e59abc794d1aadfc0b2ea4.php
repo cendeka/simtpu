@@ -62,6 +62,8 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="<?php echo e(route('statistik')); ?>">Data Statistik</a></li>
+                        <li><a href="<?php echo e(route('laporan.registrasi')); ?>">Laporan Registrasi</a></li>
+
                     </ul>
                 </li>
 
@@ -81,6 +83,17 @@
                         <i class="bx bx-user-circle"></i>
                         <span key="t-starter-page">Panel Admin</span>
                     </a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class=" bx bx-cog "></i>
+                        <span key="t-starter-page">Blog</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?php echo e(route('blog.index')); ?>">Daftar Artikel</a></li>
+                        <li><a href="<?php echo e(route('blog.tambah')); ?>">Buat Artikel</a></li>
+
+                    </ul>
                 </li>
                 <?php endif; // app('laratrust')->hasRole ?>
                 

@@ -84,6 +84,17 @@
                         <span key="t-starter-page">Panel Admin</span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class=" bx bx-cog "></i>
+                        <span key="t-starter-page">Blog</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('blog.index')}}">Daftar Artikel</a></li>
+                        <li><a href="{{route('blog.tambah')}}">Buat Artikel</a></li>
+
+                    </ul>
+                </li>
                 @endrole
                 {{-- <li>
                     <a href="javascript: void(0);" class="waves-effect">
