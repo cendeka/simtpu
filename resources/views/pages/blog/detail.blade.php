@@ -26,7 +26,7 @@
                     <div class="ud-blog-author">
                       <img src="#" alt="author" />
                       <span>
-                        By <a href="javascript:void(0)"> {{Auth::user()->name}} </a>
+                        By <a href="javascript:void(0)"> {{$post->author}} </a>
                       </span>
                     </div>
   

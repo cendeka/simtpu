@@ -100,8 +100,8 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="ud-single-blog">
                         <div class="ud-blog-image">
-                            <a href="blog-details.html">
-                                <img src="{{ $post->foto_path }}" alt="blog" />
+                            <a href="/blog/detail?id={{$post->id}}">
+                                <img style="width: 250px; height: 250px;" src="{{ $post->foto_path }}" alt="blog" />
                             </a>
                         </div>
                         <div class="ud-blog-content">
@@ -112,33 +112,12 @@
                                 </a>
                             </h3>
                             <p class="ud-blog-desc">
-                                {!! $post->post !!}
-                            </p>
+                                {!! Str::words($post->post, 10, '.......') !!}
+                            </p>    
                         </div>
                     </div>
                 </div>
                 @endforeach
-                {{-- <div class="col-lg-4 col-md-6">
-                    <div class="ud-single-blog">
-                        <div class="ud-blog-image">
-                            <a href="blog-details.html">
-                                <img src="{{ URL::asset('front/assets/images/blog/blog-01.jpg') }}" alt="blog" />
-                            </a>
-                        </div>
-                        <div class="ud-blog-content">
-                            <span class="ud-blog-date">Dec 22, 2023</span>
-                            <h3 class="ud-blog-title">
-                                <a href="blog-details.html">
-                                    Meet AutoManage, the best AI management tools
-                                </a>
-                            </h3>
-                            <p class="ud-blog-desc">
-                                Lorem Ipsum is simply dummy text of the printing and
-                                typesetting industry.
-                            </p>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </section>
