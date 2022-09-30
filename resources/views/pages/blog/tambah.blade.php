@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="post_id" value="{{$post->id ?? ''}}">
+                        <input type="hidden" name="post_id" value="{{$post->id ?? ''}}">
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
