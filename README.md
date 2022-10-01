@@ -29,6 +29,6 @@
 - [x] Statistik Pemakaman
 - [x] Users Management
 - [ ] SKRD
-- [ ] Halaman beranda untuk informasi publik
+- [x] Halaman beranda untuk informasi publik
 - [ ] Pembayaran retribusi online
 
