@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Herregistrasi;
 use App\Models\Registrasi;
 use App\Models\Pembayaran;
+use Auth;
 
 use Carbon\Carbon;
 
@@ -19,7 +20,20 @@ class HerregistrasiController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        $tpu = Auth::user()->roles->first()->display_name;
+        if ($tpu == "Admin") {
+            # code...
+            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        } else {
+            # code...
+            $data = Registrasi::with('herregistrasi','ahliwaris','makam')
+            ->whereHas('makam', function($q) use($tpu) {
+                // Query the name field in status table
+                $q->where('nama_tpu', '=', $tpu); // '=' is optional
+            })
+            ->get();
+        }
+        
         $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
         
         // if ($request->ajax()) {
@@ -34,19 +48,32 @@ class HerregistrasiController extends Controller
         $tahun = $request->tahun;
         $bulan = $request->bulan;
         $status = $request->status;
-        if(count($request->all()) >= 1)
-        {
-            $data = Herregistrasi::with('registrasi','pembayaran')->where(function ($query) use($tahun, $bulan, $status) {
+        $tpu = Auth::user()->roles->first()->display_name;
+
+        if (count($request->all()) >= 1) {
+
+            $data = Herregistrasi::with('registrasi','pembayaran','registrasi.makam')->where(function ($query) use($tahun, $bulan, $status) {
                 $query->whereYear('tahun', $tahun)
                       ->whereMonth('tahun', $bulan)
                       ->where('status', $status);
             })->get();
-        }
-        else {
+
+        } elseif ($tpu != "Admin") {
+        
             $data = Herregistrasi::with('registrasi','pembayaran')->where(function ($query) {
                 $query->whereYear('tahun', Carbon::now()->year);
+            }) ->whereHas('registrasi.makam', function($q) use($tpu) {
+                // Query the name field in status table
+                $q->where('nama_tpu', '=', $tpu); // '=' is optional
             })->get();
+        
+        } else {
+           /* case 2. email is not confirmed */
+           $data = Herregistrasi::with('registrasi','pembayaran')->where(function ($query) {
+            $query->whereYear('tahun', Carbon::now()->year);
+        })->get();        
         }
+
         // $pembayaran = Pembayaran::where('herr_id', 9)->first();
         
         // if ($request->status) {

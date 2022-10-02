@@ -4,6 +4,13 @@
     SKRD Herregistrasi Pemakaman
 @endsection
 @section('css')
+<style>
+    @media print {
+  #printPageButton {
+    display: none;
+  }
+}
+</style>
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -14,6 +21,9 @@
             SKRD Herregistrasi Pemakaman
         @endslot
     @endcomponent
+    <button class="btn btn-lg btn-success" id="printPageButton" onClick="window.print();">
+        <i class="fas fa-print "></i> Print
+    </button>
     <div class="container" style="height: 200px;">
         <div class="row">
           <div class="col align-self-start">

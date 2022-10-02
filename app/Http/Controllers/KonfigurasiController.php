@@ -80,9 +80,9 @@ class KonfigurasiController extends Controller
      * @param  \App\Models\Konfigurasi  $konfigurasi
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request)
     {
-        $konfig = Konfigurasi::find($id);
+        $konfig = Konfigurasi::where('id', $request->id)->first();
 	    return response()->json([
 	      'data' => $konfig
 	    ]);

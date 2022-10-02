@@ -59,7 +59,7 @@ Route::post('pembayaran/verifikasi', [App\Http\Controllers\PembayaranController:
 
 
 Route::get('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'index'])->name('konfig.tambah');
-Route::get('konfigurasi/{id}/edit', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');
+Route::get('konfigurasi/update', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');
 Route::post('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'store'])->name('konfig.store');
 
 
