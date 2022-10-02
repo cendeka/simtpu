@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Makam;
 use File;
+use Auth;
 class MakamController extends Controller
 {
     /**
@@ -14,7 +15,8 @@ class MakamController extends Controller
      */
     public function index()
     {
-        $data = Makam::with('registrasi.herregistrasi')->get();
+        $tpu = Auth::user()->roles->first()->display_name;
+        $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $tpu)->get();
         return view('pages.makam.index', compact('data'));
     }
 

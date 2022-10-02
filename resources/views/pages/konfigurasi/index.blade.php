@@ -78,7 +78,8 @@ Konfigurasi
         <td><div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Opsi <i class="mdi mdi-chevron-down"></i></button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="" id="editData" data-toggle="modal" data-target='#editModal' data-id="{{ $value->id }}">Ubah</a>
+                    <a class="dropdown-item" href="javascript:void(0)"
+                    onclick="ubah({{ $value->id }})">Ubah</a>
                     <a class="dropdown-item btn-hapus" href="">Hapus</a>
                 </div>
             </div>
@@ -89,13 +90,38 @@ Konfigurasi
     </tbody>
 </table>
 <div class="modal fade" id="editModal">
-    <div class="modal-dialog">
-       <form id="konfigData">
+    <div class="modal-dialog modal-lg">
+        <form id="konfigData" action="{{ route("konfig.store") }}" method="POST">
+            @csrf
             <div class="modal-content">
-            <input type="text" id="id" name="id" value="">
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Ubah Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <input type="hidden" id="id" name="id" value="">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                <input type="text" id="korek" name="properties[0][kode_rekening]" class="form-control" placeholder="Kode Rekening">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                <input type="text" id="uraian" name="properties[0][uraian]" class="form-control" placeholder="Uraian">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                            <input type="number" id="nominal" name="properties[0][nominal]" class="form-control" placeholder="Nominal">
+                            </div>
+                        </div>
+                </div>
             </div>
-            <input type="submit" value="Submit" id="submit" class="btn btn-sm btn-outline-danger py-0" style="font-size: 0.8em;">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Tutup</button>
+                <button type="submit" value="submit" id="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
+            </div>
         </div>
        </form>
     </div>
@@ -148,25 +174,27 @@ Konfigurasi
     });
 </script>
 <script>
-    
-$(document).ready(function () {
+    function ubah(id) {
+        $('#editModal').modal('show');
+        $('#id').val(id);
 
-$.ajaxSetup({
-    headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            $.ajax({
+                type: "GET",
+                url: "{{ route('konfig.update') }}",
+                data: {
+                    id: id
+                },
+                success: function(res) {
+                    $.each(res, function(k, v) {
+                        $.each(v.properties, function(key, properties) {
+                            $('#korek').val(properties.kode_rekening);
+                            $('#uraian').val(properties.uraian);
+                            $('#nominal').val(properties.nominal);
+
+                        });
+                    });                
+                }
+            });
         }
-});
-
-$('body').on('click', '#editData', function (event) {
-
-    event.preventDefault();
-    var id = $(this).data('id');
-    $('#id').val(id);
-    $.get('konfigurasi/' + id + '/edit', function (data) {
-        data.forEach(function(e))
-     })
-});
-
-}); 
 </script>
 @endsection

@@ -26,6 +26,7 @@
                                 <th>No</th>
                                 <th>Nama Orang yang Meninggal</th>
                                 <th>Tahun Dimakamkan</th>
+                                <th>Blok Nomor</th>
                                 <th>Kode Registrasi</th>
                                 <th>Opsi</th>
                             </tr>
@@ -39,6 +40,7 @@
                                     <td>{{ $i++ }}</td>
                                      <td>{{ $item->registrasi->nama_meninggal }}</td>
                                      <td>{{$item->tanggal_dimakamkan}}</td>
+                                     <td>{{$item->blok_tpu}} - {{$item->nomor_tpu}}</td>
                                     <td>{{ $item->registrasi->kode_registrasi }}</td>
                                     <td>
                                         <div class="btn-group">

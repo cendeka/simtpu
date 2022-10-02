@@ -4,6 +4,13 @@
     Formulir Registrasi Pemakaman
 @endsection
 @section('css')
+<style>
+    @media print {
+  #printPageButton {
+    display: none;
+  }
+}
+</style>
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -17,6 +24,9 @@
 @if (is_null($data))
     Data Tidak Ditemukan
 @else
+<button class="btn btn-lg btn-success" id="printPageButton" onClick="window.print();">
+    <i class="fas fa-print "></i> Print
+</button>
 <div class="row align-items-center">
     <div class="col-lg-12">
         <h3 class="text-center">Formulir Penguburan</h3>
