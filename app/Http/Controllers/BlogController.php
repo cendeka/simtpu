@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Auth;
+
 use App\Models\Blog;
+use Auth;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -15,6 +16,7 @@ class BlogController extends Controller
     public function index()
     {
         $post = Blog::limit(11)->get();
+
         return view('pages.blog.index', compact('post'));
     }
 
@@ -32,8 +34,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-    
-        return view ('pages.blog.tambah');
+        return view('pages.blog.tambah');
     }
 
     /**
@@ -47,45 +48,44 @@ class BlogController extends Controller
         $user_id = Auth::user()->id;
         $user_name = Auth::user()->first_name;
 
-
         $this->validate($request, [
             'judul' => 'required',
             'kategori' => 'required',
             // 'file' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
-            'post' => 'required'
-       ]);
-       $post_id = $request->post_id;
-       $old = Blog::where('id', $post_id)->first();
-       if ($old != null) {
-        # code...
-        $imagePath = public_path('/storage/blog/'.$old->foto);
-       
-        if($old->foto <> "") {
-            unlink($imagePath);
-        }
-       }
-
-       if($request->file()) {
-           $fileName = $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
-           $filePath = $request->file('file')->storeAs('blog', $fileName, 'public');
-           $foto =  $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
-           $foto_path = '/storage/' . $filePath;
-       }
-       $post = Blog::updateOrCreate(
-        [
-            'id' => $post_id,
-        ],
-        [
-            'user_id' => $user_id,
-            'kategori' => $request->kategori,
-            'judul' => $request->judul,
-            'author' => $user_name,
-            'foto' => $foto,
-            'foto_path' => $foto_path,
-            'post' => $request->post
+            'post' => 'required',
         ]);
-       return redirect()->route('blog.index')->with('message', 'Data Berhasil Disimpan');
+        $post_id = $request->post_id;
+        $old = Blog::where('id', $post_id)->first();
+        if ($old != null) {
+            // code...
+            $imagePath = public_path('/storage/blog/'.$old->foto);
 
+            if ($old->foto != '') {
+                unlink($imagePath);
+            }
+        }
+
+        if ($request->file()) {
+            $fileName = $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
+            $filePath = $request->file('file')->storeAs('blog', $fileName, 'public');
+            $foto = $request->judul.'_thumbnail'.'.'.$request->file->getClientOriginalExtension();
+            $foto_path = '/storage/'.$filePath;
+        }
+        $post = Blog::updateOrCreate(
+            [
+                'id' => $post_id,
+            ],
+            [
+                'user_id' => $user_id,
+                'kategori' => $request->kategori,
+                'judul' => $request->judul,
+                'author' => $user_name,
+                'foto' => $foto,
+                'foto_path' => $foto_path,
+                'post' => $request->post,
+            ]);
+
+        return redirect()->route('blog.index')->with('message', 'Data Berhasil Disimpan');
     }
 
     /**
@@ -108,6 +108,7 @@ class BlogController extends Controller
     public function edit(Request $request)
     {
         $post = Blog::where('id', $request->id)->first();
+
         return view('pages.blog.tambah', compact('post'));
     }
 

@@ -3,10 +3,8 @@
 namespace App\Exports;
 
 use App\Models\Registrasi;
-
-
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class RegistrasiExport implements FromQuery, WithHeadings
@@ -17,6 +15,7 @@ class RegistrasiExport implements FromQuery, WithHeadings
     {
         $this->tahun = $tahun;
         $this->bulan = $bulan;
+
         return $this;
     }
 
@@ -27,6 +26,7 @@ class RegistrasiExport implements FromQuery, WithHeadings
                   ->whereMonth('tanggal_meninggal', $this->bulan);
         });
     }
+
     public function headings(): array
     {
         return array_keys($this->query()->first()->toArray());

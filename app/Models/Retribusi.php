@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Retribusi extends Model
 {
     use HasFactory;
+
     protected $table = 'tbl_retribusi';
+
     protected $guarded = [];
 
     /**
@@ -20,6 +22,4 @@ class Retribusi extends Model
     {
         return $this->hasOne(Registrasi::class, 'id', 'registrasi_id');
     }
-
-    
 }

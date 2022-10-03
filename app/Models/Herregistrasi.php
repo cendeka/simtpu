@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Herregistrasi extends Model
 {
     use HasFactory;
+
     protected $table = 'tbl_herregistrasi';
+
     protected $guarded = [];
-    
+
     /**
      * Get all of the comments for the Herregistrasi
      *
@@ -20,6 +22,7 @@ class Herregistrasi extends Model
     {
         return $this->hasMany(Registrasi::class, 'id', 'registrasi_id');
     }
+
     /**
      * Get the user associated with the Herregistrasi
      *

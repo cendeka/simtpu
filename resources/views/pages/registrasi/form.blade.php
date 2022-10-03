@@ -268,7 +268,7 @@
                                             <option value="">Pilih Retribusi</option>
                                             @foreach ($konfig as $value)
                                                 @foreach ($value->properties as $p)
-                                                    <option value="{{ json_encode($p) }}">{{ $value->konfig }}</option>
+                                                    <option value="{{ json_encode($p) }}">{{ $p['uraian'] }}</option>
                                                 @endforeach
                                             @endforeach
                                         </select>

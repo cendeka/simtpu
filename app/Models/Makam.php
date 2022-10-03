@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Makam extends Model
 {
     use HasFactory;
+
     protected $table = 'tbl_makam';
+
     protected $guarded = [];
 
-    public function scopeSeason($query,$year)
+    public function scopeSeason($query, $year)
     {
         return $query->whereYear('tanggal_meninggal', '=', $year);
     }
 
-    public function scopeMonth($query,$month)
+    public function scopeMonth($query, $month)
     {
         return $query->whereMonth('tanggal_meninggal', '=', $month);
     }
@@ -30,5 +32,4 @@ class Makam extends Model
     {
         return $this->hasOne(Registrasi::class, 'id', 'registrasi_id');
     }
-
 }

@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [App\Http\Controllers\FrontController::class, 'index'])->name('beranda');
 
-
 Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
@@ -25,11 +24,11 @@ Route::get('laporan/statistik', [App\Http\Controllers\StatistikController::class
 Route::get('laporan/registrasi', [App\Http\Controllers\StatistikController::class, 'registrasi'])->name('laporan.registrasi');
 Route::get('laporan/registrasi/download', [App\Http\Controllers\StatistikController::class, 'laporanRegistrasi'])->name('laporan.registrasiDownload');
 
-Route::get('blog',[App\Http\Controllers\BlogController::class,'index'])->name('blog.index');
-Route::get('blog/detail',[App\Http\Controllers\BlogController::class,'detail']);
-Route::get('blog/tambah',[App\Http\Controllers\BlogController::class,'create'])->name('blog.tambah');
-Route::get('blog/update',[App\Http\Controllers\BlogController::class,'edit'])->name('blog.update');
-Route::post('posts/store',[App\Http\Controllers\BlogController::class,'store'])->name('posts.store');
+Route::get('blog', [App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('blog/detail', [App\Http\Controllers\BlogController::class, 'detail']);
+Route::get('blog/tambah', [App\Http\Controllers\BlogController::class, 'create'])->name('blog.tambah');
+Route::get('blog/update', [App\Http\Controllers\BlogController::class, 'edit'])->name('blog.update');
+Route::post('posts/store', [App\Http\Controllers\BlogController::class, 'store'])->name('posts.store');
 
 //Update User Details
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
@@ -53,16 +52,12 @@ Route::get('herregistrasi/tagihan/', [App\Http\Controllers\HerregistrasiControll
 Route::post('herregistrasi', [App\Http\Controllers\HerregistrasiController::class, 'store'])->name('herregistrasi.store');
 Route::get('herregistrasi/tagihan/data', [App\Http\Controllers\HerregistrasiController::class, 'getHerr'])->name('herregistrasi.get');
 
-
 Route::post('pembayaran', [App\Http\Controllers\PembayaranController::class, 'store'])->name('pembayaran.store');
 Route::post('pembayaran/verifikasi', [App\Http\Controllers\PembayaranController::class, 'verifikasi'])->name('pembayaran.verif');
-
 
 Route::get('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'index'])->name('konfig.tambah');
 Route::get('konfigurasi/update', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');
 Route::post('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'store'])->name('konfig.store');
-
-
 
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 
@@ -79,9 +74,7 @@ Route::post('makam/upload', [App\Http\Controllers\MakamController::class, 'fotoU
 Route::get('makam/detail', [App\Http\Controllers\MakamController::class, 'show'])->name('makam.show');
 Route::get('makam/info', [App\Http\Controllers\MakamController::class, 'publik'])->name('makam.publik');
 
-
 Route::get('laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan');
-
 
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);

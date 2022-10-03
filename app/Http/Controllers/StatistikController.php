@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Registrasi;
-use App\Models\Retribusi;
-use App\Models\Makam;
-use App\Models\Herregistrasi;
 use App\Exports\RegistrasiExport;
-
-use Maatwebsite\Excel\Facades\Excel;
-
+use App\Models\Makam;
+use App\Models\Registrasi;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StatistikController extends Controller
 {
@@ -25,27 +18,29 @@ class StatistikController extends Controller
     public function index()
     {
         $tpu = [
-            "Sirnalaya I",
-            "Sirnalaya II"
+            'Sirnalaya I',
+            'Sirnalaya II',
         ];
         foreach ($tpu as $key => $value) {
             $makam = Makam::where('nama_tpu', $value)->count();
-
         }
+
         return view('pages.statistik.index', compact(
             'makam'
         ));
     }
+
     public function registrasi(Request $request)
-    {   
+    {
         $tahun = $request->tahun;
         $bulan = $request->bulan;
 
-        $data = Registrasi::whereHas('makam', function ($query) use($tahun, $bulan) {
+        $data = Registrasi::whereHas('makam', function ($query) use ($tahun, $bulan) {
             $query->whereYear('tanggal_meninggal', $tahun)
                   ->whereMonth('tanggal_meninggal', $bulan);
         })->get();
-        return view('pages.laporan.registrasi',compact('data'));
+
+        return view('pages.laporan.registrasi', compact('data'));
     }
 
     public function laporanRegistrasi(Request $request)

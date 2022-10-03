@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Retribusi;
-use App\Models\Registrasi;
 use App\Models\Herregistrasi;
-
-
+use App\Models\Registrasi;
+use App\Models\Retribusi;
+use Illuminate\Http\Request;
 
 class SkrdController extends Controller
 {
@@ -18,43 +16,51 @@ class SkrdController extends Controller
      */
     public function registrasi()
     {
-        $data = Retribusi::with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->groupBy('registrasi_id')->get('registrasi_id','uraian','nominal');
+        $data = Retribusi::with('registrasi', 'registrasi.makam', 'registrasi.ahliwaris', 'registrasi.retribusi')->groupBy('registrasi_id')->get('registrasi_id', 'uraian', 'nominal');
+
         return view('pages.skrd.registrasi', compact('data'));
     }
 
     public function herregistrasi(Request $request)
     {
         // $data = Herregistrasi::where('status',"Sudah Bayar")->with('registrasi','registrasi.ahliwaris','registrasi.makam')->get();
-        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+        $herr = Herregistrasi::where('registrasi_id', $request->registrasi_id)->get();
 
         if ($request->ajax()) {
-            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
+            $data = Registrasi::with('herregistrasi', 'ahliwaris', 'makam')->where('id', $request->id)->get();
+
             return response()->json($data);
         }
-        $data =  Herregistrasi::whereHas('pembayaran', function($q){
+        $data = Herregistrasi::whereHas('pembayaran', function ($q) {
             // Query the name field in status table
             $q->where('verifikasi', '=', 1); // '=' is optional
-        })->with('registrasi','registrasi.ahliwaris','registrasi.makam')
+        })->with('registrasi', 'registrasi.ahliwaris', 'registrasi.makam')
         ->get();
-        return view('pages.skrd.herregistrasi',compact('data'));
+
+        return view('pages.skrd.herregistrasi', compact('data'));
     }
 
     public function history(Request $request)
     {
-        $data = Herregistrasi::select('masa','tahun','nominal')->where('registrasi_id',$request->registrasi_id)->get();
+        $data = Herregistrasi::select('masa', 'tahun', 'nominal')->where('registrasi_id', $request->registrasi_id)->get();
+
         return response()->json($data);
     }
 
     public function skrdRetri(Request $request)
     {
-        $data = Retribusi::where('registrasi_id',$request->registrasi_id)->with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->first();
+        $data = Retribusi::where('registrasi_id', $request->registrasi_id)->with('registrasi', 'registrasi.makam', 'registrasi.ahliwaris', 'registrasi.retribusi')->first();
+
         return view('pages.print.retribusi', compact('data'));
     }
+
     public function skrdHerr(Request $request)
     {
-        $data = Herregistrasi::where('registrasi_id',$request->registrasi_id)->with('registrasi','registrasi.makam','registrasi.ahliwaris','registrasi.retribusi')->first();
+        $data = Herregistrasi::where('registrasi_id', $request->registrasi_id)->with('registrasi', 'registrasi.makam', 'registrasi.ahliwaris', 'registrasi.retribusi')->first();
+
         return view('pages.print.herregistrasi', compact('data'));
     }
+
     /**
      * Show the form for creating a new resource.
      *

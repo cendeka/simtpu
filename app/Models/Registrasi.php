@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Registrasi extends Model
 {
     use HasFactory;
+
     protected $table = 'tbl_registrasi';
+
     protected $guarded = [];
 
     /**
@@ -20,6 +22,7 @@ class Registrasi extends Model
     {
         return $this->hasOne(AhliWaris::class, 'id', 'ahliwaris_id');
     }
+
     /**
      * Get the user associated with the Registrasi
      *
@@ -29,7 +32,7 @@ class Registrasi extends Model
     {
         return $this->hasOne(Makam::class, 'registrasi_id', 'id');
     }
-    
+
     /**
      * Get all of the comments for the Registrasi
      *
@@ -39,7 +42,7 @@ class Registrasi extends Model
     {
         return $this->hasMany(Retribusi::class, 'registrasi_id', 'id');
     }
-    
+
     /**
      * Get all of the comments for the Registrasi
      *
@@ -49,8 +52,8 @@ class Registrasi extends Model
     {
         return $this->hasMany(Herregistrasi::class, 'registrasi_id', 'id');
     }
-    
-     /**
+
+    /**
      * Get all of the comments for the Registrasi
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
