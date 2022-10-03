@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Herregistrasi;
 use App\Models\Registrasi;
 use App\Models\Pembayaran;
+use App\Models\Konfigurasi;
 use Auth;
 
 use Carbon\Carbon;
@@ -35,12 +36,13 @@ class HerregistrasiController extends Controller
         }
         
         $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+        $konfig = Konfigurasi::get();
         
         // if ($request->ajax()) {
         //     $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
         //     return response()->json($data);
         // }
-        return view('pages.herregistrasi.index',compact('data','herr'));
+        return view('pages.herregistrasi.index',compact('data','herr','konfig'));
         // return view('pages.herregistrasi.index', compact('data'));
     }
     public function tagihan(Request $request)
@@ -111,6 +113,8 @@ class HerregistrasiController extends Controller
         $tahun = Carbon::parse($request->tahun)->format('Y');
         $bulan = Carbon::parse($request->tahun)->format('m');
         $no = rand(100000, 999999);
+        $string = ['Rp','.'];
+        $nominal = $request->nominal;
 
         $herregistrasi = Herregistrasi::updateOrCreate(
             [
@@ -120,12 +124,13 @@ class HerregistrasiController extends Controller
                 'no_inv' => "INV/".$no."/".$bulan."/".$tahun,
                 'registrasi_id' => $request->registrasi_id,
                 'tahun' => $request->tahun,
-                'nominal' => $request->nominal,
+                'nominal' => str_replace($string, '', $nominal),
                 'uraian' => $request->uraian,
                 'status' => "Belum Bayar"
             ]
         );
-        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+        // return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+        dd($herregistrasi);
     }
 
     /**

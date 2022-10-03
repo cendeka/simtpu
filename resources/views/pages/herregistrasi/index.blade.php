@@ -102,15 +102,21 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="nominal">Uraian</label>
-                                        <input type="text" class="form-control" name="uraian" id="uraian"
-                                            placeholder="Uraian">
+                                        <select class="form-control" name="uraian" id="retribusi">
+                                            <option value="">Pilih Retribusi</option>
+                                            @foreach ($konfig as $value)
+                                                @foreach ($value->properties as $p)
+                                                    <option value="{{ json_encode($p) }}">{{ $value->konfig }}</option>
+                                                @endforeach
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="nominal">Nominal</label>
-                                        <input type="text" class="form-control" name="nominal" id="nominal"
-                                            placeholder="Nominal">
+                                        <input type="text" class="form-control input-mask text-start" name="nominal" id="nominal"
+                                            placeholder="Nominal" value="">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -136,6 +142,21 @@
     <script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('/assets/libs/inputmask/inputmask.min.js') }}"></script>
+    <script>
+$(document).on('change', function() {
+            $(".input-mask").inputmask({
+                alias: 'numeric',
+                groupSeparator: '.',
+                radixPoint: ',',
+                autoGroup: true,
+                prefix: ' Rp',
+                placeholder: '0',
+                autoUnmask: true,
+                removeMaskOnSubmit: true
+            });
+        });
+    </script>
 
     <script>
         @if ($errors->any())
@@ -214,5 +235,13 @@
                 }
             });
         }
+    </script>
+    <script>
+        $('#retribusi').on('change', function() {
+            var retribusi = $(this).val();
+            var ret = jQuery.parseJSON(retribusi);
+            $("#nominal").val(ret.nominal);
+            console.log(ret.nominal);
+        });
     </script>
 @endsection
