@@ -16,7 +16,8 @@ class KonfigurasiController extends Controller
     {
         //
         $data = Konfigurasi::get();
-        return view('pages.konfigurasi.index',compact('data'));
+
+        return view('pages.konfigurasi.index', compact('data'));
     }
 
     /**
@@ -38,17 +39,18 @@ class KonfigurasiController extends Controller
     public function store(Request $request)
     {
         //
-    //   $konfig = Konfigurasi::create($request->all());
-    $id = $request->id;
-    $konfig = Konfigurasi::updateOrCreate(
-        [
-            'id' => $id,
-        ],
-        
-        $request->all()
-        
-    ); 
-      return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+        //   $konfig = Konfigurasi::create($request->all());
+        $id = $request->id;
+        $konfig = Konfigurasi::updateOrCreate(
+            [
+                'id' => $id,
+            ],
+
+            $request->all()
+
+        );
+
+        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 
     /**
@@ -83,9 +85,10 @@ class KonfigurasiController extends Controller
     public function update(Request $request)
     {
         $konfig = Konfigurasi::where('id', $request->id)->first();
-	    return response()->json([
-	      'data' => $konfig
-	    ]);
+
+        return response()->json([
+            'data' => $konfig,
+        ]);
     }
 
     /**

@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Konfigurasi extends Model
 {
     use HasFactory;
+
     protected $table = 'tbl_konfigurasi';
+
     protected $guarded = [];
 
     protected $casts = [
-        'properties' => 'array'
+        'properties' => 'array',
     ];
 }

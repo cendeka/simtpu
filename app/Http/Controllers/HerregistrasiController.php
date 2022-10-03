@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Herregistrasi;
-use App\Models\Registrasi;
-use App\Models\Pembayaran;
 use App\Models\Konfigurasi;
+use App\Models\Pembayaran;
+use App\Models\Registrasi;
 use Auth;
-
 use Carbon\Carbon;
-
 use Illuminate\Http\Request;
 
 class HerregistrasiController extends Controller
@@ -22,29 +20,30 @@ class HerregistrasiController extends Controller
     public function index(Request $request)
     {
         $tpu = Auth::user()->roles->first()->display_name;
-        if ($tpu == "Admin") {
-            # code...
-            $data = Registrasi::with('herregistrasi','ahliwaris','makam')->get();
+        if ($tpu == 'Admin') {
+            // code...
+            $data = Registrasi::with('herregistrasi', 'ahliwaris', 'makam')->get();
         } else {
-            # code...
-            $data = Registrasi::with('herregistrasi','ahliwaris','makam')
-            ->whereHas('makam', function($q) use($tpu) {
+            // code...
+            $data = Registrasi::with('herregistrasi', 'ahliwaris', 'makam')
+            ->whereHas('makam', function ($q) use ($tpu) {
                 // Query the name field in status table
                 $q->where('nama_tpu', '=', $tpu); // '=' is optional
             })
             ->get();
         }
-        
-        $herr = Herregistrasi::where('registrasi_id',$request->registrasi_id)->get();
+
+        $herr = Herregistrasi::where('registrasi_id', $request->registrasi_id)->get();
         $konfig = Konfigurasi::get();
-        
+
         // if ($request->ajax()) {
         //     $data = Registrasi::with('herregistrasi','ahliwaris','makam')->where('id', $request->id)->get();
         //     return response()->json($data);
         // }
-        return view('pages.herregistrasi.index',compact('data','herr','konfig'));
+        return view('pages.herregistrasi.index', compact('data', 'herr', 'konfig'));
         // return view('pages.herregistrasi.index', compact('data'));
     }
+
     public function tagihan(Request $request)
     {
         $tahun = $request->tahun;
@@ -53,31 +52,27 @@ class HerregistrasiController extends Controller
         $tpu = Auth::user()->roles->first()->display_name;
 
         if (count($request->all()) >= 1) {
-
-            $data = Herregistrasi::with('registrasi','pembayaran','registrasi.makam')->where(function ($query) use($tahun, $bulan, $status) {
+            $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->where(function ($query) use ($tahun, $bulan, $status) {
                 $query->whereYear('tahun', $tahun)
                       ->whereMonth('tahun', $bulan)
                       ->where('status', $status);
             })->get();
-
-        } elseif ($tpu != "Admin") {
-        
-            $data = Herregistrasi::with('registrasi','pembayaran')->where(function ($query) {
+        } elseif ($tpu != 'Admin') {
+            $data = Herregistrasi::with('registrasi', 'pembayaran')->where(function ($query) {
                 $query->whereYear('tahun', Carbon::now()->year);
-            }) ->whereHas('registrasi.makam', function($q) use($tpu) {
+            })->whereHas('registrasi.makam', function ($q) use ($tpu) {
                 // Query the name field in status table
                 $q->where('nama_tpu', '=', $tpu); // '=' is optional
             })->get();
-        
         } else {
-           /* case 2. email is not confirmed */
-           $data = Herregistrasi::with('registrasi','pembayaran')->where(function ($query) {
-            $query->whereYear('tahun', Carbon::now()->year);
-        })->get();        
+            /* case 2. email is not confirmed */
+            $data = Herregistrasi::with('registrasi', 'pembayaran')->where(function ($query) {
+                $query->whereYear('tahun', Carbon::now()->year);
+            })->get();
         }
 
         // $pembayaran = Pembayaran::where('herr_id', 9)->first();
-        
+
         // if ($request->status) {
         //     # code...
         //     $data = Herregistrasi::with('registrasi')->whereYear('tahun',$request->tahun)->where('masa', $request->masa)->where('status', $request->status)->get();
@@ -88,7 +83,7 @@ class HerregistrasiController extends Controller
 
         // }
 
-        return view('pages.herregistrasi.tagihan',compact('data'));
+        return view('pages.herregistrasi.tagihan', compact('data'));
     }
 
     /**
@@ -113,7 +108,7 @@ class HerregistrasiController extends Controller
         $tahun = Carbon::parse($request->tahun)->format('Y');
         $bulan = Carbon::parse($request->tahun)->format('m');
         $no = rand(100000, 999999);
-        $string = ['Rp','.'];
+        $string = ['Rp', '.'];
         $nominal = $request->nominal;
 
         $herregistrasi = Herregistrasi::updateOrCreate(
@@ -121,12 +116,12 @@ class HerregistrasiController extends Controller
                 'id' => $herrID,
             ],
             [
-                'no_inv' => "INV/".$no."/".$bulan."/".$tahun,
+                'no_inv' => 'INV/'.$no.'/'.$bulan.'/'.$tahun,
                 'registrasi_id' => $request->registrasi_id,
                 'tahun' => $request->tahun,
                 'nominal' => str_replace($string, '', $nominal),
                 'uraian' => $request->uraian,
-                'status' => "Belum Bayar"
+                'status' => 'Belum Bayar',
             ]
         );
         // return redirect()->back()->with('message', 'Data Berhasil Disimpan');
@@ -177,9 +172,11 @@ class HerregistrasiController extends Controller
     {
         //
     }
+
     public function getHerr(Request $request)
     {
-        $herr = Herregistrasi::where('id',$request->id)->get();
+        $herr = Herregistrasi::where('id', $request->id)->get();
+
         return response()->json($herr);
     }
 }

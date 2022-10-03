@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembayaran;
 use App\Models\Herregistrasi;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 
 class PembayaranController extends Controller
@@ -49,7 +49,7 @@ class PembayaranController extends Controller
                 'tanggal' => $request->tanggal,
                 'keterangan' => $request->keterangan,
                 'herr_id' => $request->herrID,
-                'verifikasi' => $request->verifikasi
+                'verifikasi' => $request->verifikasi,
 
             ]
         );
@@ -59,11 +59,13 @@ class PembayaranController extends Controller
                 'id' => $herrID,
             ],
             [
-                'status' => "Sudah Bayar"
+                'status' => 'Sudah Bayar',
             ]
         );
+
         return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
+
     public function verifikasi(Request $request)
     {
         $pembayaranId = $request->pembayaranId;
@@ -73,14 +75,13 @@ class PembayaranController extends Controller
                 'id' => $pembayaranId,
             ],
             [
-                'verifikasi' => $request->verifikasi
+                'verifikasi' => $request->verifikasi,
 
             ]
         );
+
         return redirect()->back()->with('message', 'Data Berhasil Disimpan');
-
     }
-
 
     /**
      * Display the specified resource.
@@ -115,7 +116,6 @@ class PembayaranController extends Controller
     {
         //
     }
-
 
     /**
      * Remove the specified resource from storage.

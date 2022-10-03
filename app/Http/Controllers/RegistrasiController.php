@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Registrasi;
-use App\Models\AhliWaris;
-use App\Models\Makam;
-use App\Models\Retribusi;
-use App\Models\Konfigurasi;
-
-
 use App\Imports\RegisImport;
-use Maatwebsite\Excel\Facades\Excel;
-use Crypt;
+use App\Models\AhliWaris;
+use App\Models\Konfigurasi;
+use App\Models\Makam;
+use App\Models\Registrasi;
+use App\Models\Retribusi;
 use Auth;
-
+use Crypt;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RegistrasiController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -26,9 +22,11 @@ class RegistrasiController extends Controller
 
     public function formulir(Request $request)
     {
-        $data = Registrasi::with('ahliwaris','makam','retribusi')->where('id', $request->id)->first();
-        return view('pages.registrasi.formulir',compact('data'));
+        $data = Registrasi::with('ahliwaris', 'makam', 'retribusi')->where('id', $request->id)->first();
+
+        return view('pages.registrasi.formulir', compact('data'));
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,34 +35,31 @@ class RegistrasiController extends Controller
     public function index(Request $request)
     {
         $tahun = $request->tahun;
-        // Auth::user()->roles->first()->display_name; 
+        // Auth::user()->roles->first()->display_name;
         $tpu = Auth::user()->roles->first()->display_name;
 
         if ($tahun != null) {
-
             /* case 1. email or password is wrong */
-            $data = Registrasi::with('ahliwaris','makam','retribusi')
-            ->whereHas('makam', function($q) use($tahun) {
+            $data = Registrasi::with('ahliwaris', 'makam', 'retribusi')
+            ->whereHas('makam', function ($q) use ($tahun) {
                 // Query the name field in status table
                 $q->whereYear('tanggal_meninggal', '=', $tahun); // '=' is optional
             })
             ->get();
-        } elseif ($tpu != "Admin") {
-        
-            $data = Registrasi::with('ahliwaris','makam','retribusi')
-            ->whereHas('makam', function($q) use($tpu) {
+        } elseif ($tpu != 'Admin') {
+            $data = Registrasi::with('ahliwaris', 'makam', 'retribusi')
+            ->whereHas('makam', function ($q) use ($tpu) {
                 // Query the name field in status table
                 $q->where('nama_tpu', '=', $tpu); // '=' is optional
             })
             ->get();
-        
         } else {
-           /* case 2. email is not confirmed */
-           $data = Registrasi::with('ahliwaris','makam','retribusi')->get();
+            /* case 2. email is not confirmed */
+            $data = Registrasi::with('ahliwaris', 'makam', 'retribusi')->get();
         }
-       
+
         return view('pages.registrasi.index', [
-            'data' => $data
+            'data' => $data,
         ]);
     }
 
@@ -75,12 +70,11 @@ class RegistrasiController extends Controller
      */
     public function create(Request $request)
     {
-        
         $data = json_decode('{"verifikasi": "FALSE"}');
         $konfig = Konfigurasi::get();
         $uraian = Konfigurasi::where('id', 1)->first();
 
-        return view('pages.registrasi.form', compact('data','konfig','uraian'));
+        return view('pages.registrasi.form', compact('data', 'konfig', 'uraian'));
     }
 
     /**
@@ -97,13 +91,11 @@ class RegistrasiController extends Controller
         $makamID = $request->makamID;
         $retriID = $request->retriID;
 
-
         $nominal = 40000;
         $kodeReg = rand(100000, 999999);
 
-        $string = ['Rp',',00','.'];
-       
-        
+        $string = ['Rp', ',00', '.'];
+
         $rules = [
             // 'nama' => 'required',
             // 'tempat_lahir1' => 'required',
@@ -134,14 +126,14 @@ class RegistrasiController extends Controller
             // 'registrasi_id' => 'required',
             'retribusi.*.korek' => 'required',
             'retribusi.*.uraian' => 'required',
-            'retribusi.*.nominal' => 'required'
+            'retribusi.*.nominal' => 'required',
         ];
         $customMessages = [
             'required' => ':attribute tidak boleh kosong ',
-            'unique'    => ':attribute sudah digunakan',
+            'unique' => ':attribute sudah digunakan',
 
         ];
-        $attributeNames = array(
+        $attributeNames = [
             'nama' => 'Nama Ahli Waris/Penanggung Jawab',
             'tempat_lahir1' => 'Tempat Lahir Ahli Waris/Penanggung Jawab',
             'tanggal_lahir1' => 'Tanggal Lahir Ahli Waris/Penanggung Jawab',
@@ -171,9 +163,9 @@ class RegistrasiController extends Controller
             'registrasi_id' => 'Registrasi ID',
             'retribusi.*.korek' => 'Kode Rekening',
             'retribusi.*.uraian' => 'Uraian',
-            'retribusi.*.nominal' => 'Nominal' 
-        );
-    
+            'retribusi.*.nominal' => 'Nominal',
+        ];
+
         $valid = $this->validate($request, $rules, $customMessages, $attributeNames);
         $ahliwaris = AhliWaris::updateOrCreate(
             [
@@ -189,7 +181,7 @@ class RegistrasiController extends Controller
                 'agama1' => $request->agama1,
                 'pekerjaan1' => $request->pekerjaan1,
                 'alamat1' => $request->alamat1,
-        ]);  
+            ]);
         $registrasi = Registrasi::updateOrCreate(
             [
                 'id' => $regId,
@@ -208,8 +200,8 @@ class RegistrasiController extends Controller
                 'pekerjaan2' => $request->pekerjaan2,
                 'alamat2' => $request->alamat2,
                 'verifikasi' => $request->verifikasi,
-                'verif_oleh' => $request->verif_oleh, 
-        ]);  
+                'verif_oleh' => $request->verif_oleh,
+            ]);
         $makam = Makam::updateOrCreate(
             [
                 'id' => $makamID,
@@ -224,7 +216,7 @@ class RegistrasiController extends Controller
                 'nomor_tpu' => $request->nomor_tpu,
                 'nama_ditumpang' => $request->nama_ditumpang,
             ]
-        ); 
+        );
         // $retribusi = Retribusi::updateOrCreate(
         //     [
         //         'id' => $retriID,
@@ -236,17 +228,17 @@ class RegistrasiController extends Controller
         //         'nominal' => $request->nominal,
         //     ]
         // );
-        $i = 1; 
+        $i = 1;
         foreach ($request->retribusi as $key => $value) {
             Retribusi::updateOrCreate(
                 [
-                    'id' => $value["id"],
+                    'id' => $value['id'],
 
-                ],[
-                'registrasi_id' => $registrasi->id,
-                'korek' => $value["korek"],
-                'uraian' => $value["uraian"],
-                'nominal' => str_replace($string, '', $value["nominal"])
+                ], [
+                    'registrasi_id' => $registrasi->id,
+                    'korek' => $value['korek'],
+                    'uraian' => $value['uraian'],
+                    'nominal' => str_replace($string, '', $value['nominal']),
                 ]);
         }
 
@@ -263,23 +255,24 @@ class RegistrasiController extends Controller
     {
         //
     }
+
     public function verif(Request $request)
     {
         $rules = [
             'verif_oleh' => 'required',
             'verifikasi' => 'required',
-           
+
         ];
         $customMessages = [
             'required' => ':attribute tidak boleh kosong ',
 
         ];
-        $attributeNames = array(
+        $attributeNames = [
             'verif_oleh' => 'Nama Verifikator Wajib Diisi!',
             'verifikasi' => 'Verifikasi Wajib Dicentang',
-             
-        );
-    
+
+        ];
+
         $valid = $this->validate($request, $rules, $customMessages, $attributeNames);
         $registrasi = Registrasi::updateOrCreate(
             [
@@ -287,11 +280,12 @@ class RegistrasiController extends Controller
             ],
             [
                 'verifikasi' => $request->verifikasi,
-                'verif_oleh' => $request->verif_oleh, 
-        ]); 
-        return redirect()->back()->with('message', 'Data Berhasil Diverifikasi');
+                'verif_oleh' => $request->verif_oleh,
+            ]);
 
+        return redirect()->back()->with('message', 'Data Berhasil Diverifikasi');
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -299,14 +293,15 @@ class RegistrasiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
-    {  
-        $data = Registrasi::with('ahliwaris','makam','retribusi')->where('id',$request->id)->first();
+    {
+        $data = Registrasi::with('ahliwaris', 'makam', 'retribusi')->where('id', $request->id)->first();
         $konfig = Konfigurasi::get();
 
         if ($request->ajax()) {
             return response()->json($data);
         }
-        return view('pages.registrasi.form', compact('data','konfig'));
+
+        return view('pages.registrasi.form', compact('data', 'konfig'));
     }
 
     /**
@@ -318,7 +313,8 @@ class RegistrasiController extends Controller
      */
     public function update(Request $request)
     {
-        $data = Registrasi::with('ahliwaris','makam','retribusi')->where('id',$request->id)->first();
+        $data = Registrasi::with('ahliwaris', 'makam', 'retribusi')->where('id', $request->id)->first();
+
         return response()->json($data);
     }
 
@@ -330,21 +326,22 @@ class RegistrasiController extends Controller
      */
     public function destroy(Request $request)
     {
-        $data = Registrasi::where('id',$request->id)->delete();
+        $data = Registrasi::where('id', $request->id)->delete();
         // return redirect()->back()->with('message', 'Data Berhasil Dihapus');
         return response()->json($data, 200);
     }
 
     public function destroyRetri(Request $request)
     {
-        $data = Retribusi::where('id',$request->id)->delete();
+        $data = Retribusi::where('id', $request->id)->delete();
         // return redirect()->back()->with('message', 'Data Berhasil Dihapus');
         return response()->json($data, 200);
     }
 
-    public function fileImport(Request $request) 
+    public function fileImport(Request $request)
     {
         Excel::import(new RegisImport, $request->file('file')->store('temp'));
+
         return back();
     }
 }

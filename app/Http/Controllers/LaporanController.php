@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Herregistrasi;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
@@ -15,6 +15,7 @@ class LaporanController extends Controller
     public function index()
     {
         $data = Herregistrasi::with('registrasi')->get();
+
         return view('pages.laporan.index', compact('data'));
     }
 

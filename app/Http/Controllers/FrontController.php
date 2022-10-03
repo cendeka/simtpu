@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Blog;
-
 use Illuminate\Http\Request;
-
 
 class FrontController extends Controller
 {
@@ -17,6 +16,7 @@ class FrontController extends Controller
     {
         //
         $blog = Blog::limit(3)->get();
+
         return view('pages.front.index', compact('blog'));
     }
 
