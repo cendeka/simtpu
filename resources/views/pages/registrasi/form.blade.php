@@ -222,7 +222,7 @@
                                         <div class="mb-3">
                                             <label for="verticalnav-card-verification-input">Nama TPU</label>
                                             <input type="text" class="form-control" id="nama_tpu" name="nama_tpu"
-                                                placeholder="Nama TPU" value="{{Auth::user()->roles->first()->display_name; }}" disabled>
+                                                placeholder="Nama TPU" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
