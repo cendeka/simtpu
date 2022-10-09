@@ -390,7 +390,7 @@
             $("#korek" + i).val(ret.kode_rekening);
             $("#uraian" + i).val(ret.uraian);
             $("#nominal" + i).val(ret.nominal);
-            console.log(ret.nominal);
+            // console.log(ret.nominal);
         });
         $("#dynamic-ar").click(function() {
                 ++i;

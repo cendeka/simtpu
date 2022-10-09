@@ -174,7 +174,7 @@
         $('#tanggal_meninggal').on('change', function() {
             var tm = $(this).val();
             $("#tanggal_dimakamkan").val(tm);
-            console.log(tm);
+            // console.log(tm);
         });
     </script>
     <script>

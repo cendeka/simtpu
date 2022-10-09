@@ -241,7 +241,7 @@ $(document).on('change', function() {
             var retribusi = $(this).val();
             var ret = jQuery.parseJSON(retribusi);
             $("#nominal").val(ret.nominal);
-            console.log(ret.nominal);
+            // console.log(ret.nominal);
         });
     </script>
 @endsection
