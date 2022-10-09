@@ -199,7 +199,7 @@ function tahun(tahun) {
                 options: options
             });
             chart.update();
-            console.log(res);
+            // console.log(res);
         },
         error: function (res) {
 
