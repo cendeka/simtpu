@@ -124,9 +124,9 @@ class RegistrasiController extends Controller
             // 'nomor_tpu' => 'required',
             // 'nama_ditumpang' => 'required',
             // 'registrasi_id' => 'required',
-            'retribusi.*.korek' => 'required',
-            'retribusi.*.uraian' => 'required',
-            'retribusi.*.nominal' => 'required',
+            // 'retribusi.*.korek' => 'required',
+            // 'retribusi.*.uraian' => 'required',
+            // 'retribusi.*.nominal' => 'required',
         ];
         $customMessages = [
             'required' => ':attribute tidak boleh kosong ',
@@ -211,10 +211,13 @@ class RegistrasiController extends Controller
                 'tanggal_meninggal' => $request->tanggal_meninggal,
                 'tanggal_dimakamkan' => $request->tanggal_dimakamkan,
                 'luas_lahan' => $request->luas_lahan,
+                'luas_lahan1' => $request->luas_lahan1,
+                'luas_lahan2' => $request->luas_lahan2,
                 'nama_tpu' => $request->nama_tpu,
                 'blok_tpu' => $request->blok_tpu,
                 'nomor_tpu' => $request->nomor_tpu,
                 'nama_ditumpang' => $request->nama_ditumpang,
+                
             ]
         );
         // $retribusi = Retribusi::updateOrCreate(
@@ -228,21 +231,23 @@ class RegistrasiController extends Controller
         //         'nominal' => $request->nominal,
         //     ]
         // );
-        $i = 1;
-        foreach ($request->retribusi as $key => $value) {
-            Retribusi::updateOrCreate(
-                [
-                    'id' => $value['id'],
-
-                ], [
-                    'registrasi_id' => $registrasi->id,
-                    'korek' => $value['korek'],
-                    'uraian' => $value['uraian'],
-                    'nominal' => str_replace($string, '', $value['nominal']),
-                ]);
+        if ($request->retribusi != null) {
+            # code...
+            $i = 1;
+            foreach ($request->retribusi as $key => $value) {
+                Retribusi::updateOrCreate(
+                    [
+                        'id' => $value['id'],
+    
+                    ], [
+                        'registrasi_id' => $registrasi->id,
+                        'korek' => $value['korek'],
+                        'uraian' => $value['uraian'],
+                        'nominal' => str_replace($string, '', $value['nominal']),
+                    ]);
+            }
         }
-
-        return redirect()->route('registrasi')->with('message', 'Data Berhasil Disimpan');
+        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 
     /**

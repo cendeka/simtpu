@@ -16,8 +16,15 @@ class MakamController extends Controller
     public function index()
     {
         $tpu = Auth::user()->roles->first()->display_name;
-        $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $tpu)->get();
+        if ($tpu == "Admin") {
+            # code...
+            $data = Makam::with('registrasi.herregistrasi')->get();
+        } else {
+            # code...
+            $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $tpu)->get();
 
+        }
+        
         return view('pages.makam.index', compact('data'));
     }
 
