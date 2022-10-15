@@ -78,62 +78,98 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('registrasi.store') }}" method="POST">
+                            <form action="{{ route('registrasi.store') }}" method="POST" class="needs-validation" novalidate>
                                 @csrf
                             <div class="row">
                                 <div class="col-8">
-                                    <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Nama Makam</label>
+                                    <div class="mb-3 position-relative">
+                                        <label for="nama_meninggal">Nama Makam</label>
                                         <input type="text" class="form-control" id="nama_meninggal" name="nama_meninggal"
-                                            placeholder="Nama Makam" value="">
+                                            placeholder="Nama Makam" value="" required>
+                                            <div class="invalid-tooltip">
+                                                Nama Makam Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Tanggal Meninggal</label>
+                                        <label for="tanggal_meninggal">Tanggal Meninggal</label>
                                         <input type="date" class="form-control" id="tanggal_meninggal" name="tanggal_meninggal"
-                                            placeholder="Tanggal Meninggal" value="">
+                                            placeholder="Tanggal Meninggal" value="" required>
                                         <input type="hidden" class="form-control" id="tanggal_dimakamkan" name="tanggal_dimakamkan"
                                             placeholder="Tanggal Meninggal" value="">
+                                            <div class="invalid-tooltip">
+                                                Tanggal Meninggal Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Nama Ahliwaris</label>
+                                        <label for="nama">Nama Ahliwaris</label>
                                         <input type="text" class="form-control" id="nama" name="nama"
-                                            placeholder="Nama TPU" value="">
+                                            placeholder="Nama Ahli Waris" value="" required>
+                                            <div class="invalid-tooltip">
+                                                Nama Ahli Waris Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Alamat Ahliwaris</label>
+                                        <label for="alamat1">Alamat Ahliwaris</label>
                                         <input type="text" class="form-control" id="alamat1" name="alamat1"
-                                            placeholder="Nama TPU" value="">
+                                            placeholder="Alamat Ahli Waris" value="" required>
+                                            <div class="invalid-tooltip">
+                                                Alamat Ahli Waris Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Nama TPU</label>
-                                        <input type="text" class="form-control" id="nama_tpu" name="nama_tpu"
-                                            placeholder="Nama TPU" value="">
+                                        <label for="nama_tpu">Nama TPU</label>
+                                        {{-- <input type="text" class="form-control" id="nama_tpu" name="nama_tpu"
+                                            placeholder="Nama TPU" value=""> --}}
+                                            <select class="form-control" name="nama_tpu" id="nama_tpu" required>
+                                                <option value="">Pilih Nama TPU</option>
+                                                @foreach ($tpu as $item)
+                                                <option value="{{$item->nama_tpu}}">{{$item->nama_tpu}}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                TPU Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Blok</label>
-                                        <input type="text" class="form-control" id="blok_tpu" name="blok_tpu"
-                                            placeholder="Nama TPU" value="">
+                                        <label for="blok_tpu">Blok</label>
+                                        {{-- <input type="text" class="form-control" id="blok_tpu" name="blok_tpu"
+                                            placeholder="Blok Makam" value=""> --}}
+                                        <select class="form-control" name="blok_tpu" id="blok_tpu" required>
+                                            <option value="">Pilih Blok</option>
+                                            <option value="A">Blok A</option>
+                                            <option value="B">Blok B</option>
+                                            <option value="C">Blok C</option>
+                                            <option value="D">Blok D</option>
+                                            <option value="E">Blok E</option>
+                                            <option value="F">Blok F</option>
+                                        </select>
+                                        <div class="invalid-tooltip">
+                                            Blok Makam Wajib Diisi!
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Nomor</label>
+                                        <label for="nomor_tpu">Nomor</label>
                                         <input type="text" class="form-control" id="nomor_tpu" name="nomor_tpu"
-                                            placeholder="Nama TPU" value="">
+                                            placeholder="Nomor Makam" value="" required>
+                                            <div class="invalid-tooltip">
+                                                Nomor Makam Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -141,16 +177,22 @@
                                 <h5>Luas Lahan</h5>
                                 <div class="col-3">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Panjang</label>
+                                        <label for="luas_lahan1">Panjang</label>
                                         <input type="text" class="form-control" id="luas_lahan1" name="luas_lahan1"
-                                            placeholder="P" value="">
+                                            placeholder="P" value="" required>
+                                            <div class="invalid-tooltip">
+                                                Panjang Makam Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-3">
-                                        <label for="verticalnav-card-verification-input">Lebar</label>
+                                        <label for="luas_lahan2">Lebar</label>
                                         <input type="text" class="form-control" id="luas_lahan2" name="luas_lahan2"
-                                            placeholder="L" value="">
+                                            placeholder="L" value="" required>
+                                            <div class="invalid-tooltip">
+                                                Lebar Makam Wajib Diisi!
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -170,6 +212,7 @@
     <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
     <script>
         $('#tanggal_meninggal').on('change', function() {
             var tm = $(this).val();
