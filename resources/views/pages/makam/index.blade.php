@@ -54,7 +54,7 @@
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item"
-                                                    href="makam/detail?registrasi_id={{ $item->registrasi->id }}">Detail
+                                                    href="makam/detail?registrasi_id={{ $item->registrasi->id ?? '' }}">Detail
                                                     Makam</a>
                                             </div>
                                         </div>
