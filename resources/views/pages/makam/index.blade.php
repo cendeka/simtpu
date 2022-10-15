@@ -93,7 +93,7 @@
                                         <label for="verticalnav-card-verification-input">Tanggal Meninggal</label>
                                         <input type="date" class="form-control" id="tanggal_meninggal" name="tanggal_meninggal"
                                             placeholder="Tanggal Meninggal" value="">
-                                        <input type="date" class="form-control" id="tanggal_dimakamkan" name="tanggal_dimakamkan"
+                                        <input type="hidden" class="form-control" id="tanggal_dimakamkan" name="tanggal_dimakamkan"
                                             placeholder="Tanggal Meninggal" value="">
                                     </div>
                                 </div>
