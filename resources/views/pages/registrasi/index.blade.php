@@ -61,7 +61,7 @@
                                     <td>{{ $item->nama_meninggal }}</td>
                                     <td>{{ $item->ahliwaris->nama }}</td>
                                     <td>{{ date('m-Y',strtotime($item->makam->tanggal_meninggal ?? '')) }}</td>
-                                    <td>{{ $item->makam->nama_tpu }}</td>
+                                    <td>{{ $item->makam->nama_tpu ?? ''}}</td>
                                     <td>Rp{{ number_format($item->retribusi->sum('nominal'),'2',',','.') }}</td>
                                     <td>
                                         <div class="btn-group">
