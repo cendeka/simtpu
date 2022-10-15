@@ -46,7 +46,7 @@
                                     <td>{{ $item->registrasi->nama_meninggal ?? '' }}</td>
                                     <td>{{ $item->tanggal_dimakamkan }}</td>
                                     <td>{{$item->nama_tpu}} Blok {{ $item->blok_tpu }} - {{ $item->nomor_tpu }}</td>
-                                    <td>{{ $item->registrasi->kode_registrasi }}</td>
+                                    <td>{{ $item->registrasi->kode_registrasi ?? '' }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary dropdown-toggle"
