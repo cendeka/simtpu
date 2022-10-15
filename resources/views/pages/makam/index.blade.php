@@ -43,7 +43,7 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $item->registrasi->nama_meninggal }}</td>
+                                    <td>{{ $item->registrasi->nama_meninggal ?? '' }}</td>
                                     <td>{{ $item->tanggal_dimakamkan }}</td>
                                     <td>{{$item->nama_tpu}} Blok {{ $item->blok_tpu }} - {{ $item->nomor_tpu }}</td>
                                     <td>{{ $item->registrasi->kode_registrasi }}</td>
