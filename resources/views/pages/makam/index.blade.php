@@ -178,7 +178,7 @@
                                 <div class="col-3">
                                     <div class="mb-3">
                                         <label for="luas_lahan1">Panjang</label>
-                                        <input type="text" class="form-control" id="luas_lahan1" name="luas_lahan1"
+                                        <input type="number" step=0.1 class="form-control" id="luas_lahan1" name="luas_lahan1"
                                             placeholder="P" value="" required>
                                             <div class="invalid-tooltip">
                                                 Panjang Makam Wajib Diisi!
@@ -188,7 +188,7 @@
                                 <div class="col-3">
                                     <div class="mb-3">
                                         <label for="luas_lahan2">Lebar</label>
-                                        <input type="text" class="form-control" id="luas_lahan2" name="luas_lahan2"
+                                        <input type="number" step=0.1 class="form-control" id="luas_lahan2" name="luas_lahan2"
                                             placeholder="L" value="" required>
                                             <div class="invalid-tooltip">
                                                 Lebar Makam Wajib Diisi!
