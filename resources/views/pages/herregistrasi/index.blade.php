@@ -43,7 +43,7 @@
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $item->nama_meninggal ?? ''}}</td>
                                     <td>{{$item->makam->nama_tpu ?? ''}}</td>
-                                    <td>{{ date('m-Y', strtotime($item->makam->tanggal_dimakamkan)) }}</td>
+                                    <td>{{ date('m-Y', strtotime($item->makam->tanggal_dimakamkan ?? '')) }}</td>
                                     <td>
                                        @if ($item->herregistrasi->isNotEmpty())
                                            @foreach ($item->herregistrasi as $herregistrasi)
@@ -52,14 +52,14 @@
                                             @endif
                                            @endforeach
                                        @else
-                                       <span class="badge bg-danger" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($item->makam->tanggal_dimakamkan)->addYears(2)->format('m-Y') }}</span>
+                                       <span class="badge bg-danger" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($item->makam->tanggal_dimakamkan ?? '')->addYears(2)->format('m-Y') }}</span>
 
                                        @endif
                                     </td>
                                     <td>
                                         @foreach ($item->herregistrasi as $herregistrasi)
                                             @if ($loop->last)
-                                                <span class="badge bg-info" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($herregistrasi->tahun)->addYears(2)->format('m-Y') }}</span>
+                                                <span class="badge bg-info" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($herregistrasi->tahun ?? '')->addYears(2)->format('m-Y') }}</span>
                                             @endif
                                         @endforeach
                                     </td>
