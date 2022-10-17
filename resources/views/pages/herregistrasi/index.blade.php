@@ -41,14 +41,14 @@
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td>{{ $item->nama_meninggal }}</td>
+                                    <td>{{ $item->nama_meninggal ?? ''}}</td>
                                     <td>{{$item->makam->nama_tpu ?? ''}}</td>
                                     <td>{{ date('m-Y', strtotime($item->makam->tanggal_dimakamkan)) }}</td>
                                     <td>
                                        @if ($item->herregistrasi->isNotEmpty())
                                            @foreach ($item->herregistrasi as $herregistrasi)
                                             @if ($loop->last)
-                                                {{ $herregistrasi->tahun}}
+                                                {{ $herregistrasi->tahun ?? ''}}
                                             @endif
                                            @endforeach
                                        @else
