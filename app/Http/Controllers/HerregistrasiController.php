@@ -124,8 +124,7 @@ class HerregistrasiController extends Controller
                 'status' => 'Belum Bayar',
             ]
         );
-        // return redirect()->back()->with('message', 'Data Berhasil Disimpan');
-        // dd($herregistrasi);
+        return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 
     /**
