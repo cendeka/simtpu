@@ -125,7 +125,7 @@ class HerregistrasiController extends Controller
             ]
         );
         // return redirect()->back()->with('message', 'Data Berhasil Disimpan');
-        dd($herregistrasi);
+        // dd($herregistrasi);
     }
 
     /**
