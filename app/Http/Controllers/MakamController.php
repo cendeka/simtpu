@@ -13,7 +13,7 @@ class MakamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $collection = Makam::distinct()->get(['nama_tpu']);
         $tpu = $collection->unique('nama_tpu');
@@ -21,7 +21,7 @@ class MakamController extends Controller
         $op = Auth::user()->roles->first()->display_name;
         if ($op == "Admin") {
             # code...
-            $data = Makam::with('registrasi.herregistrasi')->get();
+            $data = Makam::with('registrasi.herregistrasi')->whereYear('tanggal_dimakamkan', $request->tahun_dimakamkan)->get();
         } else {
             # code...
             $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $tpu)->get();
