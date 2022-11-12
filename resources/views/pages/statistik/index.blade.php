@@ -57,7 +57,7 @@
                 $duadua_belum = \App\Models\Herregistrasi::whereYear('tahun', 2022)
                     ->where('status', 'Belum Bayar')
                     ->count();
-                
+
                 $duasatu = \App\Models\Herregistrasi::whereYear('tahun', 2021)->sum('nominal');
                 $duasatu_bayar = \App\Models\Herregistrasi::whereYear('tahun', 2021)
                     ->where('status', 'Sudah Bayar')
@@ -65,7 +65,7 @@
                 $duasatu_belum = \App\Models\Herregistrasi::whereYear('tahun', 2021)
                     ->where('status', 'Belum Bayar')
                     ->count();
-                
+
                 $duapuluh = \App\Models\Herregistrasi::whereYear('tahun', 2020)->sum('nominal');
                 $duapuluh_bayar = \App\Models\Herregistrasi::whereYear('tahun', 2020)
                     ->where('status', 'Sudah Bayar')
@@ -73,7 +73,7 @@
                 $duapuluh_belum = \App\Models\Herregistrasi::whereYear('tahun', 2020)
                     ->where('status', 'Belum Bayar')
                     ->count();
-                
+
             @endphp
             2022: Total Rp{{ number_format($duadua, '2', ',', '.') }} Sudah Bayar: {{ $duadua_bayar }} Belum Bayar:
             {{ $duadua_belum }} <br>
@@ -126,7 +126,6 @@
                     {{ \App\Models\Makam::where('nama_tpu', 'Nona Manis')->count() }},
                     {{ \App\Models\Makam::where('nama_tpu', 'Pamoyanan')->count() }},
                     {{ \App\Models\Makam::where('nama_tpu', 'Paragajen')->count() }},
-                    {{ \App\Models\Makam::where('nama_tpu', 'Pasarean')->count() }},
                     {{ \App\Models\Makam::where('nama_tpu', 'Pasarean Agung')->count() }},
                     {{ \App\Models\Makam::where('nama_tpu', 'Pasir Gombong')->count() }},
                     {{ \App\Models\Makam::where('nama_tpu', 'Pasir Langkap')->count() }},
@@ -230,7 +229,7 @@
                 title: {
                     text: 'Rupiah',
                 },
-    
+
             },
         };
 
@@ -247,28 +246,28 @@
                                 // Query the name field in status table
                                 $q->whereYear('tanggal_meninggal', '=', 2019); // '=' is optional
                             })
-                            ->sum('nominal') 
+                            ->sum('nominal')
                         }},
                         {{ \App\Models\Retribusi::with('registrasi.makam')
                             ->whereHas('registrasi.makam', function ($q) {
                                 // Query the name field in status table
                                 $q->whereYear('tanggal_meninggal', '=', 2020); // '=' is optional
                             })
-                            ->sum('nominal') 
+                            ->sum('nominal')
                         }},
                         {{ \App\Models\Retribusi::with('registrasi.makam')
                             ->whereHas('registrasi.makam', function ($q) {
                                 // Query the name field in status table
                                 $q->whereYear('tanggal_meninggal', '=', 2021); // '=' is optional
                             })
-                            ->sum('nominal') 
+                            ->sum('nominal')
                         }},
                         {{ \App\Models\Retribusi::with('registrasi.makam')
                             ->whereHas('registrasi.makam', function ($q) {
                                 // Query the name field in status table
                                 $q->whereYear('tanggal_meninggal', '=', 2022); // '=' is optional
                             })
-                            ->sum('nominal') 
+                            ->sum('nominal')
                         }},
 
                     ]
@@ -304,7 +303,7 @@
                 title: {
                     text: 'Rupiah',
                 },
-    
+
             },
         };
 
