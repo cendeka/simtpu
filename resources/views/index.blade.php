@@ -12,13 +12,6 @@
         @slot('li_1') SIM-TPU @endslot
         @slot('title') Dashboard @endslot
     @endcomponent
-{{-- <p>Jumlah Retribusi: {{$retribusi}}</p>
-<p>Jumlah Registrasi Pemakaman: {{$registrasi->count()}}</p>
-<p>Jumlah Makam: {{$makam->count()}}</p>
-<p>Jumlah Registrasi tahun 2021: {{$subTahun1}}</p>
-<p>Jumlah Registrasi tahun 2020: {{$subTahun2}}</p>
-<p>Jumlah Registrasi tahun 2019: {{$subTahun3}}</p> --}}
-<p>{{Auth::user()->roles->first()->display_name }}</p>
 <div class="row">
     <div class="col-xl-12">
         <div class="row">
@@ -85,126 +78,233 @@
         </div>
     </div>
 </div>
-@role('admin')
 <div class="row">
-    <h3>Statistik Pemakaman</h3>
-    <div class="col-lg-12">
-        <select class="form-control" name="tahun" id="tahun">
-            <option value="" selected>Pilih Tahun</option>
-            <option value="2021" href="javascript:void(0)" onclick="tahun('2021')">2021</option>
-            <option value="2020" href="javascript:void(0)" onclick="tahun('2020')">2020</option>
-            <option value="2019" href="javascript:void(0)" onclick="tahun('2019')">2019</option>
-        </select>
-        <canvas id="chart-0"></canvas>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Data TPU</h4>
+                <div id="chart" data-colors='["--bs-success"]' class="apex-charts" dir="ltr"></div>
+
+            </div>
+        </div>
     </div>
-    {{-- <div class="col-lg-6">
-       @foreach ($tpu as $item)
-          <ul>
-            <li> {{$item->nama_tpu}}</li>
-          </ul>
-       @endforeach
-    </div> --}}
 </div>
-@endrole
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Data Pembayaran Retribusi</h4>
+                <div id="Linechart1" data-colors='["--bs-success"]' class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Data Pembayaran Herregistrasi</h4>
+                <div id="Linechart" data-colors='["--bs-success"]' class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
-<script src="https://www.chartjs.org/dist/2.6.0/Chart.bundle.js"></script>
-<script src="https://www.chartjs.org/samples/2.6.0/utils.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-
-<script>
-   
-var url = '{{ route('chart') }}';
-function tahun(tahun) {
-    $.ajax({
-        url: url,
-        type: 'GET',
-        data: {
-            "tahun": tahun,
-        },
-        dataType: 'json',
-        success: function (res) {
-            var options = {
-                legend: {
-                    display: true,
-                    fillStyle: "red",
-
-                    labels: {
-                        boxWidth: 0,
-                        fontSize: 24,
-                        fontColor: "black",
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        stacked: false,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Bulan'
-                        },
-                    }],
-                    yAxes: [{
-                        stacked: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Makam'
-                        },
-                        ticks: {
-                            // Shorthand the millions
-
-                        }
-                    }]
-                },
-                /*end scales */
-                plugins: {
-                    datalabels: {
-                        formatter: Math.round,
-                        color: 'black',
-                        font: {
-                            size: 10
-                        }
-                    }
-                }
-            };
-            var dataObjects = [res.makam]
-            var data = {
-                labels: dataObjects[0].label,
-                datasets: [{
-                    label: [tahun],
-                    data: dataObjects[0].data,
-                    /* global setting */
-                    backgroundColor: [
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-                        'rgba(0, 255, 96, 0.8)',
-
-                    ],
-                    borderWidth: 1
-                }]
-            };
-            var chart = new Chart('chart-0', {
-                plugins: [ChartDataLabels],
+<script charset="utf-8" src="https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        var options = {
+            series: [{
+                name: 'Jumlah Makam',
+                data: [
+                    {{ \App\Models\Makam::where('nama_tpu', 'Cikareo')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Cunangala')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Nona Manis')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Pamoyanan')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Paragajen')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Pasarean Agung')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Pasir Gombong')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Pasir Langkap')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Pasir Sereh')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Sarongge')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Sirnalaya I')->count() }},
+                    {{ \App\Models\Makam::where('nama_tpu', 'Sirnalaya II')->count() }},
+                ]
+            }],
+            chart: {
                 type: 'bar',
-                data: data,
-                options: options
-            });
-            chart.update();
-            // console.log(res);
-        },
-        error: function (res) {
+                height: 500
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: [
+                    "Cikareo",
+                    "Cunangala",
+                    "Nona Manis",
+                    "Pamoyanan",
+                    "Paragajen",
+                    "Pasarean",
+                    "Pasarean Agung",
+                    "Pasir Gombong",
+                    "Pasir Langkap",
+                    "Pasir Sereh",
+                    "Sarongge",
+                    "Sirnalaya I",
+                    "Sirnalaya II",
+                ],
+            }
+        };
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
+    <script>
+        var options = {
+            series: [{
+                    name: "Total",
+                    data: [
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2019)->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2020)->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2021)->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2022)->sum('nominal') }},
+                    ]
+                },
+                {
+                    name: "Belum Bayar",
+                    data: [
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2019)->where('status', 'Belum Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2020)->where('status', 'Belum Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2021)->where('status', 'Belum Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2022)->where('status', 'Belum Bayar')->sum('nominal') }},
+                    ]
+                },
+                {
+                    name: "Sudah Bayar",
+                    data: [
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2019)->where('status', 'Sudah Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2020)->where('status', 'Sudah Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2021)->where('status', 'Sudah Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2022)->where('status', 'Sudah Bayar')->sum('nominal') }},
+                    ]
+                }
+            ],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'Data Pertahun',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['2019', '2020', '2021', '2022'],
+            },
+            yaxis: {
+                title: {
+                    text: 'Rupiah',
+                },
 
-        }
-    });
-}          
-</script>
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#Linechart"), options);
+        chart.render();
+    </script>
+     <script>
+        var options = {
+            series: [{
+                    name: "Total",
+                    data: [
+                        {{ \App\Models\Retribusi::with('registrasi.makam')
+                            ->whereHas('registrasi.makam', function ($q) {
+                                // Query the name field in status table
+                                $q->whereYear('tanggal_meninggal', '=', 2019); // '=' is optional
+                            })
+                            ->sum('nominal')
+                        }},
+                        {{ \App\Models\Retribusi::with('registrasi.makam')
+                            ->whereHas('registrasi.makam', function ($q) {
+                                // Query the name field in status table
+                                $q->whereYear('tanggal_meninggal', '=', 2020); // '=' is optional
+                            })
+                            ->sum('nominal')
+                        }},
+                        {{ \App\Models\Retribusi::with('registrasi.makam')
+                            ->whereHas('registrasi.makam', function ($q) {
+                                // Query the name field in status table
+                                $q->whereYear('tanggal_meninggal', '=', 2021); // '=' is optional
+                            })
+                            ->sum('nominal')
+                        }},
+                        {{ \App\Models\Retribusi::with('registrasi.makam')
+                            ->whereHas('registrasi.makam', function ($q) {
+                                // Query the name field in status table
+                                $q->whereYear('tanggal_meninggal', '=', 2022); // '=' is optional
+                            })
+                            ->sum('nominal')
+                        }},
+
+                    ]
+                }
+            ],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: 'Data Pertahun',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ['2019', '2020', '2021', '2022'],
+            },
+            yaxis: {
+                title: {
+                    text: 'Rupiah',
+                },
+
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#Linechart1"), options);
+        chart.render();
+    </script>
 @endsection
