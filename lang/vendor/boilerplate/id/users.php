@@ -1,0 +1,48 @@
+<?php
+
+return [
+    'title'         => 'Akun',
+    'returntolist'  => 'Daftar akun',
+    'save'          => 'Simpan',
+    'informations'  => 'Informasi akun',
+    'status'        => 'Status',
+    'active'        => 'Aktif',
+    'inactive'      => 'Tidak Aktif',
+    'lastname'      => 'Nama belakang',
+    'firstname'     => 'Nama depan',
+    'email'         => 'E-mail',
+    'roles'         => 'Hak Akses',
+    'successadd'    => 'Akun berhasil ditambahkan.',
+    'successmod'    => 'Akun berhasil diubah.',
+    'newpassword'   => 'Kata sandi berhasil disimpan.',
+    'create'        => [
+        'title'     => 'Tambah akun',
+        'help'      => 'Akun akan menerima undangan melalui email untuk masuk yang memungkinkannya memasukkan kata sandi barunya',
+    ],
+    'edit' => [
+        'title'     => 'Ubah akun',
+    ],
+    'list' => [
+        'title'         => 'Daftar Pengguna',
+        'id'            => 'Id',
+        'state'         => 'Status',
+        'lastname'      => 'Nama Belakang',
+        'firstname'     => 'Nama Depan',
+        'email'         => 'E-mail',
+        'roles'         => 'Hak akses',
+        'creationdate'  => 'Tanggal dibuat',
+        'lastconnect'   => 'Update log',
+        'confirmdelete' => 'Apakah Anda mengonfirmasi bahwa Anda ingin menghapus akun ini?',
+        'deletesuccess' => 'Akun berhasil dihapus',
+        'deleteerror'   => 'Terjadi kesalahan saat mencoba menghapus akun',
+    ],
+    'profile' => [
+        'title'            => 'Profil',
+        'subscribedsince'  => 'Dibuat sejak :date ( :since )',
+        'avatar'           => 'Foto profil',
+        'delavatar'        => 'Hapus foto profil',
+        'confirmdelavatar' => 'Hapus foto profil ?',
+        'successdelavatar' => 'Foto profil berhasil dihapus',
+        'successupdate'    => 'Foto profil berhasil diubah',
+    ],
+];

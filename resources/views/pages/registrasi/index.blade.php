@@ -36,7 +36,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                   
+
                 </div>
                 <div class="card-body">
                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
@@ -64,15 +64,15 @@
                                     <td>{{ $item->makam->nama_tpu ?? ''}}</td>
                                     <td>Rp{{ number_format($item->retribusi->sum('nominal'),'2',',','.') }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Opsi <i class="mdi mdi-chevron-down"></i></button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="registrasi/ubah?id={{$item->id}}">Ubah</a>
-                                                <a class="dropdown-item btn-hapus" href="javascript:void(0)" onclick="hapus({{$item->id}})">Hapus</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="/registrasi/formulir?id={{$item->id}}">Print Formulir</a>
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-sm">
+                                            <a href="registrasi/ubah?id={{$item->id}}"> <i class="fa fa-edit"></i></a>
+                                        </button>
+                                        <button class="btn btn-sm">
+                                           <a href="/registrasi/formulir?id={{$item->id}}"> <i class="fa fa-print"> </i></a>
+                                        </button>
+                                        <button class="btn btn-sm">
+                                            <a href="javascript:void(0)" onclick="hapus({{$item->id}})"><i class="fa fa-trash"> </i></a>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -197,7 +197,7 @@
                                 icon: 'success',
                                 timer: 2000,
                             });
-                            location.reload();                         
+                            location.reload();
                         }
                     })
                 }

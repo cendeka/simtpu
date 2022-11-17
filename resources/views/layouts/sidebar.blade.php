@@ -21,7 +21,7 @@
                         <span key="t-starter-page">Registrasi</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('registrasi.tambah')}}">Form Registrasi</a></li>
+                        <li><a href="{{route('registrasi.tambah')}}">Tambah Registrasi</a></li>
                         <li><a href="{{route('registrasi')}}">Data Registrasi</a></li>
                     </ul>
                 </li>
@@ -70,11 +70,11 @@
                 <li class="menu-title" key="t-menu">@lang('translation.Pages')</li>
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
-                        <i class=" bx bx-cog "></i>
-                        <span key="t-starter-page">Konfigurasi</span>
+                        <i class=" bx bx-credit-card "></i>
+                        <span key="t-starter-page">Pengaturan</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('konfig.tambah')}}">Retribusi</a></li>
+                        <li><a href="{{route('konfig.tambah')}}">Tarif</a></li>
                     </ul>
                 </li>
                 @role('admin')

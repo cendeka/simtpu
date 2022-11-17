@@ -28,8 +28,8 @@ return [
             'bg' => 'gray-dark',
             'logo' => [
                 'bg' => 'blue',
-                'icon' => '<i class="fa fa-cubes"></i>',
-                'text' => '<strong>BO</strong>ilerplate',
+                'icon' => '<i class="fa fa-home"></i>',
+                'text' => '<strong>SIM</strong>TPU',
                 'shadow' => 2,
             ],
         ],
@@ -40,8 +40,8 @@ return [
     ],
     'footer' => [
         'visible' => true,
-        'vendorname' => 'Boilerplate',
-        'vendorlink' => '',
+        'vendorname' => 'SIMTPU',
+        'vendorlink' => '/',
     ],
     'card' => [
         'outline' => true,

@@ -198,9 +198,10 @@
                                     <div class="col-lg-12">
                                         <form action="{{ route('pembayaran.verif') }}" method="POST">
                                             @csrf
-                                         <input type="text" name="pembayaranId" value="{{$d->pembayaran->id ?? 0}}">
+                                         <input type="hidden" name="pembayaranId" value="{{$d->pembayaran->id ?? 0}}">
+                                        <span>{{$d}}</span>
                                          <input class="form-check-input" type="checkbox" id="verifikasi" name="verifikasi"
-                                            value="1" checked="">
+                                            value="1">
                                         <label class="form-check-label" for="verifikasi">
                                             Data Telah Sesuai
                                         </label>
