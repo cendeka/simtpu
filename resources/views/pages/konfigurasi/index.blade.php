@@ -13,7 +13,7 @@ Konfigurasi
         Konfigurasi
     @endslot
     @slot('title')
-        Konfigurasi Retribusi
+        Konfigurasi Pembayaran
     @endslot
 @endcomponent
 <div class="row">
@@ -44,8 +44,25 @@ Konfigurasi
                                 </div>
                             </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                <input type="text" name="properties[1][kode_rekening]" class="form-control" placeholder="Kode Rekening">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                                <input type="text" name="properties[1][uraian]" class="form-control" placeholder="Uraian">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-3">
+                            <input type="number" name="properties[1][nominal]" class="form-control" placeholder="Nominal">
+                            </div>
+                        </div>
+                </div>
                     <div>
-                        <input class="btn btn-success" type="submit">
+                       <button class="btn btn-success" type="submit">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -192,7 +209,7 @@ Konfigurasi
                             $('#nominal').val(properties.nominal);
 
                         });
-                    });                
+                    });
                 }
             });
         }

@@ -155,7 +155,6 @@
                     "Nona Manis",
                     "Pamoyanan",
                     "Paragajen",
-                    "Pasarean",
                     "Pasarean Agung",
                     "Pasir Gombong",
                     "Pasir Langkap",

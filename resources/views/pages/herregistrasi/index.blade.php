@@ -29,7 +29,7 @@
                                 <th style="width: 50px !important;">Makam</th>
                                 <th>TPU</th>
                                 <th>Meninggal</th>
-                                <th>Herregistrasi</th>
+                                <th>Herregistrasi Terkahir</th>
                                 <th>Herregistrasi Selanjutnya</th>
                                 <th>Opsi</th>
                             </tr>
@@ -48,12 +48,11 @@
                                        @if ($item->herregistrasi->isNotEmpty())
                                            @foreach ($item->herregistrasi as $herregistrasi)
                                             @if ($loop->last)
-                                                {{ $herregistrasi->tahun ?? ''}}
+                                                <span class="badge bg-success" title="Tagihan terakhir">{{ \Carbon\Carbon::parse($herregistrasi->tahun ?? '')->format('m-Y') }}</span>
                                             @endif
                                            @endforeach
                                        @else
                                        <span class="badge bg-danger" title="Tagihan belum dibuat">{{ \Carbon\Carbon::parse($item->makam->tanggal_dimakamkan ?? '')->addYears(2)->format('m-Y') }}</span>
-
                                        @endif
                                     </td>
                                     <td>
@@ -64,16 +63,12 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-expanded="false">Opsi <i
-                                                    class="mdi mdi-chevron-down"></i></button>
-                                            <div class="dropdown-menu">
-                                                <a href="/makam/detail?registrasi_id={{$item->id}}#pembayaran" id="detail" class="dropdown-item">Detail</a>
-                                                <a class="dropdown-item" href="javascript:void(0)"
-                                                    onclick="tambah({{ $item->id }})">Buat Tagihan</a>
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-sm">
+                                            <a href="/makam/detail?registrasi_id={{$item->id}}#pembayaran" id="detail"> <i class="fa fa-eye"></i></a>
+                                        </button>
+                                        <button class="btn btn-sm">
+                                            <a href="javascript:void(0)" onclick="tambah({{ $item->id }})"> <i class="fa fa-edit"></i></a>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -116,7 +111,7 @@
                                     <div class="mb-3">
                                         <label for="nominal">Nominal</label>
                                         <input type="text" class="form-control input-mask text-start" name="nominal" id="nominal"
-                                            placeholder="Nominal" value="">
+                                            placeholder="Nominal" value="" disabled>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
