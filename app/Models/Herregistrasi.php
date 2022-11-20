@@ -32,4 +32,8 @@ class Herregistrasi extends Model
     {
         return $this->hasOne(Pembayaran::class, 'herr_id', 'id');
     }
+
+    protected $casts = [
+        'properties' => 'array'
+    ];
 }

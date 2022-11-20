@@ -410,7 +410,7 @@
                 $(this).parents('tr').remove();
         });
 
-       
+
     </script>
     <script>
         @if ($errors->any())

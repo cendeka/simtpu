@@ -108,9 +108,11 @@ class HerregistrasiController extends Controller
         $tahun = Carbon::parse($request->tahun)->format('Y');
         $bulan = Carbon::parse($request->tahun)->format('m');
         $no = rand(100000, 999999);
-        $string = ['Rp', '.'];
-        $nominal = $request->nominal;
-
+        $total = 0;
+        foreach ($request->properties as $key => $value) {
+            # code...
+            $total += $value['nominal'];
+        };
         $herregistrasi = Herregistrasi::updateOrCreate(
             [
                 'id' => $herrID,
@@ -119,8 +121,8 @@ class HerregistrasiController extends Controller
                 'no_inv' => 'INV/'.$no.'/'.$bulan.'/'.$tahun,
                 'registrasi_id' => $request->registrasi_id,
                 'tahun' => $request->tahun,
-                'nominal' => str_replace($string, '', $nominal),
-                'uraian' => $request->uraian,
+                'properties' => $request->properties,
+                'nominal' => $total,
                 'status' => 'Belum Bayar',
             ]
         );
