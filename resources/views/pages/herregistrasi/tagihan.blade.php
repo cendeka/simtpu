@@ -123,7 +123,7 @@
                                         <button class="btn btn-success" style="{{$item->status == "Belum Bayar" ? 'display: none;' : '' }}" data-bs-toggle="modal"
                                             data-bs-target="#modal-verif{{ $item->id }}"><i
                                                 class="fa fa-check"></i>Verifikasi</button>
-                                        <button style="{{$item->status == "Sudah Bayar" ? 'display: none;' : '' }}" onclick="tambah({{ $item->id }})" type="button"
+                                        <button style="{{$item->status == "Sudah Bayar" ? 'display: none;' : '' }}" data-bs-toggle="modal" data-bs-target="#modal-tambah{{ $item->id }}"
                                             class="btn btn-primary waves-effect waves-light">
                                             <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
                                         </button>
@@ -136,51 +136,64 @@
             </div>
         </div> <!-- end col -->
         <div class="col">
-            <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            @foreach ($data as $d)
+            <div class="modal fade" id="modal-tambah{{$d->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myLargeModalLabel">Bayar Tagihan: <span id="inv"></span></h5>
+                            <h5 class="modal-title" id="myLargeModalLabel">Nomor Invoice Tagihan: <span>{{$d->no_inv}}</span></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('pembayaran.store') }}" method="POST">
                                 @csrf
-                                <h5>Jumlah Tagihan: <span id="jumlah"></span></h5>
-                                <input type="hidden" name="no_inv" id="no_inv">
-                                <input type="hidden" name="registrasi_id" id="registrasi_id">
-                                <input type="hidden" name="herrID" id="herrID">
+                                <h5>Total Tagihan: Rp{{number_format($d->nominal,2,',','.')}}</h5>
+                                <input type="hidden" name="nominal" value="{{$d->nominal}}">
+                                <input type="hidden" name="no_inv" value="{{$d->no_inv}}">
+                                <input type="hidden" name="registrasi_id" value="{{$d->registrasi_id}}">
+                                <input type="hidden" name="herrID" value="{{$d->id}}">
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="nominal">Uraian</label>
-                                            <input type="text" class="form-control" name="uraian" id="uraian"
-                                                placeholder="Uraian">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="nominal">Nominal</label>
-                                            <input type="text" class="form-control" name="nominal" id="nominal"
-                                                placeholder="Nominal">
-                                        </div>
-                                    </div>
+                                 <div class="col-lg-12">
+                                    <table class="table mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Kode Rekening</td>
+                                                <td>Uraian</td>
+                                                <td>Jumlah</td>
+                                            </tr>
+                                            @foreach ($d->properties as $item)
+                                                <tr>
+                                                    <td>{{$item['korek']}}</td>
+                                                    <td>{{$item['uraian']}}</td>
+                                                    <td>Rp{{number_format($item['nominal'],2,',','.')}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                 </div>
+                                </div>
+                                <div class="row">
+                                    <label for="keterangan">Keterangan</label>
                                     <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label for="nominal">Tanggal</label>
-                                            <input type="date" class="form-control" name="tanggal" id="tanggal"
-                                                placeholder="Tanggal">
-                                        </div>
-                                    </div>
+                                        <textarea class="form-control" name="keterangan" id="" cols="60" rows="5"></textarea>
+                                     </div>
+                                </div>
+                                <div class="row">
+                                    <label for="tanggal">Tanggal Pembayaran</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="date" name="tanggal" id="">
+                                     </div>
+                                </div>
                                     <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
-                                        Simpan
+                                        Bayar
                                     </button>
                             </form>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+            @endforeach
         </div>
         <div class="col">
             @foreach ($data as $d)
@@ -190,7 +203,7 @@
                     <div class="modal-content">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Data Registrasi</h5>
+                                <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Pembayaran</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -199,7 +212,45 @@
                                         <form action="{{ route('pembayaran.verif') }}" method="POST">
                                             @csrf
                                          <input type="hidden" name="pembayaranId" value="{{$d->pembayaran->id ?? 0}}">
-                                        <span>{{$d}}</span>
+                                         <div class="row">
+                                            <div class="col-lg-12">
+                                                @foreach ($d->registrasi as $item)
+                                                    <ul>
+                                                        <li>Nama Makam: {{$item->nama_meninggal}}</li>
+                                                        <li>TPU: {{$item->makam->nama_tpu}} {{$item->makam->blok_tpu}} {{$item->makam->nomor_tpu}}</li>
+                                                    </ul>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <table class="table mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Kode Rekening</td>
+                                                                <td>Uraian</td>
+                                                                <td>Jumlah</td>
+                                                            </tr>
+                                                            @foreach ($d->properties as $item)
+                                                                <tr>
+                                                                    <td>{{$item['korek']}}</td>
+                                                                    <td>{{$item['uraian']}}</td>
+                                                                    <td>Rp{{number_format($item['nominal'],2,',','.')}}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                               <div class="mb-3">
+                                                <h5>Total pembayaran: Rp{{number_format($d->nominal,2,',','.')}}</h5>
+                                               </div>
+                                            </div>
+                                         </div>
                                          <input class="form-check-input" type="checkbox" id="verifikasi" name="verifikasi"
                                             value="1">
                                         <label class="form-check-label" for="verifikasi">
@@ -226,28 +277,6 @@
     <script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script>
-        function tambah(id) {
-            $.ajax({
-                type: "GET",
-                url: "{{ route('herregistrasi.get') }}",
-                data: {
-                    id: id
-                },
-                dataType: 'json',
-                success: function(res) {
-                    $.each(res, function(k, v) {
-                        $('#modal-tambah').modal('show');
-                        $('#jumlah').text(v.nominal);
-                        $('#inv').text(v.no_inv);
-                        $('#no_inv').val(v.no_inv);
-                        $('#registrasi_id').val(v.registrasi_id);
-                        $('#herrID').val(v.id);
-                    });
-                }
-            });
-        }
-    </script>
     <script>
         @if ($errors->any())
             Swal.fire({

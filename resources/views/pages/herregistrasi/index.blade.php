@@ -94,26 +94,44 @@
                             <input type="hidden" name="registrasi_id" id="registrasi_id">
                             <input type="hidden" name="herrID" id="herrID">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <h5>Rincian Herregistrasi</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="nominal">Uraian</label>
-                                        <select class="form-control" name="uraian" id="retribusi">
+                                        <select class="form-control" name="" id="retribusi">
                                             <option value="">Pilih Retribusi</option>
                                             @foreach ($konfig as $value)
                                                 @foreach ($value->properties as $p)
-                                                    <option value="{{ json_encode($p) }}">{{ $value->konfig }}</option>
+                                                    <option value="{{ json_encode($p) }}">{{ $p['uraian'] }}</option>
                                                 @endforeach
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="nominal">Nominal</label>
-                                        <input type="text" class="form-control input-mask text-start" name="nominal" id="nominal"
-                                            placeholder="Nominal" value="" disabled>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="retribusi">
+                                    <table class="table table-bordered" id="dynamicAddRemove">
+                                        <tr>
+                                            <td>
+                                                    <input type="text" name="properties[0][korek]" id="korek0" class="form-control" value="{{ old('properties[0][korek]') }}" readonly>
+                                            </td>
+                                            <td>
+                                                    <input type="text" name="properties[0][uraian]" id="uraian0" class="form-control" value="{{ old('properties[0][uraian]') }}" readonly>
+                                            </td>
+                                            <td>
+                                                    <input type="text" name="properties[0][nominal]" id="nominal0" class="form-control input-mask text-start" value="{{ old('properties[0][nominal]') }}" readonly>
+                                            </td>
+                                            <td>
+                                                    <button type="button" name="add" id="dynamic-ar"
+                                                        class="btn btn-outline-primary">Tambah</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="nominal">Tanggal</label>
@@ -138,6 +156,38 @@
     <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('/assets/libs/inputmask/inputmask.min.js') }}"></script>
+    <script>
+          var i = 0;
+        var retribusi;
+        var ret;
+
+        $('#retribusi').on('change', function() {
+            var retribusi = $(this).val();
+            var ret = jQuery.parseJSON(retribusi);
+            $("#korek" + i).val(ret.kode_rekening);
+            $("#uraian" + i).val(ret.uraian);
+            $("#nominal" + i).val(ret.nominal);
+            // console.log(ret.nominal);
+        });
+        $("#dynamic-ar").click(function() {
+                ++i;
+                $("#dynamicAddRemove").append('<tr><td><input readonly type="text" id="korek'+i+'" name="properties[' + i +
+                    '][korek]" placeholder="Kode Rekening" class="form-control" /></td><td><input readonly type="text" name="properties[' +
+                    i +
+                    '][uraian]" placeholder="Uraian" id="uraian'+i+'" class="form-control" id="uraian"' + i +
+                    ' /></td><td><input readonly name="properties[' +
+                    i +
+                    '][nominal]" placeholder="Nominal"  class="form-control input-mask text-start" id="nominal' + i +
+                    '" /></td><input type="hidden" name="retribusi[' +
+                    i +
+                    '][id]" placeholder="Nominal" class="form-control" /><td><button type="button" class="btn btn-outline-danger remove-input-field">Hapus</button></td></tr>'
+                );
+        });
+        $(document).on('click', '.remove-input-field', function() {
+                $(this).parents('tr').remove();
+        });
+
+    </script>
     <script>
 $(document).on('change', function() {
             $(".input-mask").inputmask({
