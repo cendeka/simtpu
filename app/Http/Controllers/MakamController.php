@@ -24,7 +24,7 @@ class MakamController extends Controller
             $data = Makam::with('registrasi.herregistrasi')->whereYear('tanggal_dimakamkan', $request->tahun_dimakamkan)->get();
         } else {
             # code...
-            $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $tpu)->get();
+            $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $op)->get();
 
         }
         return view('pages.makam.index', compact('data','tpu'));
