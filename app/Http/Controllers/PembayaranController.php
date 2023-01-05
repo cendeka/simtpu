@@ -50,6 +50,7 @@ class PembayaranController extends Controller
                 'keterangan' => $request->keterangan,
                 'herr_id' => $request->herrID,
                 'verifikasi' => $request->verifikasi,
+                'user_id' => Auth()->user()->id,
 
             ]
         );
