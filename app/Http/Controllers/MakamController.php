@@ -21,7 +21,7 @@ class MakamController extends Controller
         $op = Auth::user()->roles->first()->display_name;
         if ($op == "Admin") {
             # code...
-            $data = Makam::with('registrasi.herregistrasi')->whereYear('tanggal_dimakamkan', $request->tahun_dimakamkan)->get();
+            $data = Makam::with('registrasi.herregistrasi')->get();
         } else {
             # code...
             $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $op)->get();
