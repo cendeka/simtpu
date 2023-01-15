@@ -255,7 +255,7 @@ Data Makam
         //Get a reference to the new datatable
         var table = $('#makamTable').DataTable();
 
-        //Take the category filter drop down and append it to the datatables_filter div. 
+        //Take the category filter drop down and append it to the datatables_filter div.
         //You can use this same idea to move the filter anywhere withing the datatable that you want.
         $("#makamTable_filter.dataTables_filter").append($("#categoryFilter"));
 

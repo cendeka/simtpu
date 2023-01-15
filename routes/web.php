@@ -76,7 +76,6 @@ Route::get('makam/info', [App\Http\Controllers\MakamController::class, 'publik']
 
 Route::get('laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan');
 
-
 Route::get('print/makam', [App\Http\Controllers\PrintController::class, 'makam'])->name('print.makam');
 Route::get('print/makam/pdf', [App\Http\Controllers\PrintController::class, 'makamPDF'])->name('print.makam.pdf');
 

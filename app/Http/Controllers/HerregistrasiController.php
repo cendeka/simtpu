@@ -110,9 +110,9 @@ class HerregistrasiController extends Controller
         $no = rand(100000, 999999);
         $total = 0;
         foreach ($request->properties as $key => $value) {
-            # code...
+            // code...
             $total += $value['nominal'];
-        };
+        }
         $herregistrasi = Herregistrasi::updateOrCreate(
             [
                 'id' => $herrID,
@@ -126,6 +126,7 @@ class HerregistrasiController extends Controller
                 'status' => 'Belum Bayar',
             ]
         );
+
         return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 

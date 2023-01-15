@@ -62,10 +62,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'last_name'  => 'required|max:255',
+            'last_name' => 'required|max:255',
             'first_name' => 'required|max:255',
-            'email'      => 'required|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
-            'password'   => ['required', 'confirmed', new Password()],
+            'email' => 'required|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
+            'password' => ['required', 'confirmed', new Password()],
         ]);
     }
 
@@ -99,11 +99,11 @@ class RegisterController extends Controller
         $roleModel = config('laratrust.models.role');
 
         $user = $userModel::withTrashed()->updateOrCreate(['email' => $data['email']], [
-            'active'     => true,
+            'active' => true,
             'first_name' => $data['first_name'],
-            'last_name'  => $data['last_name'],
-            'email'      => $data['email'],
-            'password'   => bcrypt($data['password']),
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
             'last_login' => Carbon::now()->toDateTimeString(),
         ]);
 

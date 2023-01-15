@@ -43,7 +43,7 @@ class RolesController extends Controller
 
             $name = $perms->first()->category->display_name ?? __('boilerplate::permissions.categories.default');
             $permissions_categories[] = (object) [
-                'name'        => $name,
+                'name' => $name,
                 'permissions' => $perms,
             ];
         }
@@ -66,12 +66,12 @@ class RolesController extends Controller
         $request->replace($input);
 
         $this->validate($request, [
-            'name'         => 'required|unique:roles,name',
+            'name' => 'required|unique:roles,name',
             'display_name' => 'required',
-            'description'  => 'required',
+            'description' => 'required',
         ], [], [
             'display_name' => mb_strtolower(__('boilerplate::role.label')),
-            'description'  => mb_strtolower(__('boilerplate::role.description')),
+            'description' => mb_strtolower(__('boilerplate::role.description')),
         ]);
 
         $roleModel = config('boilerplate.laratrust.role');
@@ -100,7 +100,7 @@ class RolesController extends Controller
         foreach ($permissions as $perms) {
             $name = $perms->first()->category->display_name ?? __('boilerplate::permissions.categories.default');
             $permissions_categories[] = (object) [
-                'name'        => $name,
+                'name' => $name,
                 'permissions' => $perms,
             ];
         }
@@ -119,10 +119,10 @@ class RolesController extends Controller
     {
         $this->validate($request, [
             'display_name' => 'required',
-            'description'  => 'required',
+            'description' => 'required',
         ], [], [
             'display_name' => mb_strtolower(__('boilerplate::role.label')),
-            'description'  => mb_strtolower(__('boilerplate::role.description')),
+            'description' => mb_strtolower(__('boilerplate::role.description')),
         ]);
 
         $roleModel = config('boilerplate.laratrust.role');

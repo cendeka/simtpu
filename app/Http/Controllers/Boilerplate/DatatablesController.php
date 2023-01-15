@@ -29,7 +29,7 @@ class DatatablesController
             abort(503);
         }
 
-        return ($datatable)->make();
+        return $datatable->make();
     }
 
     /**

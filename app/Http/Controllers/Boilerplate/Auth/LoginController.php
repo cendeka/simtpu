@@ -86,7 +86,7 @@ class LoginController extends Controller
      * The user has been authenticated.
      *
      * @param  Request  $request
-     * @param  $user
+     * @param    $user
      * @return bool
      */
     protected function authenticated(Request $request, $user)
