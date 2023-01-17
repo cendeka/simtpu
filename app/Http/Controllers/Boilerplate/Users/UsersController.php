@@ -53,9 +53,9 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'last_name'  => 'required',
+            'last_name' => 'required',
             'first_name' => 'required',
-            'email'      => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
+            'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
         ]);
 
         $input = $request->all();
@@ -107,9 +107,9 @@ class UsersController extends Controller
         $user = $userModel::findOrFail($id);
 
         $this->validate($request, [
-            'last_name'  => 'required',
+            'last_name' => 'required',
             'first_name' => 'required',
-            'email'      => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
         ]);
 
         $user->update($request->all());
@@ -164,8 +164,8 @@ class UsersController extends Controller
     public function firstLoginPost(Request $request)
     {
         $this->validate($request, [
-            'token'                 => 'required',
-            'password'              => 'required|min:8',
+            'token' => 'required',
+            'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password',
         ]);
 
@@ -202,10 +202,10 @@ class UsersController extends Controller
     public function profilePost(Request $request)
     {
         $this->validate($request, [
-            'avatar'                => 'mimes:jpeg,png|max:10000',
-            'last_name'             => 'required',
-            'first_name'            => 'required',
-            'password'              => ['nullable', new Password()],
+            'avatar' => 'mimes:jpeg,png|max:10000',
+            'last_name' => 'required',
+            'first_name' => 'required',
+            'password' => ['nullable', new Password()],
             'password_confirmation' => 'same:password',
         ]);
 

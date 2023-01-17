@@ -217,7 +217,7 @@ class RegistrasiController extends Controller
                 'blok_tpu' => $request->blok_tpu,
                 'nomor_tpu' => $request->nomor_tpu,
                 'nama_ditumpang' => $request->nama_ditumpang,
-                
+
             ]
         );
         // $retribusi = Retribusi::updateOrCreate(
@@ -232,13 +232,13 @@ class RegistrasiController extends Controller
         //     ]
         // );
         if ($request->retribusi != null) {
-            # code...
+            // code...
             $i = 1;
             foreach ($request->retribusi as $key => $value) {
                 Retribusi::updateOrCreate(
                     [
                         'id' => $value['id'],
-    
+
                     ], [
                         'registrasi_id' => $registrasi->id,
                         'korek' => $value['korek'],
@@ -247,6 +247,7 @@ class RegistrasiController extends Controller
                     ]);
             }
         }
+
         return redirect()->back()->with('message', 'Data Berhasil Disimpan');
     }
 

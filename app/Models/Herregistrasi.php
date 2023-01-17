@@ -34,6 +34,6 @@ class Herregistrasi extends Model
     }
 
     protected $casts = [
-        'properties' => 'array'
+        'properties' => 'array',
     ];
 }

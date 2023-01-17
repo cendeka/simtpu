@@ -2,6 +2,12 @@
 
 namespace App\Models\Boilerplate;
 
+use App\Events\Boilerplate\UserCreated;
+use App\Events\Boilerplate\UserDeleted;
+use App\Events\Boilerplate\UserSaved;
+use App\Notifications\Boilerplate\NewUser;
+use App\Notifications\Boilerplate\ResetPassword;
+use App\Notifications\Boilerplate\VerifyEmail;
 use Carbon\Carbon;
 use Creativeorange\Gravatar\Facades\Gravatar;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -9,12 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
-use App\Events\Boilerplate\UserCreated;
-use App\Events\Boilerplate\UserDeleted;
-use App\Events\Boilerplate\UserSaved;
-use App\Notifications\Boilerplate\NewUser;
-use App\Notifications\Boilerplate\ResetPassword;
-use App\Notifications\Boilerplate\VerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -40,7 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
         'deleted' => UserDeleted::class,
-        'saved'   => UserSaved::class,
+        'saved' => UserSaved::class,
     ];
 
     /**

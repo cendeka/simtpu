@@ -19,15 +19,15 @@ class MakamController extends Controller
         $tpu = $collection->unique('nama_tpu');
         $tpu->values()->all();
         $op = Auth::user()->roles->first()->display_name;
-        if ($op == "Admin") {
-            # code...
-            $data = Makam::with('registrasi.herregistrasi')->whereYear('tanggal_dimakamkan', $request->tahun_dimakamkan)->get();
+        if ($op == 'Admin') {
+            // code...
+            $data = Makam::with('registrasi.herregistrasi')->get();
         } else {
-            # code...
+            // code...
             $data = Makam::with('registrasi.herregistrasi')->where('nama_tpu', $op)->get();
-
         }
-        return view('pages.makam.index', compact('data','tpu'));
+
+        return view('pages.makam.index', compact('data', 'tpu'));
     }
 
     /**
