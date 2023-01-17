@@ -245,6 +245,7 @@ Data Makam
 <script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
 <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
+
 <script>
     $("document").ready(function () {
 
