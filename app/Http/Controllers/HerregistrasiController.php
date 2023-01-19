@@ -71,6 +71,11 @@ class HerregistrasiController extends Controller
             })->get();
         }
 
+        if ($tpu == 'Admin') {
+            # code...
+            $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->get();
+        }
+
         // $pembayaran = Pembayaran::where('herr_id', 9)->first();
 
         // if ($request->status) {

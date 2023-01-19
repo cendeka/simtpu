@@ -71,7 +71,14 @@ class HomeController extends Controller
         $herregistrasi = Herregistrasi::where('status', 'Sudah Bayar')->sum('nominal');
         $perbandingan = $retribusiTahun - $retribusiSubTahun;
         $persentase = divnum($perbandingan, $retribusiSubTahun);
+
+
         $makam = Makam::get();
+        $makamTahun = Makam::whereYear('tanggal_dimakamkan', '=', $tahunIni)->count();
+        $makamTahunSubTahun = Makam::whereYear('tanggal_dimakamkan', '=', $tahun)->count();
+        $perbandinganMakam = $makamTahun - $makamTahunSubTahun;
+        $persentaseMakam = divnum($perbandinganMakam, $makamTahunSubTahun);
+
         $collection = Makam::distinct()->get(['nama_tpu']);
         $tpu = $collection->unique('nama_tpu');
         $tpu->values()->all();
@@ -81,6 +88,7 @@ class HomeController extends Controller
             'retribusi',
             'herregistrasi',
             'makam',
+            'persentaseMakam',
             'subTahun1',
             'subTahun2',
             'subTahun3',

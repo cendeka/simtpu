@@ -120,10 +120,12 @@
                                     <td>{{ \Carbon\Carbon::parse($item->tahun)->format('F') }}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        <button class="btn btn-success" style="{{$item->status == "Belum Bayar" ? 'display: none;' : '' }}" data-bs-toggle="modal"
-                                            data-bs-target="#modal-verif{{ $item->id }}"><i
-                                                class="fa fa-check"></i>Verifikasi</button>
-                                        <button style="{{$item->status == "Sudah Bayar" ? 'display: none;' : '' }}" data-bs-toggle="modal" data-bs-target="#modal-tambah{{ $item->id }}"
+                                        <button {{ $item->pembayaran->verifikasi == 1 ? 'disabled' : '' }}  class="btn btn-success"
+                                            style="{{ $item->status == 'Belum Bayar' ? 'display: none;' : '' }}"
+                                            data-bs-toggle="modal" data-bs-target="#modal-verif{{ $item->id }}"><i
+                                                class="fa fa-check"></i>{{ $item->pembayaran->verifikasi == 1 ? 'Sudah Verifikasi' : 'Verifikasi' }}</button>
+                                        <button style="{{ $item->status == 'Sudah Bayar' ? 'display: none;' : '' }}"
+                                            data-bs-toggle="modal" data-bs-target="#modal-tambah{{ $item->id }}"
                                             class="btn btn-primary waves-effect waves-light">
                                             <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
                                         </button>
@@ -137,137 +139,151 @@
         </div> <!-- end col -->
         <div class="col">
             @foreach ($data as $d)
-            <div class="modal fade" id="modal-tambah{{$d->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="myLargeModalLabel">Nomor Invoice Tagihan: <span>{{$d->no_inv}}</span></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{{ route('pembayaran.store') }}" method="POST">
-                                @csrf
-                                <h5>Total Tagihan: Rp{{number_format($d->nominal,2,',','.')}}</h5>
-                                <input type="hidden" name="nominal" value="{{$d->nominal}}">
-                                <input type="hidden" name="no_inv" value="{{$d->no_inv}}">
-                                <input type="hidden" name="registrasi_id" value="{{$d->registrasi_id}}">
-                                <input type="hidden" name="herrID" value="{{$d->id}}">
-                                <div class="row">
-                                 <div class="col-lg-12">
-                                    <table class="table mb-0">
-                                        <tbody>
-                                            <tr>
-                                                <td>Kode Rekening</td>
-                                                <td>Uraian</td>
-                                                <td>Jumlah</td>
-                                            </tr>
-                                            @foreach ($d->properties as $item)
-                                                <tr>
-                                                    <td>{{$item['korek']}}</td>
-                                                    <td>{{$item['uraian']}}</td>
-                                                    <td>Rp{{number_format($item['nominal'],2,',','.')}}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                 </div>
-                                </div>
-                                <div class="row">
-                                    <label for="keterangan">Keterangan</label>
-                                    <div class="col-lg-12">
-                                        <textarea class="form-control" name="keterangan" id="" cols="60" rows="5"></textarea>
-                                     </div>
-                                </div>
-                                <div class="row">
-                                    <label for="tanggal">Tanggal Pembayaran</label>
-                                    <div class="col-lg-6">
-                                        <input class="form-control" type="date" name="tanggal" id="">
-                                     </div>
-                                </div>
+                <div class="modal fade" id="modal-tambah{{ $d->id }}" tabindex="-1" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myLargeModalLabel">Nomor Invoice Tagihan:
+                                    <span>{{ $d->no_inv }}</span></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('pembayaran.store') }}" method="POST">
+                                    @csrf
+                                    <h5>Total Tagihan: Rp{{ number_format($d->nominal, 2, ',', '.') }}</h5>
+                                    <input type="hidden" name="nominal" value="{{ $d->nominal }}">
+                                    <input type="hidden" name="no_inv" value="{{ $d->no_inv }}">
+                                    <input type="hidden" name="registrasi_id" value="{{ $d->registrasi_id }}">
+                                    <input type="hidden" name="herrID" value="{{ $d->id }}">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <table class="table mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Kode Rekening</td>
+                                                        <td>Uraian</td>
+                                                        <td>Jumlah</td>
+                                                    </tr>
+                                                    @foreach ($d->properties as $item)
+                                                        <tr>
+                                                            <td>{{ $item['korek'] }}</td>
+                                                            <td>{{ $item['uraian'] }}</td>
+                                                            <td>Rp{{ number_format($item['nominal'], 2, ',', '.') }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="keterangan">Keterangan</label>
+                                        <div class="col-lg-12">
+                                            <textarea class="form-control" name="keterangan" id="" cols="60" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="tanggal">Tanggal Pembayaran</label>
+                                        <div class="col-lg-6">
+                                            <input class="form-control" type="date" name="tanggal" id="">
+                                        </div>
+                                    </div>
                                     <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
                                         Bayar
                                     </button>
-                            </form>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+                                </form>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
             @endforeach
         </div>
         <div class="col">
             @foreach ($data as $d)
-            <div class="modal modal-blur fade" id="modal-verif{{ $d->id }}" tabindex="-1" role="dialog"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
+                <div class="modal modal-blur fade" id="modal-verif{{ $d->id }}" tabindex="-1" role="dialog"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Pembayaran</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <form action="{{ route('pembayaran.verif') }}" method="POST">
-                                            @csrf
-                                         <input type="hidden" name="pembayaranId" value="{{$d->pembayaran->id ?? 0}}">
-                                         <div class="row">
-                                            <div class="col-lg-12">
-                                                @foreach ($d->registrasi as $item)
-                                                    <ul>
-                                                        <li>Nama Makam: {{$item->nama_meninggal}}</li>
-                                                        <li>TPU: {{$item->makam->nama_tpu}} {{$item->makam->blok_tpu}} {{$item->makam->nomor_tpu}}</li>
-                                                    </ul>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <table class="table mb-0">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Kode Rekening</td>
-                                                                <td>Uraian</td>
-                                                                <td>Jumlah</td>
-                                                            </tr>
-                                                            @foreach ($d->properties as $item)
-                                                                <tr>
-                                                                    <td>{{$item['korek']}}</td>
-                                                                    <td>{{$item['uraian']}}</td>
-                                                                    <td>Rp{{number_format($item['nominal'],2,',','.')}}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                               <div class="mb-3">
-                                                <h5>Total pembayaran: Rp{{number_format($d->nominal,2,',','.')}}</h5>
-                                               </div>
-                                            </div>
-                                         </div>
-                                         <input class="form-check-input" type="checkbox" id="verifikasi" name="verifikasi"
-                                            value="1">
-                                        <label class="form-check-label" for="verifikasi">
-                                            Data Telah Sesuai
-                                        </label>
-                                    </div>
-                                    <div class="col">
-                                        <button type="submit" class="btn btn-success">Kirim</button>
-                                    </div>
-                                    </form>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myLargeModalLabel">Verifikasi Pembayaran</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
-                            </div>
-                        </div><!-- /.modal-content -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <form action="{{ route('pembayaran.verif') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="pembayaranId"
+                                                    value="{{ $d->pembayaran->id ?? 0 }}">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        @foreach ($d->registrasi as $item)
+                                                            <ul>
+                                                                <li>Nama Makam: {{ $item->nama_meninggal }}</li>
+                                                                <li>TPU: {{ $item->makam->nama_tpu }}
+                                                                    {{ $item->makam->blok_tpu }}
+                                                                    {{ $item->makam->nomor_tpu }}</li>
+                                                            </ul>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <table class="table mb-0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Kode Rekening</td>
+                                                                        <td>Uraian</td>
+                                                                        <td>Jumlah</td>
+                                                                    </tr>
+                                                                    @foreach ($d->properties as $item)
+                                                                        <tr>
+                                                                            <td>{{ $item['korek'] }}</td>
+                                                                            <td>{{ $item['uraian'] }}</td>
+                                                                            <td>Rp{{ number_format($item['nominal'], 2, ',', '.') }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <h5>Total pembayaran:
+                                                                Rp{{ number_format($d->nominal, 2, ',', '.') }}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="mb-3">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="verifikasi" name="verifikasi" value="1">
+                                                            <label class="form-check-label" for="verifikasi">
+                                                                Data Telah Sesuai
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-success">Kirim</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
         </div>
     </div> <!-- end row -->
 

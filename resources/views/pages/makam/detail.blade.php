@@ -79,8 +79,8 @@
                                 {{-- <a href="javascript: void(0);" class="text-primary">{{$data->registrasi->nama_meninggal}}</a> --}}
                                 <h4 class="mt-1 mb-3">{{ $data->registrasi->nama_meninggal }}</h4>
                                 <h4 class="mt-1 mb-3">{{ $data->registrasi->ahliwaris->nama }} (Ahli Waris)</h4>
-                                <p class="text-muted mb-4">To achieve this, it would be necessary to have uniform grammar
-                                    pronunciation and more common words If several languages coalesce</p>
+                                <!-- <p class="text-muted mb-4">To achieve this, it would be necessary to have uniform grammar
+                                    pronunciation and more common words If several languages coalesce</p> -->
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div>
