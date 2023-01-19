@@ -77,7 +77,7 @@
                             </ul>
                         </div>
 
-                        <div class="navbar-btn d-none d-sm-inline-block">
+                        <!-- <div class="navbar-btn d-none d-sm-inline-block">
                             @if (Auth::check())
                                 <a href="dashboard" class="ud-main-btn ud-white-btn">
                                     Dashboard
@@ -90,7 +90,7 @@
                                     Daftar
                                 </a>
                             @endif
-                        </div>
+                        </div> -->
                     </nav>
                 </div>
             </div>
@@ -180,7 +180,7 @@
                         <div class="ud-widget">
                             <h5 class="ud-widget-title">Informasi Lainnya</h5>
                             <ul class="ud-widget-links">
-                                
+
                             </ul>
                         </div>
                     </div>

@@ -26,7 +26,7 @@
                         <h2>Pelayanan Pemakaman Umum</h2>
                         <p>
                             Selamat datang di sistem informasi pelayanan pemakaman di Kabupaten Cianjur.
-                            {{-- Website ini merupakan website pusat pelayanan pemakaman di Kabupaten Cianjur. 
+                            {{-- Website ini merupakan website pusat pelayanan pemakaman di Kabupaten Cianjur.
                             Pada website ini terdapat informasi dari mulai list daftar Tempat Pemakaman Umum (TPU) yang terdapat di Kabupaten Cianjur, terdapat pelayanan pemakaman dari mulai pemesanan, hingga pembayaran sewa per tahunnya, dan pada website ini juga dapat melihat status pembayaran sewa tanah makam apakah itu sudah dibayar, atau belum dibayar. --}}
                         </p>
                     </div>
@@ -113,7 +113,7 @@
                             </h3>
                             <p class="ud-blog-desc">
                                 {!! Str::words($post->post, 10, '.......') !!}
-                            </p>    
+                            </p>
                         </div>
                     </div>
                 </div>

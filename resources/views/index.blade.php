@@ -67,9 +67,9 @@
                             <h5 class="font-size-14 mb-0">Makam</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>{{$makam->count()}}<i class="mdi mdi-chevron-up ms-1 text-success"></i></h4>
+                            <h4>{{$makam->count()}}<i class="mdi {{ $persentaseMakam > 0 ? 'mdi-chevron-up ms-1 text-success' : 'mdi-chevron-down ms-1 text-danger' }}"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ms-2 text-truncate">From previous period</span>
+                                <span class="badge {{ $persentaseMakam > 0 ? 'badge-soft-success' : 'badge-soft-danger' }} font-size-12">{{ $persentaseMakam > 0 ? '+' : '' }}{{ number_format($persentaseMakam*100) }}%</span> <span class="ms-2 text-truncate">Dari tahun sebelumnya</span>
                             </div>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ Route::get('/', [App\Http\Controllers\FrontController::class, 'index'])->name('b
 
 Auth::routes();
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+Route::get('/app', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 Route::get('chart', [App\Http\Controllers\HomeController::class, 'chart'])->name('chart');
 
 Route::get('laporan/statistik', [App\Http\Controllers\StatistikController::class, 'index'])->name('statistik');
@@ -58,6 +58,8 @@ Route::post('pembayaran/verifikasi', [App\Http\Controllers\PembayaranController:
 Route::get('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'index'])->name('konfig.tambah');
 Route::get('konfigurasi/update', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');
 Route::post('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'store'])->name('konfig.store');
+Route::post('konfigurasi/hapus', [App\Http\Controllers\KonfigurasiController::class, 'destroy'])->name('konfig.hapus');
+
 
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 

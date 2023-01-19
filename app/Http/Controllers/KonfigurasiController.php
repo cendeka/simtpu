@@ -97,8 +97,10 @@ class KonfigurasiController extends Controller
      * @param  \App\Models\Konfigurasi  $konfigurasi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Konfigurasi $konfigurasi)
+    public function destroy(Request $request)
     {
-        //
+        $data = Konfigurasi::where('id', $request->id)->delete();
+        // return redirect()->back()->with('message', 'Data Berhasil Dihapus');
+        return response()->json($data, 200);
     }
 }

@@ -8,7 +8,7 @@
 
 ======== */
 /*===========================
-  COMMON css 
+  COMMON css
 ===========================*/
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap");
 :root {
@@ -506,7 +506,13 @@ p {
 
 /* ===== Hero CSS ===== */
 .ud-hero {
-  background: var(--primary-color);
+  background-image: url('/images/header_img.jpg');
+  background-color: #cccccc;
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
   padding-top: 180px;
 }
 
