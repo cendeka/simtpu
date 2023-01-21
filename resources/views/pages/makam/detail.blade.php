@@ -80,7 +80,7 @@
                                 <h4 class="mt-1 mb-3">{{ $data->registrasi->nama_meninggal }}</h4>
                                 <h4 class="mt-1 mb-3">{{ $data->registrasi->ahliwaris->nama }} (Ahli Waris)</h4>
                                 <!-- <p class="text-muted mb-4">To achieve this, it would be necessary to have uniform grammar
-                                    pronunciation and more common words If several languages coalesce</p> -->
+                                                        pronunciation and more common words If several languages coalesce</p> -->
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div>
@@ -108,9 +108,12 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <img src="data:image/png;base64, {!! base64_encode(
+                                        <img id="image" src="data:image/png;base64, {!! base64_encode(
                                             QrCode::format('png')->color(255, 0, 0)->merge('/public/assets/images/pemda.png')->size(200)->generate('' . env('APP_URL') . '/makam/info?kode_registrasi=' . $data->registrasi->kode_registrasi . ''),
                                         ) !!} ">
+                                    </div>
+                                    <div class="col-md-6">
+                                    <button class="btn btn-success" id="print">Print QRCode</button>
                                     </div>
                                 </div>
                             </div>
@@ -224,4 +227,39 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!-- end row -->
+@endsection
+@section('script')
+    <script>
+        const printBtn = document.getElementById('print');
+
+        printBtn.addEventListener('click', function() {
+            const iframe = document.createElement('iframe');
+
+            // Make it hidden
+            iframe.style.height = 0;
+            iframe.style.visibility = 'hidden';
+            iframe.style.width = 0;
+
+            // Set the iframe's source
+            iframe.setAttribute('srcdoc', '<html><body></body></html>');
+
+            document.body.appendChild(iframe);
+            iframe.addEventListener('load', function() {
+            // Clone the image
+            const image = document.getElementById('image').cloneNode();
+            image.style.maxWidth = '100%';
+
+            // Append the image to the iframe's body
+            const body = iframe.contentDocument.body;
+            body.style.textAlign = 'center';
+            body.appendChild(image);
+
+            image.addEventListener('load', function() {
+                // Invoke the print when the image is ready
+                iframe.contentWindow.print();
+            });
+        });
+        });
+
+    </script>
 @endsection

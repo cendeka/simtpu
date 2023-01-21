@@ -29,6 +29,7 @@ Route::get('blog/detail', [App\Http\Controllers\BlogController::class, 'detail']
 Route::get('blog/tambah', [App\Http\Controllers\BlogController::class, 'create'])->name('blog.tambah');
 Route::get('blog/update', [App\Http\Controllers\BlogController::class, 'edit'])->name('blog.update');
 Route::post('posts/store', [App\Http\Controllers\BlogController::class, 'store'])->name('posts.store');
+Route::post('posts/hapus', [App\Http\Controllers\BlogController::class, 'destroy'])->name('blog.hapus');
 
 //Update User Details
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
@@ -59,7 +60,6 @@ Route::get('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'i
 Route::get('konfigurasi/update', [App\Http\Controllers\KonfigurasiController::class, 'update'])->name('konfig.update');
 Route::post('konfigurasi', [App\Http\Controllers\KonfigurasiController::class, 'store'])->name('konfig.store');
 Route::post('konfigurasi/hapus', [App\Http\Controllers\KonfigurasiController::class, 'destroy'])->name('konfig.hapus');
-
 
 Route::post('file-import', [App\Http\Controllers\RegistrasiController::class, 'fileImport'])->name('registrasi.import');
 

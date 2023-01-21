@@ -10,9 +10,9 @@
 /*===========================
   COMMON css
 ===========================*/
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
 :root {
-  --font: "Inter", sans-serif;
+  --font: "Poppins";
   --body-color: #637381;
   --heading-color: #212b36;
   --primary-color: #3056d3;
@@ -558,12 +558,12 @@ p {
 }
 
 .ud-hero-content .ud-hero-desc {
-  font-weight: normal;
-  font-size: 20px;
+  font-weight: 800;
+  font-size: 17px;
   line-height: 35px;
   text-align: center;
   color: var(--white);
-  opacity: 0.8;
+  opacity: 1;
   max-width: 600px;
   margin: auto;
   margin-bottom: 30px;

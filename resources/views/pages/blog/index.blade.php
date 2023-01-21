@@ -4,6 +4,8 @@
     Blog
 @endsection
 @section('css')
+<link href="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 @section('content')
     @component('components.breadcrumb')
@@ -44,10 +46,10 @@
                                     <a class="text-muted font-size-16" role="button" data-bs-toggle="dropdown" aria-haspopup="true">
                                         <i class="mdi mdi-dots-horizontal"></i>
                                     </a>
-                                  
+
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <a class="dropdown-item" href="/blog/update?id={{$item->id}}">Ubah</a>
-                                        <a class="dropdown-item" href="#">Hapus</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="hapus({{$item->id}})">Hapus</a>
                                     </div>
                                 </div>
                             </td>
@@ -63,5 +65,41 @@
 </div>
 @endsection
 @section('script')
-    
+<script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+<script>
+        function hapus(id) {
+            var url = '{{ route('blog.hapus') }}';
+            var id = id;
+            Swal.fire({
+                title: "Apakah Anda Yakin ?",
+                text: "Data Yang Sudah Dihapus Tidak Bisa Dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Tetap Hapus!"
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": id,
+                        },
+                        success: function(response) {
+                            swal.fire({
+                                title: 'Hapus Data',
+                                text: 'Data Berhasil Dihapus.',
+                                icon: 'success',
+                                timer: 2000,
+                            });
+                            location.reload();
+                        }
+                    })
+                }
+            })
+        }
+    </script>
 @endsection

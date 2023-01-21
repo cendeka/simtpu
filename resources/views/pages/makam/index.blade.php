@@ -64,8 +64,8 @@
                                 <th>Nama Makam</th>
                                 <th>Tahun Dimakamkan</th>
                                 <th>TPU</th>
-                                <th>Blok</th>
                                 <th>Kode Registrasi</th>
+                                <th>Blok</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
