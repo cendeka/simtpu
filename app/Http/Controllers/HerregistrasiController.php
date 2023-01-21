@@ -51,29 +51,40 @@ class HerregistrasiController extends Controller
         $status = $request->status;
         $tpu = Auth::user()->roles->first()->display_name;
 
-        if (count($request->all()) >= 1) {
-            $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->where(function ($query) use ($tahun, $bulan, $status) {
-                $query->whereYear('tahun', $tahun)
-                      ->whereMonth('tahun', $bulan)
-                      ->where('status', $status);
-            })->get();
-        } elseif ($tpu != 'Admin') {
-            $data = Herregistrasi::with('registrasi', 'pembayaran')->where(function ($query) {
-                $query->whereYear('tahun', Carbon::now()->year);
-            })->whereHas('registrasi.makam', function ($q) use ($tpu) {
+        // if (count($request->all()) >= 1) {
+        //     $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->where(function ($query) use ($tahun, $bulan, $status) {
+        //         $query->whereYear('tahun', $tahun)
+        //               ->whereMonth('tahun', $bulan)
+        //               ->where('status', $status);
+        //     })->get();
+        // } elseif ($tpu != 'Admin') {
+        // $data = Herregistrasi::with('registrasi', 'pembayaran')->where(function ($query) {
+            //     $query->whereYear('tahun', Carbon::now()->year);
+        // })->whereHas('registrasi.makam', function ($q) use ($tpu) {
+            //     // Query the name field in status table
+            //     $q->where('nama_tpu', '=', $tpu); // '=' is optional
+        // })->get();
+        // } else {
+        //     /* case 2. email is not confirmed */
+        //     $data = Herregistrasi::with('registrasi', 'pembayaran')->where(function ($query) {
+        //         $query->whereYear('tahun', Carbon::now()->year);
+        //     })->get();
+        // }
+
+        // if ($tpu == 'Admin' or $tpu == 'Kepala UPTD') {
+        //     // code...
+        //     $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->get();
+        // }
+
+        if ($tpu == 'Admin' or $tpu == 'Kepala UPTD') {
+            // code...
+            $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->get();
+        } else {
+            // code...
+            $data = Herregistrasi::with('registrasi', 'pembayaran')->whereHas('registrasi.makam', function ($q) use ($tpu) {
                 // Query the name field in status table
                 $q->where('nama_tpu', '=', $tpu); // '=' is optional
             })->get();
-        } else {
-            /* case 2. email is not confirmed */
-            $data = Herregistrasi::with('registrasi', 'pembayaran')->where(function ($query) {
-                $query->whereYear('tahun', Carbon::now()->year);
-            })->get();
-        }
-
-        if ($tpu == 'Admin') {
-            # code...
-            $data = Herregistrasi::with('registrasi', 'pembayaran', 'registrasi.makam')->get();
         }
 
         // $pembayaran = Pembayaran::where('herr_id', 9)->first();
