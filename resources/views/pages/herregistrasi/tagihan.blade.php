@@ -14,14 +14,9 @@
         @endslot
         @slot('title')
             Tagihan
-            @if (request()->all() != null)
-                {{ request()->get('tahun') }}
-            @else
-                {{ \Carbon\Carbon::now()->year }}
-            @endif
         @endslot
     @endcomponent
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -82,7 +77,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -120,11 +115,13 @@
                                     <td>{{ \Carbon\Carbon::parse($item->tahun)->format('F') }}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        <button {{ $item->pembayaran->verifikasi == 1 ? 'disabled' : '' }}  class="btn btn-success"
-                                            style="{{ $item->status == 'Belum Bayar' ? 'display: none;' : '' }}"
+                                        @role('admin')
+
+                                        <button {{$item->status == 'Pembayaran Telah Diverifikasi' ? 'disabled': ''}} class="btn btn-success" style="{{ $item->status == 'Belum Bayar' ? 'display: none;' : '' }}"
                                             data-bs-toggle="modal" data-bs-target="#modal-verif{{ $item->id }}"><i
-                                                class="fa fa-check"></i>{{ $item->pembayaran->verifikasi == 1 ? 'Sudah Verifikasi' : 'Verifikasi' }}</button>
-                                        <button style="{{ $item->status == 'Sudah Bayar' ? 'display: none;' : '' }}"
+                                                class="fa fa-check"></i>Verifikasi</button>
+                                        @endrole
+                                        <button style="{{ $item->status != 'Belum Bayar' ? 'display: none;' : '' }}"
                                             data-bs-toggle="modal" data-bs-target="#modal-tambah{{ $item->id }}"
                                             class="btn btn-primary waves-effect waves-light">
                                             <i class="bx bx-money  font-size-16 align-middle me-2"></i> Bayar
@@ -218,6 +215,7 @@
                                                 @csrf
                                                 <input type="hidden" name="pembayaranId"
                                                     value="{{ $d->pembayaran->id ?? 0 }}">
+                                                    <input type="hidden" name="herr_id" value="{{ $d->herr_id }}">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         @foreach ($d->registrasi as $item)
