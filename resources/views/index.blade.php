@@ -190,8 +190,8 @@
                     data: [
                         {{ \App\Models\Herregistrasi::whereYear('tahun', 2019)->where('status', 'Sudah Bayar')->sum('nominal') }},
                         {{ \App\Models\Herregistrasi::whereYear('tahun', 2020)->where('status', 'Sudah Bayar')->sum('nominal') }},
-                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2021)->where('status', 'Sudah Bayar')->sum('nominal') }},
-                        {{ \App\Models\Herregistrasi::whereYear('tahun', 2022)->where('status', 'Sudah Bayar')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', \Carbon\Carbon::now()->subYear(1)->format('Y'))->where('status', 'Pembayaran Telah Diverifikas')->sum('nominal') }},
+                        {{ \App\Models\Herregistrasi::whereYear('tahun', \Carbon\Carbon::now()->year)->where('status', 'Pembayaran Telah Diverifikasi')->sum('nominal') }},
                     ]
                 }
             ],
@@ -219,7 +219,7 @@
                 },
             },
             xaxis: {
-                categories: ['2019', '2020', '2021', '2022'],
+                categories: ['{{\Carbon\Carbon::now()->subYear(3)->format('Y')}}', '{{\Carbon\Carbon::now()->subYear(2)->format('Y')}}', '{{\Carbon\Carbon::now()->subYear(1)->format('Y')}}', '{{\Carbon\Carbon::now()->year}}'],
             },
             yaxis: {
                 title: {
@@ -261,7 +261,7 @@
                         {{ \App\Models\Retribusi::with('registrasi.makam')
                             ->whereHas('registrasi.makam', function ($q) {
                                 // Query the name field in status table
-                                $q->whereYear('tanggal_meninggal', '=', 2022); // '=' is optional
+                                $q->whereYear('tanggal_meninggal', '=', \Carbon\Carbon::now()->year); // '=' is optional
                             })
                             ->sum('nominal')
                         }},
@@ -293,7 +293,7 @@
                 },
             },
             xaxis: {
-                categories: ['2019', '2020', '2021', '2022'],
+                categories: ['{{\Carbon\Carbon::now()->subYear(3)->format('Y')}}', '{{\Carbon\Carbon::now()->subYear(2)->format('Y')}}', '{{\Carbon\Carbon::now()->subYear(1)->format('Y')}}', '{{\Carbon\Carbon::now()->year}}'],
             },
             yaxis: {
                 title: {

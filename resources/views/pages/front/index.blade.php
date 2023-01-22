@@ -30,12 +30,12 @@
                             Pada website ini terdapat informasi dari mulai list daftar Tempat Pemakaman Umum (TPU) yang terdapat di Kabupaten Cianjur, terdapat pelayanan pemakaman dari mulai pemesanan, hingga pembayaran sewa per tahunnya, dan pada website ini juga dapat melihat status pembayaran sewa tanah makam apakah itu sudah dibayar, atau belum dibayar. --}}
                         </p>
                     </div>
-                    <div id="reader" style="display: inline-block;"></div>
+                    <!-- <div id="reader" style="display: inline-block;"></div>
                     <div class="empty"></div>
-                    <div id="scanned-result"></div>
+                    <div id="scanned-result"></div> -->
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-xl-3 col-lg-3 col-sm-6">
                     <div class="ud-single-feature wow fadeInUp" data-wow-delay=".1s">
                         <div class="ud-feature-icon">
@@ -84,12 +84,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <!-- ====== Features End ====== -->
     <!-- ====== Blog Start ====== -->
-    <section class="ud-blog-grids">
+    <section class="ud-blog-grids" id="artikel">
         <div class="container">
             <div class="ud-section-title">
                 <span>Artikel</span>
@@ -123,7 +123,7 @@
     </section>
     <!-- ====== Blog End ====== -->
     <!-- ====== Contact Start ====== -->
-    <section id="contact" class="ud-contact">
+    <section id="hubungi" class="ud-contact">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xl-8 col-lg-7">
@@ -151,7 +151,7 @@
                                 </div>
                                 <div class="ud-info-meta">
                                     <h5>Ada yang bisa kami bantu?</h5>
-                                    <p>info@cendera.id</p>
+                                    <p>halo@disperkim.id</p>
                                 </div>
                             </div>
                         </div>

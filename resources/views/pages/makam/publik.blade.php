@@ -69,7 +69,7 @@ Detail Makam
                         </table>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         <div class="row mb-3">
                             <div class="col-md-12 text-end">
@@ -77,7 +77,7 @@ Detail Makam
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- end Specifications -->
 
             </div>
