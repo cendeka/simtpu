@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('/assets/images/pemda.png') }}" alt="" height="22">
+                        <img src="{{ URL::asset('/assets/images/simtpu-logo.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('/assets/images/pemda.png') }}" alt="" height="17">
+                        <img src="{{ URL::asset('/assets/images/simtpu-logo.png') }}" alt="" height="17">
                     </span>
                 </a>
 
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('/assets/images/pemda.png') }}" alt="" height="22">
+                        <img src="{{ URL::asset('/assets/images/simtpu-logo.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('/assets/images/pemda.png') }}" alt="" height="19">
+                        <img src="{{ URL::asset('/assets/images/simtpu-logo.png') }}" alt="" height="19">
                     </span>
                 </a>
             </div>

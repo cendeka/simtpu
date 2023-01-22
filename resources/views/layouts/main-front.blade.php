@@ -54,7 +54,7 @@
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand" href="/">
-                            <img src="{{ URL::asset('/assets/images/pemda.png') }}" style="weight: 52px; width: 52px;"
+                            <img src="{{ URL::asset('/assets/images/simtpu-logo.png') }}" style="weight: 120px; width: 120px;"
                                 alt="Logo" />
                         </a>
                         <button class="navbar-toggler">
