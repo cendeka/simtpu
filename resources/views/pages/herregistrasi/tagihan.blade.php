@@ -215,7 +215,7 @@
                                                 @csrf
                                                 <input type="hidden" name="pembayaranId"
                                                     value="{{ $d->pembayaran->id ?? 0 }}">
-                                                    <input type="hidden" name="herr_id" value="{{ $d->herr_id }}">
+                                                    <input type="hidden" name="herr_id" value="{{ $d->id }}">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         @foreach ($d->registrasi as $item)

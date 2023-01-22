@@ -66,13 +66,13 @@
                         <div class="navbar-collapse">
                             <ul id="nav" class="navbar-nav mx-auto">
                                 <li class="nav-item">
-                                    <a class="ud-menu-scroll" href="{{route('beranda')}}">Home</a>
+                                    <a class="ud-menu-scroll" href="/#home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="ud-menu-scroll" href="#home">Informasi</a>
+                                    <a class="ud-menu-scroll" href="/#artikel">Informasi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="ud-menu-scroll" href="#home">Tentang Kami</a>
+                                    <a class="ud-menu-scroll" href="/#hubungi">Hubungi Kami</a>
                                 </li>
                             </ul>
                         </div>
@@ -123,7 +123,7 @@
                                 Dinas Perumahan dan Kawasan Permukiman Kabupaten Cianjur.
                             </p>
                             <ul class="ud-widget-socials">
-                                <li>
+                                <!-- <li>
                                     <a href="https://twitter.com/">
                                         <i class="lni lni-facebook-filled"></i>
                                     </a>
@@ -132,22 +132,18 @@
                                     <a href="https://twitter.com/">
                                         <i class="lni lni-twitter-filled"></i>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a href="https://twitter.com/">
+                                    <a href="https://instagram.com/disperkim.cianjur">
                                         <i class="lni lni-instagram-filled"></i>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="https://twitter.com/">
-                                        <i class="lni lni-linkedin-original"></i>
-                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+                    <!-- <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6">
                         <div class="ud-widget">
                             <h5 class="ud-widget-title">Tentang Kami</h5>
                             <ul class="ud-widget-links">
@@ -156,8 +152,8 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
+                    </div> -->
+                    <!-- <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
                         <div class="ud-widget">
                             <h5 class="ud-widget-title">Pelayanan</h5>
                             <ul class="ud-widget-links">
@@ -175,21 +171,21 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
+                    </div> -->
+                    <!-- <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
                         <div class="ud-widget">
                             <h5 class="ud-widget-title">Informasi Lainnya</h5>
                             <ul class="ud-widget-links">
 
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
         <div class="ud-footer-bottom">
             <div class="container">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-8">
                         <ul class="ud-footer-bottom-left">
                             <li>
@@ -203,7 +199,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </footer>

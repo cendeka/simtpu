@@ -70,7 +70,7 @@ class PembayaranController extends Controller
     public function verifikasi(Request $request)
     {
         $pembayaranId = $request->pembayaranId;
-        $herr_id = 3;
+        $herr_id = $request->herr_id;
 
         $pembayaran = Pembayaran::updateOrCreate(
             [
